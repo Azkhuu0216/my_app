@@ -21,6 +21,7 @@ class _AboutState extends State<About> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Хувийн мэдээлэл"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -49,17 +50,20 @@ class _AboutState extends State<About> {
                             height: 20,
                           ),
                           const Input(
-                              placeholder: "Овог",
-                              height: 50,
-                              icon: Icons.supervised_user_circle_sharp),
+                            placeholder: "Овог",
+                            height: 50,
+                            icon: Icons.supervised_user_circle_sharp,
+                          ),
                           const Input(
-                              placeholder: "Нэр",
-                              height: 50,
-                              icon: Icons.supervised_user_circle_rounded),
+                            placeholder: "Нэр",
+                            height: 50,
+                            icon: Icons.supervised_user_circle_rounded,
+                          ),
                           const Input(
-                              placeholder: "Утасны дугаар",
-                              height: 50,
-                              icon: Icons.phone),
+                            placeholder: "Утасны дугаар",
+                            height: 50,
+                            icon: Icons.phone,
+                          ),
                           const Input(
                             placeholder: "И-мэйл",
                             height: 50,

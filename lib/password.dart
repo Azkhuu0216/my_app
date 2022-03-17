@@ -13,7 +13,9 @@ class Password extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+          elevation: 0,
           title: const Text("Нууц үг солих"),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black87),
@@ -49,7 +51,7 @@ class Password extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Column(
                     children: [
                       Button(

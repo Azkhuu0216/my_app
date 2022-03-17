@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/button.dart';
+import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/home.dart';
-import './common/input.dart';
+import 'common/reuseable_widget.dart';
+import 'common/input.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -12,16 +15,39 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController lastnameController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController repassController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    void _signUp() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Home()));
-    }
+    // void _signUp() {
+    //   FirebaseAuth.instance
+    //       .createUserWithEmailAndPassword(
+    //           email: emailController.text, password: passController.text)
+    //       .then((value) => {
+    //             print("Create new account"),
+    //             Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                 builder: (context) => const Home(),
+    //               ),
+    //             ),
+    //           })
+    //       .onError(
+    //         (error, stackTrace) => {
+    //           print("Error ${error.toString()}"),
+    //         },
+    //       );
+    // }
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Бүртгүүлэх"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -64,43 +90,34 @@ class _SignUpState extends State<SignUp> {
                   height: size.height,
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(top: 100, left: 38, right: 38),
+                        const EdgeInsets.only(top: 50, left: 38, right: 38),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         //email and password TextField here
                         Expanded(
-                          flex: 4,
+                          flex: 5,
                           child: Column(
-                            children: const [
-                              Input(
-                                  placeholder: "Овог",
-                                  height: 50,
-                                  icon: Icons.supervised_user_circle_sharp),
-                              Input(
-                                  placeholder: "Нэр",
-                                  height: 50,
-                                  icon: Icons.supervised_user_circle_rounded),
-                              Input(
-                                  placeholder: "Утасны дугаар",
-                                  height: 50,
-                                  icon: Icons.phone),
-                              Input(
-                                placeholder: "И-мэйл",
-                                height: 50,
-                                icon: Icons.mail_rounded,
-                              ),
-                              Input(
-                                placeholder: "Нууц үг",
-                                height: 50,
-                                icon: Icons.lock,
-                              ),
-                              Input(
-                                placeholder: "Нууц үг давтах",
-                                height: 50,
-                                icon: Icons.lock,
-                              ),
+                            children: [
+                              reTextField("Овог", Icons.supervised_user_circle,
+                                  false, emailController),
+                              const SizedBox(height: 10),
+                              reTextField("Нэр", Icons.supervised_user_circle,
+                                  true, passController),
+                              const SizedBox(height: 10),
+                              reTextField("и-мэйл", Icons.email, false,
+                                  emailController),
+                              const SizedBox(height: 10),
+                              reTextField(
+                                  "утас", Icons.call, false, emailController),
+                              const SizedBox(height: 10),
+                              reTextField(
+                                  "Нууц үг", Icons.key, true, passController),
+                              SizedBox(height: 10),
+                              reTextField("Нууц үг давтах", Icons.key, true,
+                                  passController),
+                              SizedBox(height: 10),
                             ],
                           ),
                         ),
@@ -112,14 +129,33 @@ class _SignUpState extends State<SignUp> {
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
                               // ignore: prefer_const_constructors
-                              Button(
-                                height: 50,
-                                width: 300,
-                                title: "Гарах",
-                                color: Colors.teal,
-                                color1: Colors.white,
-                                onPress: _signUp,
-                              ),
+                              // Button(
+                              //   height: 50,
+                              //   width: 300,
+                              //   title: "Бүртгүүлэх",
+                              //   color: Colors.teal,
+                              //   color1: Colors.white,
+                              //   onPress: _signUp,
+                              // ),
+                              signInSingUpButton(context, false, () {
+                                FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: emailController.text,
+                                        password: passController.text)
+                                    .then(
+                                      (value) => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const Home(),
+                                        ),
+                                      ),
+                                    )
+                                    .onError(
+                                      (error, stackTrace) => {
+                                        print("Error ${error.toString()}"),
+                                      },
+                                    );
+                              }),
                               const SizedBox(
                                 height: 16,
                               ),

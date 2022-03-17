@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/intermediate.dart';
 
 import 'package:my_app/password.dart';
+import 'package:my_app/signIn.dart';
 import 'package:my_app/upper.dart';
-import 'Intermediate.dart';
+
 import 'about.dart';
 import 'common/button.dart';
 
@@ -16,6 +19,15 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    void _signOut() {
+      FirebaseAuth.instance.signOut().then(
+            (value) => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignIn()),
+            ),
+          );
+    }
+
     void _intermediate() {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Intermediate()));
@@ -28,7 +40,9 @@ class _HomeState extends State<Home> {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         title: const Text(
           "Хими ЭЕШ",
         ),
@@ -132,47 +146,35 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
               AppBar(
+                elevation: 0,
                 title: const Text("Миний тухай"),
                 backgroundColor: Colors.teal,
               ),
               Expanded(
-                flex: 3,
+                flex: 10,
                 child: Container(
-                    padding: const EdgeInsets.only(top: 20),
-                    width: double.infinity,
-                    height: 200,
-                    child: Column(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      children: <Widget>[
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        const CircleAvatar(
-                          radius: 80,
-                          backgroundImage:
-                              AssetImage("assets/images/profile.jpeg"),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const Text(
-                          "Azkhuu Amgalanbaatar",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 16,
-                              color: Colors.white),
-                        ),
-                      ],
-                    )),
-              ),
-              Expanded(
-                // ignore: avoid_unnecessary_containers
-                flex: 3,
-                // ignore: avoid_unnecessary_containers
-                child: Container(
+                  padding: const EdgeInsets.only(top: 20),
+                  width: double.infinity,
+                  height: 200,
                   child: Column(
+                    // ignore: prefer_const_literals_to_create_immutables
                     children: <Widget>[
-                      const SizedBox(height: 48),
+                      const CircleAvatar(
+                        radius: 80,
+                        backgroundImage:
+                            AssetImage("assets/images/profile.jpeg"),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Text(
+                        "Azkhuu Amgalanbaatar",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 16,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(height: 45),
                       menuItem(
                           text: 'Хувийн мэдээлэл',
                           icon: Icons.supervised_user_circle_rounded,
@@ -194,6 +196,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Expanded(
+                flex: 1,
                 child: Column(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
@@ -203,7 +206,7 @@ class _HomeState extends State<Home> {
                       title: "Гарах",
                       color: Colors.white,
                       color1: Colors.teal,
-                      onPress: _intermediate,
+                      onPress: _signOut,
                     )
                   ],
                 ),
