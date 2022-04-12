@@ -54,14 +54,8 @@ class Password extends StatelessWidget {
                   flex: 2,
                   child: Column(
                     children: [
-                      Button(
-                        height: 50,
-                        width: 300,
-                        title: "Хадгалах",
-                        color: Colors.teal,
-                        color1: Colors.white,
-                        onPress: _about,
-                      ),
+                      Button(50, 300, "Хадгалах", Colors.teal, Colors.white,
+                          _about, Icons.signal_cellular_null_sharp),
                     ],
                   ),
                 ),

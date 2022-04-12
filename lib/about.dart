@@ -76,14 +76,8 @@ class _AboutState extends State<About> {
                       flex: 1,
                       child: Column(
                         children: [
-                          Button(
-                            height: 50,
-                            width: 300,
-                            title: "Хадгалах",
-                            color: Colors.teal,
-                            color1: Colors.white,
-                            onPress: _about,
-                          ),
+                          Button(50, 300, "Хадгалах", Colors.teal, Colors.white,
+                              _about, null),
                         ],
                       ),
                     ),

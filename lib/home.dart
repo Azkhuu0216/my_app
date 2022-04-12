@@ -70,25 +70,14 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   // ignore: avoid_unnecessary_containers
-                  Button(
-                    height: 50,
-                    width: 300,
-                    title: "Анхан",
-                    color: Colors.teal,
-                    color1: Colors.white,
-                    onPress: _intermediate,
-                  ),
+                  Button(50, 300, "Анхан", Colors.teal, Colors.white,
+                      _intermediate, null),
                   const SizedBox(
                     height: 20,
                   ),
                   // ignore: avoid_unnecessary_containers
-                  Button(
-                      height: 50,
-                      width: 300,
-                      title: "Ахисан",
-                      color: Colors.teal,
-                      color1: Colors.white,
-                      onPress: _upper),
+                  Button(50, 300, "Ахисан", Colors.teal, Colors.white, _upper,
+                      null),
                 ],
               ),
             ),
@@ -97,37 +86,31 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: [
                   // ignore: avoid_unnecessary_containers
-                  Button(
-                      height: 50,
-                      width: 300,
-                      title: "Тест нэмэх",
-                      color: Colors.teal,
-                      color1: Colors.white,
-                      onPress: _intermediate,
-                      icon: Icons.note_add_sharp),
+                  Button(50, 300, "Тест нэмэх", Colors.teal, Colors.white,
+                      _intermediate, Icons.note_add_sharp),
                   const SizedBox(
                     height: 10,
                   ),
                   Button(
-                    height: 50,
-                    width: 300,
-                    title: "Сэдэв нэмэх",
-                    color: Colors.teal,
-                    color1: Colors.white,
-                    onPress: _intermediate,
-                    icon: Icons.topic,
+                    50,
+                    300,
+                    "Сэдэв нэмэх",
+                    Colors.teal,
+                    Colors.white,
+                    _intermediate,
+                    Icons.topic,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Button(
-                    height: 50,
-                    width: 300,
-                    title: "Асуулт нэмэх",
-                    color: Colors.teal,
-                    color1: Colors.white,
-                    onPress: _intermediate,
-                    icon: Icons.quiz,
+                    50,
+                    300,
+                    "Асуулт нэмэх",
+                    Colors.teal,
+                    Colors.white,
+                    _intermediate,
+                    Icons.quiz,
                   ),
                 ],
               ),
@@ -197,14 +180,8 @@ class _HomeState extends State<Home> {
                 child: Column(
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    Button(
-                      height: 50,
-                      width: 250,
-                      title: "Гарах",
-                      color: Colors.white,
-                      color1: Colors.teal,
-                      onPress: _signOut,
-                    )
+                    Button(50, 250, "Гарах", Colors.white, Colors.teal,
+                        _signOut, null)
                   ],
                 ),
               ),

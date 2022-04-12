@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-TextField reTextField(String text, IconData icon, bool isPasswordType,
-    TextEditingController controller) {
+TextField reTextField(
+  String text,
+  IconData icon,
+  bool isPasswordType,
+) {
   return TextField(
-      controller: controller,
       obscureText: isPasswordType,
       enableSuggestions: !isPasswordType,
       autocorrect: !isPasswordType,

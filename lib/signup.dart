@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_app/common/button.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/home.dart';
 import 'common/reuseable_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_core/firebase_core.dart";
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -12,33 +16,27 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController lastnameController = TextEditingController();
-  TextEditingController firstnameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  TextEditingController repassController = TextEditingController();
+  String _email = "";
+  String _pwd = "";
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
-    // void _signUp() {
-    //   FirebaseAuth.instance
-    //       .createUserWithEmailAndPassword(
-    //           email: emailController.text, password: passController.text)
-    //       .then((value) => {
-    //             print("Create new account"),
-    //             Navigator.push(
-    //               context,
-    //               MaterialPageRoute(
-    //                 builder: (context) => const Home(),
-    //               ),
-    //             ),
-    //           })
-    //       .onError(
-    //         (error, stackTrace) => {
-    //           print("Error ${error.toString()}"),
-    //         },
-    //       );
-    // }
+    void _signUp() async {
+      //TODO:Real singin code will be here
+      try {
+        final user = await _auth.createUserWithEmailAndPassword(
+            email: _email, password: _pwd);
+        if (user != null) {
+          print("Amjilttai burtgelee!!!");
+          Navigator.pushNamed(context, '/home');
+        } else {
+          print("User creating is not successful!");
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -97,24 +95,96 @@ class _SignUpState extends State<SignUp> {
                           flex: 5,
                           child: Column(
                             children: [
-                              reTextField("Овог", Icons.supervised_user_circle,
-                                  false, emailController),
-                              const SizedBox(height: 10),
-                              reTextField("Нэр", Icons.supervised_user_circle,
-                                  true, passController),
-                              const SizedBox(height: 10),
-                              reTextField("и-мэйл", Icons.email, false,
-                                  emailController),
+                              reTextField(
+                                  "Овог", Icons.supervised_user_circle, false),
                               const SizedBox(height: 10),
                               reTextField(
-                                  "утас", Icons.call, false, emailController),
+                                  "Нэр", Icons.supervised_user_circle, true),
                               const SizedBox(height: 10),
-                              reTextField(
-                                  "Нууц үг", Icons.key, true, passController),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.email,
+                                        color: Colors.black54),
+                                    labelText: 'Таны и-мэйл',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _email = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              reTextField("утас", Icons.call, false),
+                              const SizedBox(height: 10),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(32),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  cursorColor: Colors.black87,
+
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: 'Таны нууц үг',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _pwd = value;
+                                  },
+                                  keyboardType: TextInputType.visiblePassword,
+                                ),
+                              ),
                               SizedBox(height: 10),
-                              reTextField("Нууц үг давтах", Icons.key, true,
-                                  passController),
+                              reTextField("Нууц үг давтах", Icons.lock, true),
                               SizedBox(height: 10),
+                              const SizedBox(
+                                height: 35,
+                              ),
                             ],
                           ),
                         ),
@@ -126,22 +196,18 @@ class _SignUpState extends State<SignUp> {
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
                               // ignore: prefer_const_constructors
-                              // Button(
-                              //   height: 50,
-                              //   width: 300,
-                              //   title: "Бүртгүүлэх",
-                              //   color: Colors.teal,
-                              //   color1: Colors.white,
-                              //   onPress: _signUp,
-                              // ),
-                              signInSingUpButton(context, false, () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Home(),
-                                  ),
-                                );
-                              }),
+                              Button(50, 300, "Бүртгүүлэх", Colors.teal,
+                                  Colors.white, _signUp, null),
+
+                              // signInSingUpButton(context, false, () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (context) => const Home(),
+                              //     ),
+                              //   );
+                              // }),
+
                               const SizedBox(
                                 height: 16,
                               ),

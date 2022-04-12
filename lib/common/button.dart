@@ -10,14 +10,8 @@ class Button extends StatelessWidget {
   final IconData? icon;
 
   // ignore: use_key_in_widget_constructors
-  const Button(
-      {required this.height,
-      required this.width,
-      required this.title,
-      required this.color,
-      required this.color1,
-      required this.onPress,
-      this.icon});
+  Button(this.height, this.width, this.title, this.color, this.color1,
+      this.onPress, this.icon);
 
   @override
   Widget build(BuildContext context) {

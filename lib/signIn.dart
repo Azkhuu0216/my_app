@@ -1,6 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/common/reuseable_widget.dart';
@@ -20,18 +23,58 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  void sign() async {
+    //TODO:Real Loging code will be here
+    try {
+      final user =
+          await _auth.signInWithEmailAndPassword(email: _email, password: _pwd);
+      if (user != null) {
+        print("Success!");
+        Navigator.pushNamed(context, '/home');
+      } else {
+        print("User is not found!");
+      }
+    } catch (e) {
+      print("buruu!!!");
+      print(e);
+    }
+  }
+
+  String _email = "";
+  String _pwd = "";
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+// TODO: implement initState
+    super.initState();
+    print("completed");
+    setState(() {
+      getCurrentUser();
+    });
+    Firebase.initializeApp().whenComplete(() {});
+  }
+
+  void getCurrentUser() async {
+    // if (_auth.currentUser != null) {
+    //   return Home();
+    // } else {
+    //   return SignIn();
+    // }
+
+    // if (_auth.currentUser != null) {
+    //  Navigator.pushNamed(context, '/home');
+    // }
+
+    // if (currentUser != null) {
+    //   Navigator.pushNamed(context, '/home_screen');
+    //   print(currentUser!.email);
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
-    void _sign() {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Home()),
-      );
-    }
-
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
@@ -102,36 +145,97 @@ class _SignInState extends State<SignIn> {
                           flex: 0,
                           child: Column(
                             children: [
-                              // const Input(
-                              //   placeholder: "И-мэйлээ оруулна уу?",
-                              //   height: 50,
-                              //   icon: Icons.mail_rounded,
-                              //   isPasswordType: false,
-                              // ),
-                              // const Input(
-                              //   placeholder: "Нууц үгээ оруулна уу?",
-                              //   height: 50,
-                              //   icon: Icons.lock,
-                              //   isPasswordType: true,
-                              // ),
-                              reTextField("И-мэйлээ оруулна уу", Icons.email,
-                                  false, emailController),
+                              // reTextField("И-мэйлээ оруулна уу", Icons.email,
+                              //     false, onChanged),
+
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.email,
+                                        color: Colors.black54),
+                                    labelText: 'Таны и-мэйл',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _email = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
                               const SizedBox(height: 10),
-                              reTextField("Нууц үгээ оруулна уу", Icons.key,
-                                  true, passController),
+                              // reTextField("Нууц үгээ оруулна уу", Icons.key,
+                              //     true, _pwd),
+
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(32),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  cursorColor: Colors.black87,
+
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: 'Таны нууц үг',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _pwd = value;
+                                  },
+                                  keyboardType: TextInputType.visiblePassword,
+                                ),
+                              ),
+
                               SizedBox(height: 10),
                               buildRemember(size),
                               const SizedBox(
                                 height: 36,
                               ),
-                              Button(
-                                height: 50,
-                                width: 350,
-                                title: "Нэвтрэх",
-                                color: Colors.teal,
-                                color1: Colors.white,
-                                onPress: _sign,
-                              ),
+                              Button(50, 350, "Нэвтрэх", Colors.teal,
+                                  Colors.white, sign, Icons.login),
+
                               const SizedBox(
                                 height: 16,
                               ),
