@@ -61,6 +61,40 @@ Container signInSingUpButton(
   );
 }
 
+// ignore: non_constant_identifier_names
+Container TestPostgre(BuildContext context, bool isLogin, Function onTap) {
+  return Container(
+    width: 60,
+    height: 60,
+    margin: const EdgeInsets.only(left: 20, top: 20),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: ElevatedButton(
+      onPressed: () {},
+      child: Text(
+        isLogin ? "1" : "0",
+        style: const TextStyle(
+            color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.pressed)) {
+            return Colors.black26;
+          } else {
+            return Colors.blue.shade50;
+          }
+        }),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 Container TestButton(BuildContext context, bool isLogin, Function onTap) {
   return Container(
     width: 60,

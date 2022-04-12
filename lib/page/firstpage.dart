@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:my_app/Quiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 
 class FirstPage extends StatelessWidget {
@@ -15,8 +16,14 @@ class FirstPage extends StatelessWidget {
                 flex: 0,
                 child: Row(
                   children: <Widget>[
-                    TestButton(context, true, () {}),
-                    TestButton(context, true, () {}),
+                    TestButton(context, true, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Quiz(),
+                        ),
+                      );
+                    }),
                     TestButton(context, true, () {}),
                     TestButton(context, true, () {}),
                     TestButton(context, true, () {}),
@@ -31,7 +38,6 @@ class FirstPage extends StatelessWidget {
                     TestButton(context, true, () {}),
                     TestButton(context, true, () {}),
                     TestButton(context, true, () {}),
-                    TestButton(context, true, () {}),
                   ],
                 ),
               ),
@@ -39,4 +45,7 @@ class FirstPage extends StatelessWidget {
           )),
     );
   }
+
+  // ignore: non_constant_identifier_names
+
 }

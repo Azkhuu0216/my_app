@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/intermediate.dart';
 
@@ -20,12 +19,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     void _signOut() {
-      FirebaseAuth.instance.signOut().then(
-            (value) => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SignIn()),
-            ),
-          );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SignIn()),
+      );
     }
 
     void _intermediate() {

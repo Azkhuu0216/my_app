@@ -1,42 +1,41 @@
 {
   "project_info": {
-    "project_number": "911989020511",
-    "project_id": "chemistry-9986e",
-    "storage_bucket": "chemistry-9986e.appspot.com"
+    "project_number": "69027693675",
+    "project_id": "myfirebase-4cfaf",
+    "storage_bucket": "myfirebase-4cfaf.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:911989020511:android:be6ed49877081ef7a0c8ea",
+        "mobilesdk_app_id": "1:69027693675:android:a4a677a180562866fe9d2e",
         "android_client_info": {
-          "package_name": "com.example.my_app"
+          "package_name": "com.example.gtk_flutter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "911989020511-6bv55fp4ad05j113ol45jqvatjggt7ob.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.my_app",
-            "certificate_hash": "f48d18dcf2f0f46fd369b9285a9af063ee373acf"
-          }
-        },
-        {
-          "client_id": "911989020511-vld1i0t60i6l6q3p5jc6nrp5abmgveog.apps.googleusercontent.com",
+          "client_id": "69027693675-vjkk2s85o5q88og053qeoro8c53m4d2p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBW_bNjGXj7mFAoDYwzd0t0J0pJvruRJYs"
+          "current_key": "AIzaSyBAYygDwGAyepLoil3Dhy2pjQx3G805Q74"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "911989020511-vld1i0t60i6l6q3p5jc6nrp5abmgveog.apps.googleusercontent.com",
+              "client_id": "69027693675-vjkk2s85o5q88og053qeoro8c53m4d2p.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "69027693675-aldksvifleksjh7g970h4apgka1et0r2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gtkFlutter"
+              }
             }
           ]
         }

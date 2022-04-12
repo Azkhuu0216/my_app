@@ -10,7 +10,7 @@ class ThirdPage extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             teacherButton(context, true, () {}),
             teacherButton(context, false, () {}),
             teacherButton(context, true, () {}),

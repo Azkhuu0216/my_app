@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_app/common/button.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/home.dart';
 import 'common/reuseable_widget.dart';
-import 'common/input.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -138,23 +135,12 @@ class _SignUpState extends State<SignUp> {
                               //   onPress: _signUp,
                               // ),
                               signInSingUpButton(context, false, () {
-                                FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passController.text)
-                                    .then(
-                                      (value) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const Home(),
-                                        ),
-                                      ),
-                                    )
-                                    .onError(
-                                      (error, stackTrace) => {
-                                        print("Error ${error.toString()}"),
-                                      },
-                                    );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Home(),
+                                  ),
+                                );
                               }),
                               const SizedBox(
                                 height: 16,
