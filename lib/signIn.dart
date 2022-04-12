@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,18 +27,84 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   void sign() async {
     //TODO:Real Loging code will be here
-    try {
-      final user =
-          await _auth.signInWithEmailAndPassword(email: _email, password: _pwd);
-      if (user != null) {
-        print("Success!");
-        Navigator.pushNamed(context, '/home');
-      } else {
-        print("User is not found!");
+    if (_email == "") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Анхаар!!!"),
+            content: new Text("Та и-мэйлээ оруулна уу!"),
+            actions: <Widget>[
+              new ElevatedButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (_pwd == "") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text("Анхаар!!!"),
+            content: new Text("Та нууц үгээ оруулна уу!"),
+            actions: <Widget>[
+              new ElevatedButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      try {
+        final user = await _auth.signInWithEmailAndPassword(
+            email: _email, password: _pwd);
+        if (user != null) {
+          print("Success!");
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: new Text("Амжилттай!!!"),
+                backgroundColor: Colors.green,
+                titleTextStyle: TextStyle(color: Colors.white),
+              );
+            },
+          );
+          Timer(const Duration(seconds: 5),
+              () => Navigator.pushNamed(context, '/home'));
+        } else {
+          print("User is not found!");
+        }
+      } catch (e) {
+        print("buruu!!!");
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text("Анхаар!!!"),
+              content: new Text("Таны и-мэйл эсвэл нууц үг буруу байна!"),
+              actions: <Widget>[
+                new ElevatedButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+        print(e);
       }
-    } catch (e) {
-      print("buruu!!!");
-      print(e);
     }
   }
 

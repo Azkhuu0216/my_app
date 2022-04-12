@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/button.dart';
@@ -23,18 +25,66 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     void _signUp() async {
-      //TODO:Real singin code will be here
-      try {
-        final user = await _auth.createUserWithEmailAndPassword(
-            email: _email, password: _pwd);
-        if (user != null) {
-          print("Amjilttai burtgelee!!!");
-          Navigator.pushNamed(context, '/home');
-        } else {
-          print("User creating is not successful!");
+      if (_email == "") {
+        //TODO:Real singin code will be here
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text("Анхаар!!!"),
+              content: new Text("Та и-мэйлээ оруулна уу!"),
+              actions: <Widget>[
+                new ElevatedButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else if (_pwd == "") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: new Text("Анхаар!!!"),
+              content: new Text("Та нууц үгээ оруулна уу!"),
+              actions: <Widget>[
+                new ElevatedButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        try {
+          final user = await _auth.createUserWithEmailAndPassword(
+              email: _email, password: _pwd);
+          if (user != null) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: new Text("Амжилттай бүртгэлээ!!!"),
+                  backgroundColor: Colors.green,
+                  titleTextStyle: TextStyle(color: Colors.white),
+                );
+              },
+            );
+            Timer(const Duration(seconds: 5),
+                () => Navigator.pushNamed(context, '/home'));
+          } else {
+            print("User creating is not successful!");
+          }
+        } catch (e) {
+          print(e);
         }
-      } catch (e) {
-        print(e);
       }
     }
 
