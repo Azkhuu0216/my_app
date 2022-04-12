@@ -11,6 +11,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/signup.dart';
 import 'package:postgres/postgres.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
 // import './common/input.dart';
 import 'common/button.dart';
 import 'home.dart';
@@ -28,40 +32,18 @@ class _SignInState extends State<SignIn> {
   void sign() async {
     //TODO:Real Loging code will be here
     if (_email == "") {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Анхаар!!!"),
-            content: new Text("Та и-мэйлээ оруулна уу!"),
-            actions: <Widget>[
-              new ElevatedButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      showTopSnackBar(
+        context,
+        CustomSnackBar.error(
+          message: "Та и-мэйлээ оруулна уу!",
+        ),
       );
     } else if (_pwd == "") {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text("Анхаар!!!"),
-            content: new Text("Та нууц үгээ оруулна уу!"),
-            actions: <Widget>[
-              new ElevatedButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      showTopSnackBar(
+        context,
+        CustomSnackBar.error(
+          message: "Та нууц үгээ оруулна уу!",
+        ),
       );
     } else {
       try {
@@ -69,47 +51,31 @@ class _SignInState extends State<SignIn> {
             email: _email, password: _pwd);
         if (user != null) {
           print("Success!");
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: new Text("Амжилттай!!!"),
-                backgroundColor: Colors.green,
-                titleTextStyle: TextStyle(color: Colors.white),
-              );
-            },
+          showTopSnackBar(
+            context,
+            CustomSnackBar.success(
+              message: "Амжилттай нэвтэрлээ!!!",
+            ),
           );
-          Timer(const Duration(seconds: 5),
+          Timer(const Duration(seconds: 2),
               () => Navigator.pushNamed(context, '/home'));
         } else {
           print("User is not found!");
         }
       } catch (e) {
-        print("buruu!!!");
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: new Text("Анхаар!!!"),
-              content: new Text("Таны и-мэйл эсвэл нууц үг буруу байна!"),
-              actions: <Widget>[
-                new ElevatedButton(
-                  child: new Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        showTopSnackBar(
+          context,
+          CustomSnackBar.error(
+            message: "Таны и-мэйл эсвэл нууц үг буруу байна!",
+          ),
         );
         print(e);
       }
     }
   }
 
-  String _email = "";
-  String _pwd = "";
+  String _email = "azhvv12a@gmail.com";
+  String _pwd = "Azaa0216!";
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
 

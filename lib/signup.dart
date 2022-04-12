@@ -9,6 +9,9 @@ import 'common/reuseable_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_core/firebase_core.dart";
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/tap_bounce_container.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -27,62 +30,42 @@ class _SignUpState extends State<SignUp> {
     void _signUp() async {
       if (_email == "") {
         //TODO:Real singin code will be here
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: new Text("Анхаар!!!"),
-              content: new Text("Та и-мэйлээ оруулна уу!"),
-              actions: <Widget>[
-                new ElevatedButton(
-                  child: new Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        showTopSnackBar(
+          context,
+          CustomSnackBar.error(
+            message: "Та и-мэйлээ оруулна уу!",
+          ),
         );
       } else if (_pwd == "") {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: new Text("Анхаар!!!"),
-              content: new Text("Та нууц үгээ оруулна уу!"),
-              actions: <Widget>[
-                new ElevatedButton(
-                  child: new Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+        showTopSnackBar(
+          context,
+          CustomSnackBar.error(
+            message: "Та нууц үгээ оруулна уу!",
+          ),
         );
       } else {
         try {
           final user = await _auth.createUserWithEmailAndPassword(
               email: _email, password: _pwd);
           if (user != null) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: new Text("Амжилттай бүртгэлээ!!!"),
-                  backgroundColor: Colors.green,
-                  titleTextStyle: TextStyle(color: Colors.white),
-                );
-              },
+            showTopSnackBar(
+              context,
+              CustomSnackBar.success(
+                message: "Амжилттай бүртгэлээ!!!",
+              ),
             );
-            Timer(const Duration(seconds: 5),
+            Timer(const Duration(seconds: 2),
                 () => Navigator.pushNamed(context, '/home'));
           } else {
             print("User creating is not successful!");
           }
         } catch (e) {
+          showTopSnackBar(
+            context,
+            CustomSnackBar.error(
+              message: "Таны и-мэйл болон нууц үгээ шалгаад дахин оролдоно уу!",
+            ),
+          );
           print(e);
         }
       }

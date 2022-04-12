@@ -52,7 +52,7 @@ class _QuizState extends State<Quiz> {
 
   // List<User> Data = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("10.10.200.224", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -63,12 +63,8 @@ class _QuizState extends State<Quiz> {
       print('error....');
       print(e.toString());
     }
-    List<
-        Map<
-            String,
-            Map<String,
-                dynamic>>> results = await connection.mappedResultsQuery(
-        "SELECT  user_id, lastname, firstname FROM users where user_id='U001'; ");
+    List<Map<String, Map<String, dynamic>>> results =
+        await connection.mappedResultsQuery("SELECT  * FROM Question ");
     print(results);
   }
 
