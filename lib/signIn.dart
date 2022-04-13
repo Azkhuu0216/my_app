@@ -30,12 +30,15 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController nameController =
+      TextEditingController(text: "azhvv12a@gmail.com");
+  TextEditingController passController =
+      TextEditingController(text: "Azaa0216!");
 
   bool isLoggedIn = false;
   String name = '';
-  String _email = "";
-  String _pwd = "";
+  String _email = "azhvv12a@gmail.com";
+  String _pwd = "Azaa0216!";
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
 
@@ -268,6 +271,7 @@ class _SignInState extends State<SignIn> {
                                             style: BorderStyle.solid),
                                       ),
                                       child: TextFormField(
+                                        controller: passController,
                                         obscureText: true,
                                         cursorColor: Colors.black87,
 

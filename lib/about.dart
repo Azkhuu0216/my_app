@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/common/input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -113,7 +115,6 @@ class _AboutState extends State<About> {
                           if (snapshot.hasError) {
                             return Text("Something went wrong");
                           }
-
                           if (snapshot.hasData && !snapshot.data!.exists) {
                             return Text("Document does not exist");
                           }
@@ -140,6 +141,7 @@ class _AboutState extends State<About> {
                                   //   height: 50,
                                   //   icon: Icons.supervised_user_circle_sharp,
                                   // ),
+
                                   Container(
                                     height: 60,
                                     // margin: EdgeInsets.only(top: 20),
@@ -153,7 +155,7 @@ class _AboutState extends State<About> {
                                     ),
 
                                     child: TextFormField(
-                                      controller: lastNameController,
+                                      initialValue: "${data['lastname']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
                                       autocorrect: true,
@@ -162,7 +164,7 @@ class _AboutState extends State<About> {
                                         prefixIcon: Icon(
                                             Icons.supervised_user_circle,
                                             color: Colors.black54),
-                                        labelText: "${data['lastname']}",
+                                        labelText: "Таны овог",
                                         labelStyle: const TextStyle(
                                             color: Colors.black54),
                                         filled: true,
@@ -195,7 +197,7 @@ class _AboutState extends State<About> {
                                     ),
 
                                     child: TextFormField(
-                                      controller: firstNameController,
+                                      initialValue: "${data['firstname']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
                                       autocorrect: true,
@@ -204,7 +206,7 @@ class _AboutState extends State<About> {
                                         prefixIcon: Icon(
                                             Icons.supervised_user_circle,
                                             color: Colors.black54),
-                                        labelText: "${data['firstname']}",
+                                        labelText: "Таны нэр",
                                         labelStyle: const TextStyle(
                                             color: Colors.black54),
                                         filled: true,
@@ -237,7 +239,7 @@ class _AboutState extends State<About> {
                                     ),
 
                                     child: TextFormField(
-                                      controller: phoneController,
+                                      initialValue: "${data['phone']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
                                       autocorrect: true,
@@ -245,7 +247,7 @@ class _AboutState extends State<About> {
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(Icons.call,
                                             color: Colors.black54),
-                                        labelText: "${data['phone']}",
+                                        labelText: "Таны утасны дугаар",
                                         labelStyle: const TextStyle(
                                             color: Colors.black54),
                                         filled: true,
@@ -278,7 +280,7 @@ class _AboutState extends State<About> {
                                     ),
 
                                     child: TextFormField(
-                                      controller: emailController,
+                                      initialValue: "${data['email']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
                                       autocorrect: true,
@@ -286,7 +288,7 @@ class _AboutState extends State<About> {
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(Icons.email,
                                             color: Colors.black54),
-                                        labelText: "${data['email']}",
+                                        labelText: "Таны и-мэйл",
                                         labelStyle: const TextStyle(
                                             color: Colors.black54),
                                         filled: true,
@@ -306,26 +308,10 @@ class _AboutState extends State<About> {
                                       keyboardType: TextInputType.emailAddress,
                                     ),
                                   ),
-                                  // const Input(
-                                  //   placeholder: "Нэр",
-                                  //   height: 50,
-                                  //   icon: Icons.supervised_user_circle_rounded,
-                                  // ),
-                                  // const Input(
-                                  //   placeholder: "Утасны дугаар",
-                                  //   height: 50,
-                                  //   icon: Icons.phone,
-                                  // ),
-                                  // const Input(
-                                  //   placeholder: "И-мэйл",
-                                  //   height: 50,
-                                  //   icon: Icons.mail_rounded,
-                                  // ),
                                 ],
                               ),
                             );
                           }
-
                           return Text("loading");
                         }),
                     Expanded(

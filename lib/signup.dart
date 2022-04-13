@@ -394,7 +394,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   controller: repasswordController,
                                   cursorColor: Colors.black87,
-                                  obscureText: false,
+                                  obscureText: true,
                                   autocorrect: true,
                                   // keyboardType: TextInputType.,
                                   decoration: InputDecoration(

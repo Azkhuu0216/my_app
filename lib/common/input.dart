@@ -51,6 +51,7 @@ class Input extends StatelessWidget {
             //email address textField
             Expanded(
               child: TextFormField(
+                initialValue: placeholder,
                 maxLines: 1,
                 cursorColor: Colors.black54,
                 keyboardType: TextInputType.emailAddress,
@@ -65,7 +66,7 @@ class Input extends StatelessWidget {
                       : null;
                 },
                 decoration: InputDecoration(
-                    hintText: placeholder,
+                    hintText: "ner",
                     hintStyle: GoogleFonts.inter(
                       fontSize: 14.0,
                       color: Colors.black54,
