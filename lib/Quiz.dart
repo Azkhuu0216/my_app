@@ -74,22 +74,25 @@ class _QuizState extends State<Quiz> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(title: Text("Асуулт")),
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 40,
-            ),
-            Question(
-              questions[_questionIndex]["questionText"].toString(),
-            ),
-            ...(questions[_questionIndex]["answer"] as List<String>)
-                .map((answer) {
-              return Answer(questionAnswer, answer);
-            }).toList(),
-          ],
-        ),
-      ),
+          appBar: AppBar(title: Text("Асуулт")),
+          body: _questionIndex < questions.length
+              ? (Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Question(
+                      questions[_questionIndex]["questionText"].toString(),
+                    ),
+                    ...(questions[_questionIndex]["answer"] as List<String>)
+                        .map((answer) {
+                      return Answer(questionAnswer, answer);
+                    }).toList(),
+                  ],
+                ))
+              : Center(
+                  child: Text('Asuult duussan'),
+                )),
     );
   }
 }

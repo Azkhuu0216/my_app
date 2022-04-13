@@ -14,6 +14,7 @@ import 'package:postgres/postgres.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import './common/input.dart';
 import 'common/button.dart';
@@ -29,6 +30,39 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController nameController = TextEditingController();
+
+  bool isLoggedIn = false;
+  String name = '';
+  String _email = "";
+  String _pwd = "";
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+// TODO: implement initState
+    super.initState();
+    print("completed");
+    setState(() {
+      autoLogIn();
+    });
+    Firebase.initializeApp().whenComplete(() {});
+  }
+
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userId = prefs.getString('username');
+
+    if (userId != null) {
+      setState(() {
+        isLoggedIn = true;
+        name = userId;
+      });
+      return;
+    }
+  }
+
   void sign() async {
     //TODO:Real Loging code will be here
     if (_email == "") {
@@ -50,6 +84,10 @@ class _SignInState extends State<SignIn> {
         final user = await _auth.signInWithEmailAndPassword(
             email: _email, password: _pwd);
         if (user != null) {
+          final Future<SharedPreferences> _prefs =
+              SharedPreferences.getInstance();
+          final SharedPreferences prefs = await _prefs;
+          prefs.setString('username', nameController.text);
           print("Success!");
           showTopSnackBar(
             context,
@@ -57,8 +95,12 @@ class _SignInState extends State<SignIn> {
               message: "Амжилттай нэвтэрлээ!!!",
             ),
           );
-          Timer(const Duration(seconds: 2),
-              () => Navigator.pushNamed(context, '/home'));
+          // Timer(const Duration(seconds: 2),
+          //     () => Navigator.pushNamed(context, '/home'));
+          setState(() {
+            name = nameController.text;
+            isLoggedIn = true;
+          });
         } else {
           print("User is not found!");
         }
@@ -72,22 +114,6 @@ class _SignInState extends State<SignIn> {
         print(e);
       }
     }
-  }
-
-  String _email = "azhvv12a@gmail.com";
-  String _pwd = "Azaa0216!";
-  final _auth = FirebaseAuth.instance;
-  var currentUser = FirebaseAuth.instance.currentUser;
-
-  @override
-  void initState() {
-// TODO: implement initState
-    super.initState();
-    print("completed");
-    setState(() {
-      getCurrentUser();
-    });
-    Firebase.initializeApp().whenComplete(() {});
   }
 
   void getCurrentUser() async {
@@ -109,200 +135,210 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    // print(nameController.text);
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
-      body: SafeArea(
-        child: SizedBox(
-          height: size.height,
-          child: Stack(
-            children: <Widget>[
-              //left side background design. I use a svg image here
-              Positioned(
-                left: -34,
-                top: 181.0,
-                child: SvgPicture.string(
-                  // Group 3178
-                  '<svg viewBox="-34.0 181.0 99.0 99.0" ><path transform="translate(-34.0, 181.0)" d="M 74.25 0 L 99 49.5 L 74.25 99 L 24.74999618530273 99 L 0 49.49999618530273 L 24.7500057220459 0 Z" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(-26.57, 206.25)" d="M 0 0 L 42.07500076293945 16.82999992370605 L 84.15000152587891 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(15.5, 223.07)" d="M 0 56.42999649047852 L 0 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
-                  width: 99.0,
-                  height: 99.0,
-                ),
-              ),
+    return !isLoggedIn
+        ? Scaffold(
+            backgroundColor: const Color(0xFFFFFFFF),
+            body: SafeArea(
+              child: SizedBox(
+                height: size.height,
+                child: Stack(
+                  children: <Widget>[
+                    //left side background design. I use a svg image here
+                    Positioned(
+                      left: -34,
+                      top: 181.0,
+                      child: SvgPicture.string(
+                        // Group 3178
+                        '<svg viewBox="-34.0 181.0 99.0 99.0" ><path transform="translate(-34.0, 181.0)" d="M 74.25 0 L 99 49.5 L 74.25 99 L 24.74999618530273 99 L 0 49.49999618530273 L 24.7500057220459 0 Z" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(-26.57, 206.25)" d="M 0 0 L 42.07500076293945 16.82999992370605 L 84.15000152587891 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(15.5, 223.07)" d="M 0 56.42999649047852 L 0 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
+                        width: 99.0,
+                        height: 99.0,
+                      ),
+                    ),
 
-              //right side background design. I use a svg image here
-              Positioned(
-                right: -52,
-                top: 45.0,
-                child: SvgPicture.string(
-                  // Group 3177
-                  '<svg viewBox="288.0 45.0 139.0 139.0" ><path transform="translate(288.0, 45.0)" d="M 104.25 0 L 139 69.5 L 104.25 139 L 34.74999618530273 139 L 0 69.5 L 34.75000762939453 0 Z" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(298.42, 80.45)" d="M 0 0 L 59.07500076293945 23.63000106811523 L 118.1500015258789 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(357.5, 104.07)" d="M 0 79.22999572753906 L 0 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
-                  width: 139.0,
-                  height: 139.0,
-                ),
-              ),
+                    //right side background design. I use a svg image here
+                    Positioned(
+                      right: -52,
+                      top: 45.0,
+                      child: SvgPicture.string(
+                        // Group 3177
+                        '<svg viewBox="288.0 45.0 139.0 139.0" ><path transform="translate(288.0, 45.0)" d="M 104.25 0 L 139 69.5 L 104.25 139 L 34.74999618530273 139 L 0 69.5 L 34.75000762939453 0 Z" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(298.42, 80.45)" d="M 0 0 L 59.07500076293945 23.63000106811523 L 118.1500015258789 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /><path transform="translate(357.5, 104.07)" d="M 0 79.22999572753906 L 0 0" fill="none" stroke="#21899c" stroke-width="1" stroke-opacity="0.25" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
+                        width: 139.0,
+                        height: 139.0,
+                      ),
+                    ),
 
-              //content ui
-              Positioned(
-                top: 8.0,
-                child: SizedBox(
-                  width: size.width,
-                  height: size.height,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: size.width * 0.06),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //logo section
-                        const SizedBox(
-                          height: 66,
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: Column(
-                            children: [
-                              const CircleAvatar(
-                                radius: 70,
-                                backgroundImage:
-                                    AssetImage("assets/images/logo.png"),
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              richText(23.12),
-                            ],
-                          ),
-                        ),
-
-                        //email and password TextField here
-                        Expanded(
-                          flex: 0,
-                          child: Column(
-                            children: [
-                              // reTextField("И-мэйлээ оруулна уу", Icons.email,
-                              //     false, onChanged),
-
-                              Container(
-                                height: 60,
-                                // margin: EdgeInsets.only(top: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                      style: BorderStyle.solid),
-                                ),
-
-                                child: TextFormField(
-                                  cursorColor: Colors.black87,
-                                  obscureText: false,
-                                  autocorrect: true,
-                                  // keyboardType: TextInputType.,
-                                  decoration: InputDecoration(
-                                    prefixIcon: Icon(Icons.email,
-                                        color: Colors.black54),
-                                    labelText: 'Таны и-мэйл',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.black54),
-                                    filled: true,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    fillColor: Colors.blueGrey.shade50,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            width: 0, style: BorderStyle.none)),
-                                  ),
-                                  onChanged: (value) {
-                                    _email = value;
-                                  },
-                                  keyboardType: TextInputType.emailAddress,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              // reTextField("Нууц үгээ оруулна уу", Icons.key,
-                              //     true, _pwd),
-
-                              Container(
-                                height: 60,
-                                // margin: EdgeInsets.only(top: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(32),
-                                  border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                      style: BorderStyle.solid),
-                                ),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  cursorColor: Colors.black87,
-
-                                  // keyboardType: TextInputType.,
-                                  decoration: InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.lock, color: Colors.black54),
-                                    labelText: 'Таны нууц үг',
-                                    labelStyle:
-                                        const TextStyle(color: Colors.black54),
-                                    filled: true,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    fillColor: Colors.blueGrey.shade50,
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            width: 0, style: BorderStyle.none)),
-                                  ),
-                                  onChanged: (value) {
-                                    _pwd = value;
-                                  },
-                                  keyboardType: TextInputType.visiblePassword,
-                                ),
-                              ),
-
-                              SizedBox(height: 10),
-                              buildRemember(size),
-                              const SizedBox(
-                                height: 36,
-                              ),
-                              Button(50, 350, "Нэвтрэх", Colors.teal,
-                                  Colors.white, sign, Icons.login),
-
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              buildContinueText(),
-                            ],
-                          ),
-                        ),
-
-                        //footer section. google, facebook button and sign up text here
-                        Expanded(
-                          flex: 6,
+                    //content ui
+                    Positioned(
+                      top: 8.0,
+                      child: SizedBox(
+                        width: size.width,
+                        height: size.height,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.06),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              signInGoogleFacebookButton(size),
+                              //logo section
                               const SizedBox(
-                                height: 16,
+                                height: 66,
                               ),
-                              signOption()
+                              Expanded(
+                                flex: 5,
+                                child: Column(
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 70,
+                                      backgroundImage:
+                                          AssetImage("assets/images/logo.png"),
+                                    ),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    richText(23.12),
+                                  ],
+                                ),
+                              ),
+
+                              //email and password TextField here
+                              Expanded(
+                                flex: 0,
+                                child: Column(
+                                  children: [
+                                    // reTextField("И-мэйлээ оруулна уу", Icons.email,
+                                    //     false, onChanged),
+
+                                    Container(
+                                      height: 60,
+                                      // margin: EdgeInsets.only(top: 20),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white70,
+                                        borderRadius: BorderRadius.circular(24),
+                                        border: Border.all(
+                                            color: Colors.white,
+                                            width: 3.0,
+                                            style: BorderStyle.solid),
+                                      ),
+
+                                      child: TextFormField(
+                                        controller: nameController,
+                                        cursorColor: Colors.black87,
+                                        obscureText: false,
+                                        autocorrect: true,
+                                        // keyboardType: TextInputType.,
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.email,
+                                              color: Colors.black54),
+                                          labelText: 'Таны и-мэйл',
+                                          labelStyle: const TextStyle(
+                                              color: Colors.black54),
+                                          filled: true,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          fillColor: Colors.blueGrey.shade50,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  width: 0,
+                                                  style: BorderStyle.none)),
+                                        ),
+                                        onChanged: (value) {
+                                          _email = value;
+                                        },
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    // reTextField("Нууц үгээ оруулна уу", Icons.key,
+                                    //     true, _pwd),
+
+                                    Container(
+                                      height: 60,
+                                      // margin: EdgeInsets.only(top: 20),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white70,
+                                        borderRadius: BorderRadius.circular(32),
+                                        border: Border.all(
+                                            color: Colors.white,
+                                            width: 3.0,
+                                            style: BorderStyle.solid),
+                                      ),
+                                      child: TextFormField(
+                                        obscureText: true,
+                                        cursorColor: Colors.black87,
+
+                                        // keyboardType: TextInputType.,
+                                        decoration: InputDecoration(
+                                          prefixIcon: Icon(Icons.lock,
+                                              color: Colors.black54),
+                                          labelText: 'Таны нууц үг',
+                                          labelStyle: const TextStyle(
+                                              color: Colors.black54),
+                                          filled: true,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          fillColor: Colors.blueGrey.shade50,
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: const BorderSide(
+                                                  width: 0,
+                                                  style: BorderStyle.none)),
+                                        ),
+                                        onChanged: (value) {
+                                          _pwd = value;
+                                        },
+                                        keyboardType:
+                                            TextInputType.visiblePassword,
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 10),
+                                    buildRemember(size),
+                                    const SizedBox(
+                                      height: 36,
+                                    ),
+                                    Button(50, 350, "Нэвтрэх", Colors.teal,
+                                        Colors.white, sign, Icons.login),
+
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    buildContinueText(),
+                                  ],
+                                ),
+                              ),
+
+                              //footer section. google, facebook button and sign up text here
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    signInGoogleFacebookButton(size),
+                                    const SizedBox(
+                                      height: 16,
+                                    ),
+                                    signOption()
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+        : Home();
   }
 
   // ignore: non_constant_identifier_names

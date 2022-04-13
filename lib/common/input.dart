@@ -8,8 +8,11 @@ class Input extends StatelessWidget {
   final IconData icon;
 
 // ignore: use_key_in_widget_constructors
-  const Input(
-      {required this.height, required this.placeholder, required this.icon});
+  const Input({
+    required this.height,
+    required this.placeholder,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {

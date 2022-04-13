@@ -32,21 +32,21 @@ class Password extends StatelessWidget {
                   flex: 12,
                   child: Column(
                     children: const [
-                      Input(
-                        placeholder: "Одоогийн нууц үг",
-                        height: 50,
-                        icon: Icons.lock,
-                      ),
-                      Input(
-                        placeholder: "Шинэ нууц үг",
-                        height: 50,
-                        icon: Icons.lock,
-                      ),
-                      Input(
-                        placeholder: "Шинэ нууц үг давтах",
-                        height: 50,
-                        icon: Icons.lock,
-                      ),
+                      // Input(
+                      //   placeholder: "Одоогийн нууц үг",
+                      //   height: 50,
+                      //   icon: Icons.lock,
+                      // ),
+                      // Input(
+                      //   placeholder: "Шинэ нууц үг",
+                      //   height: 50,
+                      //   icon: Icons.lock,
+                      // ),
+                      // Input(
+                      //   placeholder: "Шинэ нууц үг давтах",
+                      //   height: 50,
+                      //   icon: Icons.lock,
+                      // ),
                     ],
                   ),
                 ),

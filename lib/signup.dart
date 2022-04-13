@@ -12,6 +12,7 @@ import "package:firebase_core/firebase_core.dart";
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -23,10 +24,45 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   String _email = "";
   String _pwd = "";
+  String _lastName = "";
+  String _firstName = "";
+  String _phone = "";
+  String _repwd = "";
   final _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController firstNameController = TextEditingController();
+    TextEditingController lastNameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController repasswordController = TextEditingController();
+
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('azaa1234');
+    Future<void> addUser() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('lastname', lastNameController.text);
+      prefs.setString('firstname', firstNameController.text);
+      prefs.setString('phone', phoneController.text);
+      prefs.setString('email', emailController.text);
+      prefs.setString('password', passwordController.text);
+      prefs.setString('repassword', repasswordController.text);
+      // Call the user's CollectionReference to add a new user
+      return users
+          // .doc("user")
+          .add({
+            'lastname': _lastName,
+            'firstname': _firstName,
+            'phone': _phone,
+            'email': _email,
+            'repass': _repwd
+          })
+          .then((value) => (print("User Added")))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
     void _signUp() async {
       if (_email == "") {
         //TODO:Real singin code will be here
@@ -43,11 +79,19 @@ class _SignUpState extends State<SignUp> {
             message: "Та нууц үгээ оруулна уу!",
           ),
         );
+      } else if (_pwd != _repwd) {
+        showTopSnackBar(
+          context,
+          CustomSnackBar.error(
+            message: "Нууц үг таарахгүй байна!",
+          ),
+        );
       } else {
         try {
           final user = await _auth.createUserWithEmailAndPassword(
               email: _email, password: _pwd);
           if (user != null) {
+            addUser();
             showTopSnackBar(
               context,
               CustomSnackBar.success(
@@ -128,11 +172,91 @@ class _SignUpState extends State<SignUp> {
                           flex: 5,
                           child: Column(
                             children: [
-                              reTextField(
-                                  "Овог", Icons.supervised_user_circle, false),
+                              // reTextField(
+                              //     "Овог", Icons.supervised_user_circle, false),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  controller: lastNameController,
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                        Icons.supervised_user_circle,
+                                        color: Colors.black54),
+                                    labelText: 'Таны овог',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _lastName = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
                               const SizedBox(height: 10),
-                              reTextField(
-                                  "Нэр", Icons.supervised_user_circle, true),
+                              // reTextField(
+                              //     "Нэр", Icons.supervised_user_circle, true),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  controller: firstNameController,
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                        Icons.supervised_user_circle,
+                                        color: Colors.black54),
+                                    labelText: 'Таны нэр',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _firstName = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
                               const SizedBox(height: 10),
                               Container(
                                 height: 60,
@@ -147,6 +271,7 @@ class _SignUpState extends State<SignUp> {
                                 ),
 
                                 child: TextFormField(
+                                  controller: emailController,
                                   cursorColor: Colors.black87,
                                   obscureText: false,
                                   autocorrect: true,
@@ -173,7 +298,46 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              reTextField("утас", Icons.call, false),
+                              // reTextField("утас", Icons.call, false),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  controller: phoneController,
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.call, color: Colors.black54),
+                                    labelText: 'Таны утасны дугаар',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _phone = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
                               const SizedBox(height: 10),
                               Container(
                                 height: 60,
@@ -187,6 +351,7 @@ class _SignUpState extends State<SignUp> {
                                       style: BorderStyle.solid),
                                 ),
                                 child: TextFormField(
+                                  controller: passwordController,
                                   obscureText: true,
                                   cursorColor: Colors.black87,
 
@@ -213,7 +378,46 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              reTextField("Нууц үг давтах", Icons.lock, true),
+                              // reTextField("Нууц үг давтах", Icons.lock, true),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  controller: repasswordController,
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: true,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: 'Нууц үг давтах',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    _repwd = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
                               SizedBox(height: 10),
                               const SizedBox(
                                 height: 35,
