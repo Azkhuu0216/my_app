@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_app/intermediate.dart';
 import 'package:my_app/password.dart';
 import 'package:my_app/signIn.dart';
@@ -40,6 +41,10 @@ class _HomeState extends State<Home> {
     void _upper() {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Upper()));
+    }
+
+    void Loading() {
+      EasyLoading.show(status: 'loading...');
     }
 
     final size = MediaQuery.of(context).size;

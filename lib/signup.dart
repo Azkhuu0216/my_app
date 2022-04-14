@@ -29,6 +29,7 @@ class _SignUpState extends State<SignUp> {
   String _phone = "";
   String _repwd = "";
   final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +52,8 @@ class _SignUpState extends State<SignUp> {
       prefs.setString('repassword', repasswordController.text);
       // Call the user's CollectionReference to add a new user
       return users
-          // .doc("user")
-          .add({
+          .doc(_email)
+          .set({
             'lastname': _lastName,
             'firstname': _firstName,
             'phone': _phone,

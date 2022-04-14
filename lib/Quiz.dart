@@ -5,14 +5,14 @@ import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/question.dart';
 import 'package:postgres/postgres.dart';
 
-class User {
-  // ignore: non_constant_identifier_names
-  String? user_id;
-  String? lastname;
-  String? firstname;
+// class User {
+//   // ignore: non_constant_identifier_names
+//   String? user_id;
+//   String? lastname;
+//   String? firstname;
 
-  User(this.user_id, this.lastname, this.firstname);
-}
+//   User(this.user_id, this.lastname, this.firstname);
+// }
 
 var questions = [
   {
@@ -38,6 +38,7 @@ class Quiz extends StatefulWidget {
 
 class _QuizState extends State<Quiz> {
   var _questionIndex = 0;
+
   void questionAnswer() {
     setState(() {
       _questionIndex = _questionIndex + 1;
@@ -50,9 +51,9 @@ class _QuizState extends State<Quiz> {
     super.initState();
   }
 
-  // List<User> Data = [];
+  // List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.202.158", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -63,6 +64,7 @@ class _QuizState extends State<Quiz> {
       print('error....');
       print(e.toString());
     }
+
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery("SELECT  * FROM Question ");
     print(results);
@@ -81,7 +83,7 @@ class _QuizState extends State<Quiz> {
                     SizedBox(
                       height: 40,
                     ),
-                    Question(
+                    QuestionScreen(
                       questions[_questionIndex]["questionText"].toString(),
                     ),
                     ...(questions[_questionIndex]["answer"] as List<String>)

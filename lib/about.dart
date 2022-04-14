@@ -6,8 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'common/button.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class About extends StatefulWidget {
   @override
@@ -25,6 +26,8 @@ class _AboutState extends State<About> {
   String phone = '';
   String email = '';
 
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
   // @override
   // void initState() {
   //   super.initState();
@@ -57,11 +60,15 @@ class _AboutState extends State<About> {
 
   @override
   Widget build(BuildContext context) {
+    print(currentUser!.email);
+
     CollectionReference users =
         FirebaseFirestore.instance.collection('azaa1234');
 
+    // ignore: non_constant_identifier_names
+
     Future<void> UpdateUser() async {
-      return users.doc("user").set({
+      return users.doc(currentUser!.email).update({
         'lastname': lastname,
         'firstname': firstname,
         'phone': phone,
@@ -109,7 +116,7 @@ class _AboutState extends State<About> {
                 child: Column(
                   children: [
                     FutureBuilder<DocumentSnapshot>(
-                        future: users.doc("user").get(),
+                        future: users.doc(currentUser!.email).get(),
                         builder: (BuildContext context,
                             AsyncSnapshot<DocumentSnapshot> snapshot) {
                           if (snapshot.hasError) {
@@ -312,7 +319,7 @@ class _AboutState extends State<About> {
                               ),
                             );
                           }
-                          return Text("loading");
+                          return Text('loading');
                         }),
                     Expanded(
                       flex: 1,

@@ -98,6 +98,7 @@ class _SignInState extends State<SignIn> {
               message: "Амжилттай нэвтэрлээ!!!",
             ),
           );
+          nameController.clear();
           // Timer(const Duration(seconds: 2),
           //     () => Navigator.pushNamed(context, '/home'));
           setState(() {
