@@ -30,7 +30,7 @@ class Upper extends StatelessWidget {
           title: const Text('Ахисан түвшний тест'),
           backgroundColor: Colors.teal,
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
             FirstPage(),
             SecondPage(),

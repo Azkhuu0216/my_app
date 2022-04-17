@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
       prefs.setString('repassword', repasswordController.text);
       // Call the user's CollectionReference to add a new user
       return users
-          .doc(_email)
+          .doc(_auth.currentUser!.uid)
           .set({
             'lastname': _lastName,
             'firstname': _firstName,

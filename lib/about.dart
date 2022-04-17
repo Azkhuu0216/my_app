@@ -68,7 +68,7 @@ class _AboutState extends State<About> {
     // ignore: non_constant_identifier_names
 
     Future<void> UpdateUser() async {
-      return users.doc(currentUser!.email).update({
+      return users.doc(currentUser!.uid).update({
         'lastname': lastname,
         'firstname': firstname,
         'phone': phone,
@@ -116,7 +116,7 @@ class _AboutState extends State<About> {
                 child: Column(
                   children: [
                     FutureBuilder<DocumentSnapshot>(
-                        future: users.doc(currentUser!.email).get(),
+                        future: users.doc(currentUser!.uid).get(),
                         builder: (BuildContext context,
                             AsyncSnapshot<DocumentSnapshot> snapshot) {
                           if (snapshot.hasError) {
@@ -160,7 +160,6 @@ class _AboutState extends State<About> {
                                           width: 3.0,
                                           style: BorderStyle.solid),
                                     ),
-
                                     child: TextFormField(
                                       initialValue: "${data['lastname']}",
                                       cursorColor: Colors.black87,

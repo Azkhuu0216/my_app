@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:my_app/home.dart';
+import 'package:my_app/provider/mainProvider.dart';
 import 'package:my_app/signIn.dart';
 import 'package:my_app/signup.dart';
+import 'package:provider/provider.dart';
 import 'splashscreen.dart';
 
 void main() async {
@@ -18,16 +21,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      // home: SplashScreen(),
-      initialRoute: "/",
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/signIn': (context) => const SignIn(),
-        '/home': (context) => const Home(),
-        '/signUp': (context) => const SignUp(),
-      },
-    );
+    var currentUser = FirebaseAuth.instance.currentUser;
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+              create: (ctx) => MainProvider(0, false, "", currentUser!.uid)),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          // home: SplashScreen(),
+          initialRoute: "/",
+          routes: {
+            '/': (context) => const SplashScreen(),
+            '/signIn': (context) => const SignIn(),
+            '/home': (context) => const Home(),
+            '/signUp': (context) => const SignUp(),
+          },
+        ));
   }
 }

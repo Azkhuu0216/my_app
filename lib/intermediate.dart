@@ -30,7 +30,7 @@ class Intermediate extends StatelessWidget {
           title: const Text('Анхан шат'),
           backgroundColor: Colors.teal,
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: <Widget>[
             FirstPage(),
             SecondPage(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/provider/mainProvider.dart';
+import 'package:provider/provider.dart';
 
 TextField reTextField(
   String text,
@@ -97,7 +99,10 @@ Container TestPostgre(BuildContext context, bool isLogin, Function onTap) {
   );
 }
 
-Container TestButton(BuildContext context, bool isLogin, Function onTap) {
+Container TestButton(BuildContext context, String text, Function onTap) {
+  MainProvider _mainProvider =
+      Provider.of<MainProvider>(context, listen: false);
+
   return Container(
     width: 60,
     height: 60,
@@ -107,10 +112,13 @@ Container TestButton(BuildContext context, bool isLogin, Function onTap) {
     ),
     child: ElevatedButton(
       onPressed: () {
+        _mainProvider.setIsClick(false);
+        _mainProvider.setSelectAnswerId('');
+        _mainProvider.setPoint(0);
         onTap();
       },
       child: Text(
-        isLogin ? "1" : "0",
+        text,
         style: const TextStyle(
             color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),
       ),
