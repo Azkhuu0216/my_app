@@ -4,15 +4,15 @@ import 'package:postgres/postgres.dart';
 import 'answer_model.dart';
 
 class Question {
-  final int question_id;
+  final String question_id;
   final String question;
   final List question_image;
   final String qyear;
   final String qlevel;
   final String score;
-  final int answer_type;
-  final int cat_id;
-  final int exam_id;
+  final String answer_type;
+  final String cat_id;
+  final String exam_id;
   final String user_id;
   final List<AnswerModel> answers;
   Question(

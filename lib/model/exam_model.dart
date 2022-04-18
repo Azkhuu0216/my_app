@@ -1,5 +1,5 @@
 class Exam {
-  final int exam_id;
+  final String exam_id;
   final String examname;
   final String examtime;
 

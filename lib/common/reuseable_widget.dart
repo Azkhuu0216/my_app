@@ -101,6 +101,8 @@ Container TestPostgre(BuildContext context, bool isLogin, Function onTap) {
 }
 
 Container TestButton(BuildContext context, String text, Function onTap) {
+  final _auth = FirebaseAuth.instance;
+  var currenUser = FirebaseAuth.instance.currentUser;
   MainProvider _mainProvider =
       Provider.of<MainProvider>(context, listen: false);
 
@@ -116,7 +118,7 @@ Container TestButton(BuildContext context, String text, Function onTap) {
         _mainProvider.setIsClick(false);
         _mainProvider.setSelectAnswerId('');
         _mainProvider.setPoint(0);
-        // _mainProvider.setUId(currentUser!.uid);
+
         onTap();
       },
       child: Text(
@@ -143,6 +145,10 @@ Container TestButton(BuildContext context, String text, Function onTap) {
 }
 
 Container yearButton(BuildContext context, String text, Function onTap) {
+  final _auth = FirebaseAuth.instance;
+  var currenUser = FirebaseAuth.instance.currentUser;
+  MainProvider _mainProvider =
+      Provider.of<MainProvider>(context, listen: false);
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50,
@@ -152,6 +158,9 @@ Container yearButton(BuildContext context, String text, Function onTap) {
     ),
     child: ElevatedButton(
       onPressed: () {
+        _mainProvider.setIsClick(false);
+        _mainProvider.setSelectAnswerId('');
+        _mainProvider.setPoint(0);
         onTap();
       },
       child: Text(

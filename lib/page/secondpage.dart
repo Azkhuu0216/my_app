@@ -42,9 +42,9 @@ class _SecondPageState extends State<SecondPage> {
         await connection.mappedResultsQuery("SELECT  * FROM categories ");
     results.forEach((element) {
       _listCategoryResult.add(Category(
-          element.values.first.entries.first.value,
+          element.values.first.entries.first.value.toString(),
           element.values.first.entries.elementAt(1).value,
-          element.values.first.entries.elementAt(2).value));
+          element.values.first.entries.elementAt(2).value.toString()));
       // print(element.values.first.entries.first.value);
       // print(element.values.first.entries.elementAt(1).value);
       _gridListResult.add(yearButton(
@@ -54,7 +54,7 @@ class _SecondPageState extends State<SecondPage> {
           MaterialPageRoute(
             // ignore: prefer_const_constructors
             builder: (context) =>
-                Quiz(element.values.first.entries.first.value),
+                Quiz(element.values.first.entries.first.value.toString()),
           ),
         );
       }));

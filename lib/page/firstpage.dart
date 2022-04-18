@@ -44,7 +44,7 @@ class _FirstPageState extends State<FirstPage> {
         await connection.mappedResultsQuery("SELECT  * FROM exams ");
     results.forEach((element) {
       _listExamResult.add(Exam(
-          element.values.first.entries.first.value,
+          element.values.first.entries.first.value.toString(),
           element.values.first.entries.elementAt(1).value,
           element.values.first.entries.elementAt(2).value));
       // print(element.values.first.entries.first.value);
@@ -56,7 +56,7 @@ class _FirstPageState extends State<FirstPage> {
           MaterialPageRoute(
             // ignore: prefer_const_constructors
             builder: (context) =>
-                Quiz(element.values.first.entries.first.value),
+                Quiz(element.values.first.entries.first.value.toString()),
           ),
         );
       }));
