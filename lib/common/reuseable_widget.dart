@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/provider/mainProvider.dart';
 import 'package:provider/provider.dart';
@@ -115,6 +116,7 @@ Container TestButton(BuildContext context, String text, Function onTap) {
         _mainProvider.setIsClick(false);
         _mainProvider.setSelectAnswerId('');
         _mainProvider.setPoint(0);
+        // _mainProvider.setUId(currentUser!.uid);
         onTap();
       },
       child: Text(
@@ -140,7 +142,7 @@ Container TestButton(BuildContext context, String text, Function onTap) {
   );
 }
 
-Container yearButton(BuildContext context, bool isLogin, Function onTap) {
+Container yearButton(BuildContext context, String text, Function onTap) {
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 50,
@@ -153,7 +155,7 @@ Container yearButton(BuildContext context, bool isLogin, Function onTap) {
         onTap();
       },
       child: Text(
-        isLogin ? "2020 оны тест" : "2021 оны тест",
+        text,
         style: const TextStyle(
             color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
       ),

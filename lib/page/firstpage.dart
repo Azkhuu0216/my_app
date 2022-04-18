@@ -15,8 +15,6 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   void initState() {
-    MainProvider _mainProvider =
-        Provider.of<MainProvider>(context, listen: false);
     Postgre();
     super.initState();
   }
@@ -25,10 +23,10 @@ class _FirstPageState extends State<FirstPage> {
   List<Exam> _listExamData = [];
   List<Widget> _gridListResult = [];
   List<Widget> _gridList = [];
-  List<DraggableGridItem> _listOfDraggableGridItem = [
-    DraggableGridItem(child: Text('a'), isDraggable: false),
-    DraggableGridItem(child: Text('b'), isDraggable: false),
-  ];
+  // List<DraggableGridItem> _listOfDraggableGridItem = [
+  //   DraggableGridItem(child: Text('a'), isDraggable: false),
+  //   DraggableGridItem(child: Text('b'), isDraggable: false),
+  // ];
   Future<void> Postgre() async {
     var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
@@ -43,13 +41,12 @@ class _FirstPageState extends State<FirstPage> {
     }
 
     List<Map<String, Map<String, dynamic>>> results =
-        await connection.mappedResultsQuery("SELECT  * FROM exam ");
+        await connection.mappedResultsQuery("SELECT  * FROM exams ");
     results.forEach((element) {
       _listExamResult.add(Exam(
           element.values.first.entries.first.value,
           element.values.first.entries.elementAt(1).value,
-          element.values.first.entries.elementAt(2).value,
-          element.values.first.entries.elementAt(3).value));
+          element.values.first.entries.elementAt(2).value));
       // print(element.values.first.entries.first.value);
       // print(element.values.first.entries.elementAt(1).value);
       _gridListResult.add(TestButton(
@@ -75,8 +72,8 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GridView.count(
-        crossAxisCount: 3,
-        crossAxisSpacing: 20,
+        crossAxisCount: 4,
+        crossAxisSpacing: 0.0,
         mainAxisSpacing: 20,
         children: _gridList,
       ),

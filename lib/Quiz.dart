@@ -35,11 +35,11 @@ var questions = [
 ];
 
 class Quiz extends StatefulWidget {
-  final String _examId;
+  final int examId;
 
   @override
   State<Quiz> createState() => _QuizState();
-  Quiz(this._examId);
+  Quiz(this.examId);
   // ignore: non_constant_identifier_names
 }
 
@@ -77,19 +77,22 @@ class _QuizState extends State<Quiz> {
     }
     String qIdList = "(";
     int index = 1;
-    String query =
-        "SELECT  * FROM Question where exam_id = '" + widget._examId + "'";
+    String query = "SELECT  * FROM Questions where exam_id = '" +
+        widget.examId.toString() +
+        "'";
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
 
     results.forEach((e) => {
           if (index == results.length)
             {
-              qIdList += "'" + e.values.first.entries.first.value + "')",
+              qIdList +=
+                  "'" + e.values.first.entries.first.value.toString() + "')",
             }
           else
             {
-              qIdList += "'" + e.values.first.entries.first.value + "',",
+              qIdList +=
+                  "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
           _questionListResult.add(
@@ -101,12 +104,15 @@ class _QuizState extends State<Quiz> {
                 e.values.first.entries.elementAt(4).value,
                 e.values.first.entries.elementAt(5).value,
                 e.values.first.entries.elementAt(6).value,
-                e.values.first.entries.elementAt(7).value, [])),
+                e.values.first.entries.elementAt(7).value,
+                e.values.first.entries.elementAt(8).value,
+                e.values.first.entries.elementAt(9).value, [])),
           ),
         });
+    print(results);
 
     String queryAnswer =
-        "SELECT  * FROM Answer where question_id in " + qIdList;
+        "SELECT  * FROM Answers where question_id in " + qIdList;
     List<Map<String, Map<String, dynamic>>> resultsAnswer =
         await connection.mappedResultsQuery(queryAnswer);
 
@@ -122,22 +128,20 @@ class _QuizState extends State<Quiz> {
           answers = [],
           _anwerListResult.forEach((subItem) => {
                 if (item.question_id == subItem.question_id)
-                  {answers.add(subItem)}
+                  {answers.add(subItem)},
               }),
           item.answers.addAll(answers),
         });
     setState(() {
       _questionList = _questionListResult;
     });
-    print("results");
-    print(_questionListResult);
   }
 
   @override
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
     print("exam id === ");
-    print(widget._examId);
+    print(widget.examId.toString());
 
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
@@ -158,14 +162,14 @@ class _QuizState extends State<Quiz> {
                       return Answer(
                           questionAnswer,
                           answer.answer,
-                          answer.answer_id,
+                          answer.answer_id.toString(),
                           answer.isCorrect,
                           answer.isCorrect == '1' && _mainProvider.getIsClick()
                               ? Colors.green
                               : _mainProvider.getIsClick() &&
                                       answer.isCorrect == '0' &&
                                       _mainProvider.getSelectAnswerId() ==
-                                          answer.answer_id
+                                          answer.answer_id.toString()
                                   ? Colors.red
                                   : Colors.blue.shade50);
                     }).toList(),

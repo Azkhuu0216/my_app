@@ -1,10 +1,9 @@
 class Exam {
-  final String exam_id;
+  final int exam_id;
   final String examname;
   final String examtime;
-  final String lesson_id;
 
-  Exam(this.exam_id, this.examname, this.examtime, this.lesson_id);
+  Exam(this.exam_id, this.examname, this.examtime);
 }
 
 // const List exam_data = [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:my_app/addQuestion.dart';
 import 'package:my_app/intermediate.dart';
 import 'package:my_app/password.dart';
 import 'package:my_app/signIn.dart';
@@ -36,6 +37,11 @@ class _HomeState extends State<Home> {
     void _intermediate() {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const Intermediate()));
+    }
+
+    void _addQuestion() {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const AddQuestion()));
     }
 
     void _upper() {
@@ -99,30 +105,13 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         // ignore: avoid_unnecessary_containers
-                        Button(50, 300, "Тест нэмэх", Colors.teal, Colors.white,
-                            _intermediate, Icons.note_add_sharp),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Button(
-                          50,
-                          300,
-                          "Сэдэв нэмэх",
-                          Colors.teal,
-                          Colors.white,
-                          _intermediate,
-                          Icons.topic,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
                         Button(
                           50,
                           300,
                           "Асуулт нэмэх",
                           Colors.teal,
                           Colors.white,
-                          _intermediate,
+                          _addQuestion,
                           Icons.quiz,
                         ),
                       ],
