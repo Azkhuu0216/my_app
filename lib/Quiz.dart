@@ -94,19 +94,24 @@ class _QuizState extends State<Quiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          _questionListResult.add(
-            (Question(
-                e.values.first.entries.first.value.toString(),
-                e.values.first.entries.elementAt(1).value,
-                e.values.first.entries.elementAt(2).value,
-                e.values.first.entries.elementAt(3).value,
-                e.values.first.entries.elementAt(4).value,
-                e.values.first.entries.elementAt(5).value,
-                e.values.first.entries.elementAt(6).value.toString(),
-                e.values.first.entries.elementAt(7).value.toString(),
-                e.values.first.entries.elementAt(8).value.toString(),
-                e.values.first.entries.elementAt(9).value, [])),
-          ),
+          print("9dahi"),
+          print(e.values.first.entries.elementAt(9).value),
+          e.values.first.entries.elementAt(4).value == "intermediate"
+              ? _questionListResult.add(
+                  (Question(
+                      e.values.first.entries.first.value.toString(),
+                      e.values.first.entries.elementAt(1).value,
+                      e.values.first.entries.elementAt(2).value,
+                      e.values.first.entries.elementAt(3).value,
+                      e.values.first.entries.elementAt(4).value,
+                      e.values.first.entries.elementAt(5).value,
+                      e.values.first.entries.elementAt(6).value,
+                      e.values.first.entries.elementAt(7).value.toString(),
+                      e.values.first.entries.elementAt(8).value.toString(),
+                      e.values.first.entries.elementAt(9).value.toString(),
+                      [])),
+                )
+              : null,
         });
     print(results);
 

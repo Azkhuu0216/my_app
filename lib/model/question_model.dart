@@ -10,7 +10,7 @@ class Question {
   final String qyear;
   final String qlevel;
   final String score;
-  final String answer_type;
+  final int answer_type;
   final String cat_id;
   final String exam_id;
   final String user_id;
