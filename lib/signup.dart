@@ -3,16 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/button.dart';
-import 'package:my_app/common/reuseable_widget.dart';
-import 'package:my_app/home.dart';
-import 'common/reuseable_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
-import "package:firebase_core/firebase_core.dart";
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -28,8 +23,13 @@ class _SignUpState extends State<SignUp> {
   String _firstName = "";
   String _phone = "";
   String _repwd = "";
+  String? Urole;
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
+  var items = [
+    'Багш',
+    'Оюутан',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +40,8 @@ class _SignUpState extends State<SignUp> {
     TextEditingController passwordController = TextEditingController();
     TextEditingController repasswordController = TextEditingController();
 
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('azaa1234');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     Future<void> addUser() async {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('lastname', lastNameController.text);
-      prefs.setString('firstname', firstNameController.text);
-      prefs.setString('phone', phoneController.text);
-      prefs.setString('email', emailController.text);
-      prefs.setString('password', passwordController.text);
-      prefs.setString('repassword', repasswordController.text);
       // Call the user's CollectionReference to add a new user
       return users
           .doc(_auth.currentUser!.uid)
@@ -58,7 +50,7 @@ class _SignUpState extends State<SignUp> {
             'firstname': _firstName,
             'phone': _phone,
             'email': _email,
-            'repass': _repwd
+            'Urole': Urole,
           })
           .then((value) => (print("User Added")))
           .catchError((error) => print("Failed to add user: $error"));
@@ -420,8 +412,77 @@ class _SignUpState extends State<SignUp> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              const SizedBox(
-                                height: 35,
+
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  isExpanded: true,
+                                  hint: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.list,
+                                        size: 20,
+                                        color: Colors.teal,
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'Таны эрх',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.teal,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  items: items
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.teal,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: Urole,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      Urole = value as String;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                  ),
+                                  iconSize: 14,
+                                  buttonHeight: 55,
+                                  buttonPadding: const EdgeInsets.only(
+                                      left: 18, right: 18),
+                                  buttonDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: Colors.black26,
+                                    ),
+                                    color: Colors.blueGrey.shade50,
+                                  ),
+                                  buttonElevation: 2,
+                                  itemHeight: 40,
+                                  itemPadding: const EdgeInsets.only(
+                                      left: 14, right: 14),
+                                  dropdownMaxHeight: 200,
+                                  dropdownDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.blueGrey.shade50,
+                                  ),
+                                ),
                               ),
                             ],
                           ),

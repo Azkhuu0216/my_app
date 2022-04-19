@@ -34,16 +34,16 @@ var questions = [
   },
 ];
 
-class Quiz extends StatefulWidget {
-  final String examId;
+class ThirdQuiz extends StatefulWidget {
+  final String userId;
 
   @override
-  State<Quiz> createState() => _QuizState();
-  Quiz(this.examId);
+  State<ThirdQuiz> createState() => _ThirdQuizState();
+  ThirdQuiz(this.userId);
   // ignore: non_constant_identifier_names
 }
 
-class _QuizState extends State<Quiz> {
+class _ThirdQuizState extends State<ThirdQuiz> {
   var _questionIndex = 0;
   List<Question> _questionListResult = [];
   List<Question> _questionList = [];
@@ -58,13 +58,13 @@ class _QuizState extends State<Quiz> {
   }
 
   void initState() {
-    Postgre();
+    // Postgre();
     super.initState();
   }
 
-  // List<Question> _listQuestion = [];
+  List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.2.203.219", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -77,8 +77,9 @@ class _QuizState extends State<Quiz> {
     }
     String qIdList = "(";
     int index = 1;
+
     String query =
-        "SELECT  * FROM Questions where exam_id = '" + widget.examId + "'";
+        "SELECT  * FROM Questions where user_id = '" + widget.userId + "'";
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
 
@@ -94,8 +95,6 @@ class _QuizState extends State<Quiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          print("9dahi"),
-          print(e.values.first.entries.elementAt(9).value),
           e.values.first.entries.elementAt(4).value == "intermediate"
               ? _questionListResult.add(
                   (Question(
@@ -144,8 +143,8 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
-    print("exam id === ");
-    print(widget.examId);
+    print("user id === ");
+    print(widget.userId);
 
     final size = MediaQuery.of(context).size;
     return DefaultTabController(

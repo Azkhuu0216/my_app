@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:my_app/Quiz.dart';
+import 'package:my_app/firstQuiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/model/exam_model.dart';
 import 'package:my_app/model/question_model.dart';
@@ -28,7 +28,7 @@ class _FirstPageState extends State<FirstPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.2.203.219", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -42,7 +42,10 @@ class _FirstPageState extends State<FirstPage> {
 
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery("SELECT  * FROM exams ");
+    print(results);
+
     results.forEach((element) {
+      print(element.values.first);
       _listExamResult.add(Exam(
           element.values.first.entries.first.value.toString(),
           element.values.first.entries.elementAt(1).value,

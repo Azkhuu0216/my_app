@@ -63,7 +63,7 @@ class _AboutState extends State<About> {
     print(currentUser!.email);
 
     CollectionReference users =
-        FirebaseFirestore.instance.collection('azaa1234');
+        FirebaseFirestore.instance.collection('users');
 
     // ignore: non_constant_identifier_names
 

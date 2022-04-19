@@ -6,7 +6,6 @@ import 'package:my_app/common/input.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-
 class Password extends StatefulWidget {
   const Password({Key? key}) : super(key: key);
 
@@ -23,8 +22,7 @@ class _PasswordState extends State<Password> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('azaa1234');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     void _about() {
       Navigator.pop(context);
     }
