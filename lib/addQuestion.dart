@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:my_app/common/button.dart';
+import 'package:my_app/common/reuseable_widget.dart';
+import 'package:my_app/model/answer_model.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class AddQuestion extends StatefulWidget {
   const AddQuestion({Key? key}) : super(key: key);
@@ -10,7 +14,17 @@ class AddQuestion extends StatefulWidget {
 }
 
 class _AddQuestionState extends State<AddQuestion> {
+  void initState() {
+    super.initState();
+  }
+
   String categoryName = "";
+  String answer1 = "";
+  String answer2 = "";
+  String answer3 = "";
+  String answer4 = "";
+  String answer5 = "";
+
   String? selectedValue;
   List<String> items = [
     'Органик хими',
@@ -18,13 +32,26 @@ class _AddQuestionState extends State<AddQuestion> {
     'Ерөнхий хими',
     'Физик хими',
   ];
+
+  List<dynamic> answers = [];
+  List<dynamic> answersResult = [];
   var index = 0;
   void onTap() {
-    setState(() {
-      for (index = 0; index < 5; index++) {
-        print(index);
-      }
-    });
+    if (index < 5) {
+      print(index);
+      index = index + 1;
+      answers.add({});
+      setState(() {
+        answersResult = answers;
+      });
+    } else {
+      showTopSnackBar(
+        context,
+        CustomSnackBar.error(
+          message: "Таны хариулт 5-аас хэтэрсэн байна",
+        ),
+      );
+    }
   }
 
   @override
@@ -39,10 +66,9 @@ class _AddQuestionState extends State<AddQuestion> {
         body: Padding(
           padding: EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              Expanded(
+                flex: 0,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton2(
                     isExpanded: true,
@@ -111,60 +137,94 @@ class _AddQuestionState extends State<AddQuestion> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Container(child: Text("hi")),
-              Container(
-                  child: TextFormField(
-                cursorColor: Colors.black87,
-                obscureText: false,
-                autocorrect: true,
-                // keyboardType: TextInputType.,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.question_answer_rounded,
-                      color: Colors.black54),
-                  labelText: 'Категори',
-                  labelStyle: const TextStyle(color: Colors.black54),
-                  filled: true,
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  fillColor: Colors.blueGrey.shade50,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide:
-                          const BorderSide(width: 0, style: BorderStyle.none)),
-                ),
-                onChanged: (value) {
-                  categoryName = value;
-                },
-                keyboardType: TextInputType.emailAddress,
-              )),
-              SizedBox(height: 20),
-              Button(50, 300, "Асуулт нэмэх", Colors.blueGrey.shade50,
-                  Colors.teal, onTap, Icons.add),
-              index == 0
-                  ? Text("hi")
-                  : TextFormField(
-                      cursorColor: Colors.black87,
-                      obscureText: false,
-                      autocorrect: true,
-                      // keyboardType: TextInputType.,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.question_answer_rounded,
-                            color: Colors.black54),
-                        labelText: 'Категори',
-                        labelStyle: const TextStyle(color: Colors.black54),
-                        filled: true,
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        fillColor: Colors.blueGrey.shade50,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(
-                                width: 0, style: BorderStyle.none)),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 290,
+                      child: TextFormField(
+                        maxLines: 2,
+                        cursorColor: Colors.black87,
+                        obscureText: false,
+                        autocorrect: true,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.question_mark_sharp,
+                              color: Colors.black54),
+                          labelText: 'Асуулт нэмэх',
+                          labelStyle: const TextStyle(color: Colors.black54),
+                          filled: true,
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          fillColor: Colors.blueGrey.shade50,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  width: 0, style: BorderStyle.none)),
+                        ),
+                        onChanged: (value) {
+                          categoryName = value;
+                        },
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                      onChanged: (value) {
-                        categoryName = value;
-                      },
-                      keyboardType: TextInputType.emailAddress,
                     ),
+                    AddButton(context, Icons.add, onTap),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    ...answers.map(
+                      (e) => Container(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 10),
+                            TextFormField(
+                              cursorColor: Colors.black87,
+                              obscureText: false,
+                              autocorrect: true,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.question_answer_sharp,
+                                    color: Colors.black54),
+                                labelText: 'Хариулт нэмэх',
+                                labelStyle:
+                                    const TextStyle(color: Colors.black54),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor: Colors.blueGrey.shade50,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        width: 0, style: BorderStyle.none)),
+                              ),
+                              onChanged: (value) {
+                                index == 0
+                                    ? answer1
+                                    : index == 1
+                                        ? answer2
+                                        : index == 2
+                                            ? answer3
+                                            : answer4 = value;
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 0,
+                child: Container(
+                  child: Button(50, 2000, "Нэмэх", Colors.teal, Colors.white,
+                      onTap, Icons.add),
+                ),
+              ),
             ],
           ),
         ));

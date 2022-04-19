@@ -67,35 +67,31 @@ Container signInSingUpButton(
 }
 
 // ignore: non_constant_identifier_names
-Container TestPostgre(BuildContext context, bool isLogin, Function onTap) {
+Container AddButton(BuildContext context, IconData icon, VoidCallback onTap) {
   return Container(
-    width: 60,
-    height: 60,
-    margin: const EdgeInsets.only(left: 20, top: 20),
+    width: 55,
+    height: 55,
+    margin: const EdgeInsets.only(left: 10),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(100),
     ),
     child: ElevatedButton(
-      onPressed: () {},
-      child: Text(
-        isLogin ? "1" : "0",
-        style: const TextStyle(
-            color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),
-      ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.pressed)) {
             return Colors.black26;
           } else {
-            return Colors.blue.shade50;
+            return Colors.teal;
           }
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(100),
           ),
         ),
       ),
+      onPressed: onTap,
+      child: Icon(icon),
     ),
   );
 }
