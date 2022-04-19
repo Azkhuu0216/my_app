@@ -68,6 +68,10 @@ Container signInSingUpButton(
 
 // ignore: non_constant_identifier_names
 Container AddButton(BuildContext context, IconData icon, VoidCallback onTap) {
+  final _auth = FirebaseAuth.instance;
+  var currenUser = FirebaseAuth.instance.currentUser;
+  MainProvider _mainProvider =
+      Provider.of<MainProvider>(context, listen: false);
   return Container(
     width: 55,
     height: 55,
@@ -90,7 +94,12 @@ Container AddButton(BuildContext context, IconData icon, VoidCallback onTap) {
           ),
         ),
       ),
-      onPressed: onTap,
+      onPressed: () {
+        _mainProvider.setIsClick(false);
+        _mainProvider.setSelectAnswerId('');
+        _mainProvider.setCheck(0);
+        onTap();
+      },
       child: Icon(icon),
     ),
   );
@@ -113,8 +122,8 @@ Container TestButton(BuildContext context, String text, Function onTap) {
       onPressed: () {
         _mainProvider.setIsClick(false);
         _mainProvider.setSelectAnswerId('');
+        _mainProvider.setCheck(0);
         _mainProvider.setPoint(0);
-
         onTap();
       },
       child: Text(

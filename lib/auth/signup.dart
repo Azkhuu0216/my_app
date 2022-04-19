@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:my_app/common/button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
+import 'package:postgres/postgres.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';

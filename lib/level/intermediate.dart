@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/page/firstpage.dart';
 import 'package:my_app/page/secondpage.dart';
-import 'page/thirdpage.dart';
+import '../page/thirdpage.dart';
 
-class Upper extends StatelessWidget {
-  const Upper({Key? key}) : super(key: key);
+class Intermediate extends StatelessWidget {
+  const Intermediate({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +17,17 @@ class Upper extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: "Холимог",
+                text: "Он",
               ),
               Tab(
-                text: "Онууд",
+                text: "Сэдэв",
               ),
               Tab(
                 text: "Багш",
               ),
             ],
           ),
-          title: const Text('Ахисан түвшний тест'),
+          title: const Text('Анхан шат'),
           backgroundColor: Colors.teal,
         ),
         body: TabBarView(

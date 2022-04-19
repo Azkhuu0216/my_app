@@ -1,10 +1,16 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:my_app/common/button.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/model/answer_model.dart';
+import 'package:postgres/postgres.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../model/category_model.dart';
 
 class AddQuestion extends StatefulWidget {
   const AddQuestion({Key? key}) : super(key: key);
@@ -14,8 +20,68 @@ class AddQuestion extends StatefulWidget {
 }
 
 class _AddQuestionState extends State<AddQuestion> {
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
   void initState() {
     super.initState();
+  }
+
+  Future<void> saveData() async {
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+        // ignore: non_constant_identifier_names
+        username: "postgres",
+        password: "azaa");
+    try {
+      await connection.open();
+      print("connect");
+    } catch (e) {
+      print('error....');
+      print(e.toString());
+    }
+    String query =
+        "insert into questions(question, question_image, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
+            categoryName +
+            "', 'null',  '1000', 'intermediate', '2', 1, '1', 1, 1, '" +
+            currentUser!.uid +
+            "') RETURNING question_id";
+    List<Map<String, Map<String, dynamic>>> results =
+        await connection.mappedResultsQuery(query);
+    if (results.length < 1) {
+      return;
+    }
+    var qId = 0;
+    results.forEach((e) => qId = e.values.first.entries.first.value);
+    print("id ==" + qId.toString());
+
+    var answerLen = 0;
+    if (answer1 != "") answerLen++;
+    if (answer2 != "") answerLen++;
+    if (answer3 != "") answerLen++;
+    if (answer4 != "") answerLen++;
+    if (answer5 != "") answerLen++;
+    print("answerLen ==" + answerLen.toString());
+    for (int i = 1; i <= answerLen; i++) {
+      var answer = i.toString() == '1'
+          ? answer1
+          : i.toString() == '2'
+              ? answer2
+              : i.toString() == '3'
+                  ? answer3
+                  : i.toString() == '4'
+                      ? answer4
+                      : answer5;
+
+      print("answer====" + answer);
+      String queryAnswer =
+          "insert into Answers(answer, question_id, isCorrect) values ('" +
+              answer +
+              "', '" +
+              qId.toString() +
+              "', '0') RETURNING *";
+      List<Map<String, Map<String, dynamic>>> resultsAnswer =
+          await connection.mappedResultsQuery(queryAnswer);
+    }
+    await connection.close();
   }
 
   String categoryName = "";
@@ -26,11 +92,11 @@ class _AddQuestionState extends State<AddQuestion> {
   String answer5 = "";
 
   String? selectedValue;
-  List<String> items = [
-    'Органик хими',
-    'Органик бус хими',
-    'Ерөнхий хими',
-    'Физик хими',
+  List<Category> items = [
+    Category("1", 'Органик хими', ''),
+    Category("2", 'Органик бус хими', ''),
+    Category("3", 'Ерөнхий хими', ''),
+    Category("4", 'Физик хими', '')
   ];
 
   List<dynamic> answers = [];
@@ -96,10 +162,10 @@ class _AddQuestionState extends State<AddQuestion> {
                       ],
                     ),
                     items: items
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
+                        .map((item) => DropdownMenuItem<Object>(
+                              value: item.category_id,
                               child: Text(
-                                item,
+                                item.category_name,
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -163,7 +229,10 @@ class _AddQuestionState extends State<AddQuestion> {
                                   width: 0, style: BorderStyle.none)),
                         ),
                         onChanged: (value) {
-                          categoryName = value;
+                          print("asuult===" + value.toString());
+                          setState(() {
+                            categoryName = value;
+                          });
                         },
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -176,7 +245,7 @@ class _AddQuestionState extends State<AddQuestion> {
                 flex: 3,
                 child: Column(
                   children: [
-                    ...answers.map(
+                    ...answersResult.map(
                       (e) => Container(
                         child: Column(
                           children: [
@@ -201,13 +270,18 @@ class _AddQuestionState extends State<AddQuestion> {
                                         width: 0, style: BorderStyle.none)),
                               ),
                               onChanged: (value) {
-                                index == 0
-                                    ? answer1
-                                    : index == 1
-                                        ? answer2
-                                        : index == 2
-                                            ? answer3
-                                            : answer4 = value;
+                                setState(() {
+                                  print("index==" + index.toString());
+                                  index == 1
+                                      ? answer1 = value
+                                      : index == 2
+                                          ? answer2 = value
+                                          : index == 3
+                                              ? answer3 = value
+                                              : index == 4
+                                                  ? answer4 = value
+                                                  : answer5 = value;
+                                });
                               },
                               keyboardType: TextInputType.emailAddress,
                             ),
@@ -221,8 +295,17 @@ class _AddQuestionState extends State<AddQuestion> {
               Expanded(
                 flex: 0,
                 child: Container(
-                  child: Button(50, 2000, "Нэмэх", Colors.teal, Colors.white,
-                      onTap, Icons.add),
+                  child:
+                      Button(50, 2000, "Нэмэх", Colors.teal, Colors.white, () {
+                    print("cat---" + selectedValue.toString());
+                    print("cat0---" + categoryName.toString());
+                    print("cat1---" + answer1.toString());
+                    print("cat2---" + answer2.toString());
+                    print("cat3---" + answer3.toString());
+                    print("cat4---" + answer4.toString());
+                    print("cat5---" + answer5.toString());
+                    saveData();
+                  }, Icons.add),
                 ),
               ),
             ],

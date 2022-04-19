@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/common/reuseable_widget.dart';
-import 'package:my_app/signup.dart';
+import 'package:my_app/auth/signup.dart';
 import 'package:postgres/postgres.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/tap_bounce_container.dart';
@@ -17,8 +17,8 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import './common/input.dart';
-import 'common/button.dart';
-import 'home.dart';
+import '../common/button.dart';
+import '../home/home.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({

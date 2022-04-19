@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:my_app/addQuestion.dart';
-import 'package:my_app/intermediate.dart';
-import 'package:my_app/password.dart';
-import 'package:my_app/signIn.dart';
-import 'package:my_app/upper.dart';
+import 'package:my_app/home/addQuestion.dart';
+import 'package:my_app/level/intermediate.dart';
+import 'package:my_app/about/password.dart';
+import 'package:my_app/auth/signIn.dart';
+import 'package:my_app/level/upper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'about.dart';
-import 'common/button.dart';
+import '../about/about.dart';
+import '../common/button.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

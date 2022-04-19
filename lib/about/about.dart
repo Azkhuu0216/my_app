@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'common/button.dart';
+import '../common/button.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class About extends StatefulWidget {
@@ -62,8 +62,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     print(currentUser!.email);
 
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('users');
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     // ignore: non_constant_identifier_names
 

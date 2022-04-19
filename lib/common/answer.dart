@@ -3,26 +3,41 @@ import 'package:my_app/provider/mainProvider.dart';
 import 'package:provider/provider.dart';
 
 class Answer extends StatefulWidget {
-  final VoidCallback selectHandler;
   final String answerText;
   final String answerId;
   final String isCorrect;
   Color _backColor;
-  Answer(this.selectHandler, this.answerText, this.answerId, this.isCorrect,
-      this._backColor);
+
+  Answer(
+    this.answerText,
+    this.answerId,
+    this.isCorrect,
+    this._backColor,
+  );
 
   @override
   State<Answer> createState() => _AnswerState();
 }
 
 class _AnswerState extends State<Answer> {
-  Color backColor = Colors.blue.shade50;
+  var check;
+  void initState() {
+    super.initState();
+  }
+
+  void checkAnswer() {
+    print("checkAnswer========");
+    setState(() {
+      widget.isCorrect == '1' ? check = 1 : check = 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     MainProvider _mainProvider =
         Provider.of<MainProvider>(context, listen: true);
     print("aaaaa=== " + widget.isCorrect);
+    print('check--------' + check.toString());
     return Container(
       width: 350,
       height: 60,
@@ -54,7 +69,12 @@ class _AnswerState extends State<Answer> {
           if (_mainProvider.getIsClick()) {
             return;
           }
-          widget.isCorrect == '1' ? _mainProvider.setPoint(1) : null;
+          checkAnswer();
+          _mainProvider.setCheck(check);
+
+          widget.isCorrect == '1'
+              ? _mainProvider.setPoint(_mainProvider.getPoint() + 2)
+              : _mainProvider.getPoint();
           _mainProvider.setIsClick(true);
           _mainProvider.setSelectAnswerId(widget.answerId);
           // setState(() {

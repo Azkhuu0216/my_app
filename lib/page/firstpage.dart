@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:my_app/firstQuiz.dart';
+import 'package:my_app/quiz/firstQuiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/model/exam_model.dart';
 import 'package:my_app/model/question_model.dart';
@@ -28,7 +28,7 @@ class _FirstPageState extends State<FirstPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.55.50", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");

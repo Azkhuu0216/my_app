@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_app/signIn.dart';
+import 'package:my_app/auth/signIn.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({

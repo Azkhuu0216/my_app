@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/firstQuiz.dart';
+import 'package:my_app/quiz/firstQuiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/model/user_model.dart';
-import 'package:my_app/thirdQuiz.dart';
+import 'package:my_app/quiz/thirdQuiz.dart';
 import 'package:postgres/postgres.dart';
 
 class ThirdPage extends StatefulWidget {
@@ -32,14 +32,13 @@ class _ThirdPageState extends State<ThirdPage> {
   Widget build(BuildContext context) {
     final _auth = FirebaseAuth.instance;
     var currentUser = FirebaseAuth.instance.currentUser;
-    print(currentUser!.uid);
 
     CollectionReference users = FirebaseFirestore.instance.collection("users");
     return Scaffold(
       body: Container(
         child: Column(children: [
           FutureBuilder<DocumentSnapshot>(
-            future: users.doc(currentUser.uid).get(),
+            future: users.doc(currentUser!.uid).get(),
             builder: (BuildContext context,
                 AsyncSnapshot<DocumentSnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -53,9 +52,10 @@ class _ThirdPageState extends State<ThirdPage> {
                 Map<String, dynamic> data =
                     snapshot.data!.data() as Map<String, dynamic>;
                 print("data =======");
+                print(data);
                 print(currentUser.uid);
                 print(data.entries.first.value);
-                print(data.values.elementAt(1));
+                print(data.values.elementAt(2));
                 _listUserResult.add(
                   UserModel(
                     currentUser.uid.toString(),
@@ -66,17 +66,24 @@ class _ThirdPageState extends State<ThirdPage> {
                     data.entries.elementAt(4).value,
                   ),
                 );
-                _gridListResult
-                    .add(yearButton(context, data.entries.first.value, () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      // ignore: prefer_const_constructors
-                      builder: (context) =>
-                          ThirdQuiz(currentUser.uid.toString()),
-                    ),
-                  );
-                }));
+                data.entries.elementAt(2).value == "Багш"
+                    ? _gridListResult.add(
+                        yearButton(
+                          context,
+                          data.entries.first.value,
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                // ignore: prefer_const_constructors
+                                builder: (context) =>
+                                    ThirdQuiz(currentUser.uid.toString()),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : null;
 
                 return Expanded(
                     flex: 6,
