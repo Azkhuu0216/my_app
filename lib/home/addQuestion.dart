@@ -23,7 +23,7 @@ class _AddQuestionState extends State<AddQuestion> {
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
 
-  String categoryName = "";
+  String question = "";
   String answer1 = "";
   String answer2 = "";
   String answer3 = "";
@@ -61,8 +61,10 @@ class _AddQuestionState extends State<AddQuestion> {
     }
     String query =
         "insert into questions(question, question_image, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
-            categoryName +
-            "', 'null',  '1000', 'intermediate', '2', 1, '1', 1, 1, '" +
+            question +
+            "', 'null',  '1000', 'intermediate', '2', 1, '1', '" +
+            selectedValue.toString() +
+            "', 1, '" +
             currentUser!.uid +
             "') RETURNING question_id";
     List<Map<String, Map<String, dynamic>>> results =
@@ -101,13 +103,6 @@ class _AddQuestionState extends State<AddQuestion> {
               "', '0')";
       List<Map<String, Map<String, dynamic>>> resultsAnswer =
           await connection.mappedResultsQuery(queryAnswer);
-
-      if (resultsAnswer.length < 1) {
-        return;
-      }
-      var aId = 0;
-      resultsAnswer.forEach((e) => aId = e.values.first.entries.first.value);
-      print("AnswerId ==" + aId.toString());
     }
   }
 
@@ -188,6 +183,7 @@ class _AddQuestionState extends State<AddQuestion> {
                     value: selectedValue,
                     onChanged: (value) {
                       setState(() {
+                        print('Catergory ======' + value.toString());
                         selectedValue = value as String;
                       });
                     },
@@ -241,7 +237,7 @@ class _AddQuestionState extends State<AddQuestion> {
                         onChanged: (value) {
                           print("asuult===" + value.toString());
                           setState(() {
-                            categoryName = value;
+                            question = value;
                           });
                         },
                         keyboardType: TextInputType.emailAddress,
@@ -386,7 +382,7 @@ class _AddQuestionState extends State<AddQuestion> {
                   child:
                       Button(50, 2000, "Нэмэх", Colors.teal, Colors.white, () {
                     print("cat---" + selectedValue.toString());
-                    print("cat0---" + categoryName.toString());
+                    print("cat0---" + question.toString());
                     print("cat1---" + answer1.toString());
                     print("cat2---" + answer2.toString());
                     print("cat3---" + answer3.toString());

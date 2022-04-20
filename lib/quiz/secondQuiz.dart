@@ -300,8 +300,9 @@ class _SecondQuizState extends State<SecondQuiz> {
                   ),
                 ],
               ),
-        floatingActionButton:
-            AddButton(context, Icons.navigate_next, questionAnswer),
+        floatingActionButton: _questionIndex < _questionList.length
+            ? AddButton(context, Icons.navigate_next, questionAnswer)
+            : null,
       ),
     );
   }
