@@ -20,6 +20,10 @@ class _AboutState extends State<About> {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+  }
 
   String lastname = '';
   String firstname = '';
@@ -28,14 +32,6 @@ class _AboutState extends State<About> {
 
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   print("completed");
-  //   setState(() {
-  //     // autoLogIn();
-  //   });
-  // }
 
   // void autoLogIn() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,9 +57,7 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     print(currentUser!.email);
-
     CollectionReference users = FirebaseFirestore.instance.collection('users');
-
     // ignore: non_constant_identifier_names
 
     Future<void> UpdateUser() async {

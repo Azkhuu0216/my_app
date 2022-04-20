@@ -29,6 +29,8 @@ class _AddQuestionState extends State<AddQuestion> {
   String answer3 = "";
   String answer4 = "";
   String answer5 = "";
+  bool _isChecked = false;
+  String _currText = '';
 
   String? selectedValue;
   List<Category> items = [
@@ -99,6 +101,13 @@ class _AddQuestionState extends State<AddQuestion> {
               "', '0')";
       List<Map<String, Map<String, dynamic>>> resultsAnswer =
           await connection.mappedResultsQuery(queryAnswer);
+
+      if (resultsAnswer.length < 1) {
+        return;
+      }
+      var aId = 0;
+      resultsAnswer.forEach((e) => aId = e.values.first.entries.first.value);
+      print("AnswerId ==" + aId.toString());
     }
   }
 
@@ -247,48 +256,126 @@ class _AddQuestionState extends State<AddQuestion> {
                 child: Column(
                   children: [
                     ...answersResult.map(
-                      (e) => Container(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 10),
-                            TextFormField(
-                              cursorColor: Colors.black87,
-                              obscureText: false,
-                              autocorrect: true,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.question_answer_sharp,
-                                    color: Colors.black54),
-                                labelText: 'Хариулт нэмэх',
-                                labelStyle:
-                                    const TextStyle(color: Colors.black54),
-                                filled: true,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                fillColor: Colors.blueGrey.shade50,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        width: 0, style: BorderStyle.none)),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  print("index==" + index.toString());
-                                  index == 1
-                                      ? answer1 = value
-                                      : index == 2
-                                          ? answer2 = value
-                                          : index == 3
-                                              ? answer3 = value
-                                              : index == 4
-                                                  ? answer4 = value
-                                                  : answer5 = value;
-                                });
-                              },
-                              keyboardType: TextInputType.emailAddress,
+                      (e) => Column(
+                        children: [
+                          SizedBox(height: 10),
+                          Expanded(
+                            flex: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 290,
+                                  child: TextFormField(
+                                    cursorColor: Colors.black87,
+                                    obscureText: false,
+                                    autocorrect: true,
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                          Icons.question_answer_sharp,
+                                          color: Colors.black54),
+                                      labelText: 'Хариулт нэмэх',
+                                      labelStyle: const TextStyle(
+                                          color: Colors.black54),
+                                      filled: true,
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      fillColor: Colors.blueGrey.shade50,
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                              width: 0,
+                                              style: BorderStyle.none)),
+                                    ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        print("index==" + index.toString());
+                                        index == 1
+                                            ? answer1 = value
+                                            : index == 2
+                                                ? answer2 = value
+                                                : index == 3
+                                                    ? answer3 = value
+                                                    : index == 4
+                                                        ? answer4 = value
+                                                        : answer5 = value;
+                                      });
+                                    },
+                                    keyboardType: TextInputType.emailAddress,
+                                  ),
+                                ),
+                                Checkbox(
+                                  value: _isChecked,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      if (val == true) {
+                                        _currText = '1';
+                                      }
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                      // Container(
+                      //   width: 200,
+                      //   child: Row(
+                      //     children: [
+                      //       SizedBox(height: 10),
+                      //       TextFormField(
+                      //         cursorColor: Colors.black87,
+                      //         obscureText: false,
+                      //         autocorrect: true,
+                      //         decoration: InputDecoration(
+                      //           prefixIcon: Icon(Icons.question_answer_sharp,
+                      //               color: Colors.black54),
+                      //           labelText: 'Хариулт нэмэх',
+                      //           labelStyle:
+                      //               const TextStyle(color: Colors.black54),
+                      //           filled: true,
+                      //           floatingLabelBehavior:
+                      //               FloatingLabelBehavior.never,
+                      //           fillColor: Colors.blueGrey.shade50,
+                      //           border: OutlineInputBorder(
+                      //               borderRadius: BorderRadius.circular(10),
+                      //               borderSide: const BorderSide(
+                      //                   width: 0, style: BorderStyle.none)),
+                      //         ),
+                      //         onChanged: (value) {
+                      //           setState(() {
+                      //             print("index==" + index.toString());
+                      //             index == 1
+                      //                 ? answer1 = value
+                      //                 : index == 2
+                      //                     ? answer2 = value
+                      //                     : index == 3
+                      //                         ? answer3 = value
+                      //                         : index == 4
+                      //                             ? answer4 = value
+                      //                             : answer5 = value;
+                      //           });
+                      //         },
+                      //         keyboardType: TextInputType.emailAddress,
+                      //       ),
+                      //       CheckboxListTile(
+                      //         title: Text(answer1),
+                      //         value: _isChecked,
+                      //         onChanged: (val) {
+                      //           setState(() {
+                      //             _isChecked = val!;
+                      //             if (val == true) {
+                      //               _currText = answer1;
+                      //             }
+                      //           });
+                      //         },
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     )
                   ],
                 ),

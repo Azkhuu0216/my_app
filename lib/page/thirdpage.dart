@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,87 +17,134 @@ class ThirdPage extends StatefulWidget {
 }
 
 class _ThirdPageState extends State<ThirdPage> {
+  final _auth = FirebaseAuth.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
   void initState() {
-    setState(() {
-      _listUserData = _listUserResult;
-      _gridList = _gridListResult;
-    });
+    getData();
     super.initState();
   }
 
-  List<UserModel> _listUserResult = [];
-  List<UserModel> _listUserData = [];
-  List<Widget> _gridListResult = [];
-  List<Widget> _gridList = [];
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  List<UserModel> UserResult = [];
+  List<UserModel> UserData = [];
+  List<Widget> ListModel = [];
+  List<Widget> ColumnList = [];
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance.collection("users").get().then(
+      (value) {
+        value.docs.forEach(
+          (element) {
+            UserResult.add(UserModel(
+                currentUser!.uid,
+                element.get('firstname'),
+                element.get('phone'),
+                element.get('Urole'),
+                element.get('email'),
+                element.get('lastname')));
+            print('element =  ' + element.get('firstname'));
+            element.get("Urole") == "Багш"
+                ? ListModel.add(
+                    yearButton(
+                      context,
+                      element.get('firstname'),
+                      () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            // ignore: prefer_const_constructors
+                            builder: (context) =>
+                                ThirdQuiz(currentUser!.uid.toString()),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : null;
+          },
+        );
+        setState(() {
+          UserData = UserResult;
+          ColumnList = ListModel;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
-    var currentUser = FirebaseAuth.instance.currentUser;
-
-    CollectionReference users = FirebaseFirestore.instance.collection("users");
     return Scaffold(
       body: Container(
-        child: Column(children: [
-          FutureBuilder<DocumentSnapshot>(
-            future: users.doc(currentUser!.uid).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text("Something went wrong");
-              }
-              if (snapshot.hasData && !snapshot.data!.exists) {
-                return Text("Document does not exist");
-              }
-
-              if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data =
-                    snapshot.data!.data() as Map<String, dynamic>;
-                print("data =======");
-                print(data);
-                print(currentUser.uid);
-                print(data.entries.first.value);
-                print(data.values.elementAt(2));
-                _listUserResult.add(
-                  UserModel(
-                    currentUser.uid.toString(),
-                    data.entries.first.value,
-                    data.entries.elementAt(1).value,
-                    data.entries.elementAt(2).value,
-                    data.entries.elementAt(3).value,
-                    data.entries.elementAt(4).value,
-                  ),
-                );
-                data.entries.elementAt(2).value == "Багш"
-                    ? _gridListResult.add(
-                        yearButton(
-                          context,
-                          data.entries.first.value,
-                          () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                // ignore: prefer_const_constructors
-                                builder: (context) =>
-                                    ThirdQuiz(currentUser.uid.toString()),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    : null;
-
-                return Expanded(
-                    flex: 6,
-                    child: Column(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: _gridList));
-              }
-              return Text('loading');
-            },
-          )
-        ]),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 6,
+              child: Column(
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: ColumnList),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+            // FutureBuilder<DocumentSnapshot>(
+            //   future: users.doc(currentUser!.uid).get(),
+            //   builder: (BuildContext context,
+            //       AsyncSnapshot<DocumentSnapshot> snapshot) {
+            //     if (snapshot.hasError) {
+            //       return Text("Something went wrong");
+            //     }
+            //     if (snapshot.hasData && !snapshot.data!.exists) {
+            //       return Text("Document does not exist");
+            //     }
+
+            //     if (snapshot.connectionState == ConnectionState.done) {
+            //       Map<String, dynamic> data =
+            //           snapshot.data!.data() as Map<String, dynamic>;
+
+            //       print("data =======");
+            //       print(data);
+            //       print(currentUser.uid);
+            //       print(data.entries.first.value);
+            //       print(data.values.elementAt(2));
+            //       _listUserResult.add(
+            //         UserModel(
+            //           currentUser.uid.toString(),
+            //           data.entries.first.value,
+            //           data.entries.elementAt(1).value,
+            //           data.entries.elementAt(2).value,
+            //           data.entries.elementAt(3).value,
+            //           data.entries.elementAt(4).value,
+            //         ),
+            //       );
+            //       data.entries.elementAt(2).value == "Багш"
+            //           ? _gridListResult.add(
+            //               yearButton(
+            //                 context,
+            //                 data.entries.first.value,
+            //                 () {
+            //                   Navigator.push(
+            //                     context,
+            //                     MaterialPageRoute(
+            //                       // ignore: prefer_const_constructors
+            //                       builder: (context) =>
+            //                           ThirdQuiz(currentUser.uid.toString()),
+            //                     ),
+            //                   );
+            //                 },
+            //               ),
+            //             )
+            //           : null;
+
+            //       return Expanded(
+            //           flex: 6,
+            //           child: Column(
+            //               // ignore: prefer_const_literals_to_create_immutables
+            //               children: _gridList));
+            //     }
+            //     return Text('loading');
+            //   },
+            // )
+           
