@@ -34,13 +34,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController firstNameController = TextEditingController();
-    TextEditingController lastNameController = TextEditingController();
-    TextEditingController phoneController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController repasswordController = TextEditingController();
-
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     Future<void> addUser() async {
       // Call the user's CollectionReference to add a new user
@@ -161,31 +154,18 @@ class _SignUpState extends State<SignUp> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        //email and password TextField here
                         Expanded(
                           flex: 5,
                           child: Column(
                             children: [
+                              //email and password TextField here
                               // reTextField(
                               //     "Овог", Icons.supervised_user_circle, false),
                               Container(
-                                height: 60,
-                                // margin: EdgeInsets.only(top: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                      style: BorderStyle.solid),
-                                ),
-
                                 child: TextFormField(
-                                  controller: lastNameController,
                                   cursorColor: Colors.black87,
                                   obscureText: false,
                                   autocorrect: true,
-                                  // keyboardType: TextInputType.,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                         Icons.supervised_user_circle,
@@ -203,28 +183,20 @@ class _SignUpState extends State<SignUp> {
                                             width: 0, style: BorderStyle.none)),
                                   ),
                                   onChanged: (value) {
-                                    _lastName = value;
+                                    print("asuult===" + value.toString());
+                                    setState(() {
+                                      _lastName = value;
+                                    });
                                   },
                                   keyboardType: TextInputType.emailAddress,
                                 ),
                               ),
+
                               const SizedBox(height: 10),
                               // reTextField(
                               //     "Нэр", Icons.supervised_user_circle, true),
                               Container(
-                                height: 60,
-                                // margin: EdgeInsets.only(top: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: Border.all(
-                                      color: Colors.white,
-                                      width: 3.0,
-                                      style: BorderStyle.solid),
-                                ),
-
                                 child: TextFormField(
-                                  controller: firstNameController,
                                   cursorColor: Colors.black87,
                                   obscureText: false,
                                   autocorrect: true,
@@ -246,7 +218,9 @@ class _SignUpState extends State<SignUp> {
                                             width: 0, style: BorderStyle.none)),
                                   ),
                                   onChanged: (value) {
-                                    _firstName = value;
+                                    setState(() {
+                                      _firstName = value;
+                                    });
                                   },
                                   keyboardType: TextInputType.emailAddress,
                                 ),
@@ -265,7 +239,6 @@ class _SignUpState extends State<SignUp> {
                                 ),
 
                                 child: TextFormField(
-                                  controller: emailController,
                                   cursorColor: Colors.black87,
                                   obscureText: false,
                                   autocorrect: true,
@@ -304,9 +277,7 @@ class _SignUpState extends State<SignUp> {
                                       width: 3.0,
                                       style: BorderStyle.solid),
                                 ),
-
                                 child: TextFormField(
-                                  controller: phoneController,
                                   cursorColor: Colors.black87,
                                   obscureText: false,
                                   autocorrect: true,
@@ -345,7 +316,6 @@ class _SignUpState extends State<SignUp> {
                                       style: BorderStyle.solid),
                                 ),
                                 child: TextFormField(
-                                  controller: passwordController,
                                   obscureText: true,
                                   cursorColor: Colors.black87,
 
@@ -386,7 +356,6 @@ class _SignUpState extends State<SignUp> {
                                 ),
 
                                 child: TextFormField(
-                                  controller: repasswordController,
                                   cursorColor: Colors.black87,
                                   obscureText: true,
                                   autocorrect: true,
@@ -496,8 +465,8 @@ class _SignUpState extends State<SignUp> {
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
                               // ignore: prefer_const_constructors
-                              Button(50, 300, "Бүртгүүлэх", Colors.teal,
-                                  Colors.white, _signUp, null),
+                              Button(50, double.infinity, "Бүртгүүлэх",
+                                  Colors.teal, Colors.white, _signUp, null),
 
                               // signInSingUpButton(context, false, () {
                               //   Navigator.push(
