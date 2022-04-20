@@ -28,7 +28,7 @@ class _FirstPageState extends State<FirstPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.10.203.29", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -45,13 +45,10 @@ class _FirstPageState extends State<FirstPage> {
     print(results);
 
     results.forEach((element) {
-      print(element.values.first);
       _listExamResult.add(Exam(
           element.values.first.entries.first.value.toString(),
           element.values.first.entries.elementAt(1).value,
           element.values.first.entries.elementAt(2).value));
-      // print(element.values.first.entries.first.value);
-      // print(element.values.first.entries.elementAt(1).value);
       _gridListResult.add(TestButton(
           context, element.values.first.entries.elementAt(1).value, () {
         Navigator.push(

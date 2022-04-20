@@ -22,12 +22,31 @@ class AddQuestion extends StatefulWidget {
 class _AddQuestionState extends State<AddQuestion> {
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
+
+  String categoryName = "";
+  String answer1 = "";
+  String answer2 = "";
+  String answer3 = "";
+  String answer4 = "";
+  String answer5 = "";
+
+  String? selectedValue;
+  List<Category> items = [
+    Category("1", 'Органик хими', ''),
+    Category("2", 'Органик бус хими', ''),
+    Category("3", 'Ерөнхий хими', ''),
+    Category("4", 'Физик хими', '')
+  ];
+
+  List<dynamic> answers = [];
+  List<dynamic> answersResult = [];
+
   void initState() {
     super.initState();
   }
 
   Future<void> saveData() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.10.203.29", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -77,30 +96,12 @@ class _AddQuestionState extends State<AddQuestion> {
               answer +
               "', '" +
               qId.toString() +
-              "', '0') RETURNING *";
+              "', '0')";
       List<Map<String, Map<String, dynamic>>> resultsAnswer =
           await connection.mappedResultsQuery(queryAnswer);
     }
-    await connection.close();
   }
 
-  String categoryName = "";
-  String answer1 = "";
-  String answer2 = "";
-  String answer3 = "";
-  String answer4 = "";
-  String answer5 = "";
-
-  String? selectedValue;
-  List<Category> items = [
-    Category("1", 'Органик хими', ''),
-    Category("2", 'Органик бус хими', ''),
-    Category("3", 'Ерөнхий хими', ''),
-    Category("4", 'Физик хими', '')
-  ];
-
-  List<dynamic> answers = [];
-  List<dynamic> answersResult = [];
   var index = 0;
   void onTap() {
     if (index < 5) {

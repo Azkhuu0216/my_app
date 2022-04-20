@@ -68,7 +68,7 @@ class _QuizState extends State<Quiz> {
 
   // List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.10.203.29", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -99,8 +99,6 @@ class _QuizState extends State<Quiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          print('correct-answer------= ' +
-              e.values.first.entries.elementAt(7).value),
           e.values.first.entries.elementAt(4).value == "intermediate"
               ? _questionListResult.add(
                   (Question(
@@ -150,12 +148,16 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
-
+    print('questionLength============' + _questionList.length.toString());
+    print('index =========' + _questionIndex.toString());
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(title: Text("Асуулт")),
+        appBar: AppBar(
+          title: Text("Асуулт"),
+          backgroundColor: Colors.teal,
+        ),
         body: _questionIndex < _questionList.length
             ? (Column(
                 children: <Widget>[

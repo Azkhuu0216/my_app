@@ -26,7 +26,6 @@ class _AnswerState extends State<Answer> {
   }
 
   void checkAnswer() {
-    print("checkAnswer========");
     setState(() {
       widget.isCorrect == '1' ? check = 1 : check = 0;
     });
@@ -36,8 +35,6 @@ class _AnswerState extends State<Answer> {
   Widget build(BuildContext context) {
     MainProvider _mainProvider =
         Provider.of<MainProvider>(context, listen: true);
-    print("aaaaa=== " + widget.isCorrect);
-    print('check--------' + check.toString());
     return Container(
       width: 350,
       height: 60,
@@ -71,24 +68,13 @@ class _AnswerState extends State<Answer> {
           }
           checkAnswer();
           _mainProvider.setCheck(check);
-
           widget.isCorrect == '1'
               ? _mainProvider.setPoint(_mainProvider.getPoint() + 2)
               : _mainProvider.getPoint();
           _mainProvider.setIsClick(true);
           _mainProvider.setSelectAnswerId(widget.answerId);
-          // setState(() {
-          //   widget._backColor =
-          //       widget.isCorrect == '1' ? Colors.green : Colors.red;
-          // });
         },
       ),
     );
-
-    // return Container(
-    //   width: double.infinity,
-    //   child: ElevatedButton(
-    //       child: const Text("hariult"), onPressed: selectHandler),
-    // );
   }
 }
