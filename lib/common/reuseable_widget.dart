@@ -112,9 +112,9 @@ Container TestButton(BuildContext context, String text, Function onTap) {
       Provider.of<MainProvider>(context, listen: false);
 
   return Container(
-    width: 60,
+    width: 55,
     height: 60,
-    margin: const EdgeInsets.only(left: 20, top: 20),
+    margin: const EdgeInsets.only(left: 10, top: 20),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(50),
     ),

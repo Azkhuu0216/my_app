@@ -10,15 +10,6 @@ import 'package:my_app/common/question.dart';
 import 'package:postgres/postgres.dart';
 import 'package:provider/provider.dart';
 
-// class User {
-//   // ignore: non_constant_identifier_names
-//   String? user_id;
-//   String? lastname;
-//   String? firstname;
-
-//   User(this.user_id, this.lastname, this.firstname);
-// }
-
 var questions = [
   {
     "questionText": "How are you",
@@ -68,13 +59,13 @@ class _ThirdQuizState extends State<ThirdQuiz> {
   }
 
   void initState() {
-    // Postgre();
+    Postgre();
     super.initState();
   }
 
   List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("10.10.203.29", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -88,10 +79,13 @@ class _ThirdQuizState extends State<ThirdQuiz> {
     String qIdList = "(";
     int index = 1;
 
-    String query =
-        "SELECT  * FROM Questions where user_id = '" + widget.userId + "'";
+    String query = "SELECT  * FROM Questions where user_id = '" +
+        widget.userId.toString() +
+        "'";
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
+
+    print("REsult question" + results.length.toString());
 
     results.forEach((e) => {
           if (index == results.length)
@@ -105,23 +99,26 @@ class _ThirdQuizState extends State<ThirdQuiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          e.values.first.entries.elementAt(4).value == "intermediate"
-              ? _questionListResult.add(
-                  (Question(
-                      e.values.first.entries.first.value.toString(),
-                      e.values.first.entries.elementAt(1).value,
-                      e.values.first.entries.elementAt(2).value,
-                      e.values.first.entries.elementAt(3).value,
-                      e.values.first.entries.elementAt(4).value,
-                      e.values.first.entries.elementAt(5).value,
-                      e.values.first.entries.elementAt(6).value,
-                      e.values.first.entries.elementAt(7).value.toString(),
-                      e.values.first.entries.elementAt(8).value.toString(),
-                      e.values.first.entries.elementAt(9).value.toString(),
-                      e.values.first.entries.elementAt(10).value.toString(),
-                      [])),
-                )
-              : null,
+
+          print("1" + e.values.first.entries.elementAt(1).value),
+          print("5" + e.values.first.entries.elementAt(5).value),
+
+          // e.values.first.entries.elementAt(4).value == "intermediate"
+          _questionListResult.add(
+            (Question(
+                e.values.first.entries.first.value.toString(),
+                e.values.first.entries.elementAt(1).value,
+                e.values.first.entries.elementAt(2).value,
+                e.values.first.entries.elementAt(3).value,
+                e.values.first.entries.elementAt(4).value,
+                e.values.first.entries.elementAt(5).value,
+                e.values.first.entries.elementAt(6).value,
+                e.values.first.entries.elementAt(7).value.toString(),
+                e.values.first.entries.elementAt(8).value.toString(),
+                e.values.first.entries.elementAt(9).value.toString(),
+                e.values.first.entries.elementAt(10).value.toString(), [])),
+          )
+          // : null,
         });
     print(results);
 

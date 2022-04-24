@@ -36,13 +36,13 @@ class _ThirdPageState extends State<ThirdPage> {
         value.docs.forEach(
           (element) {
             UserResult.add(UserModel(
-                currentUser!.uid,
+                element.id,
                 element.get('firstname'),
                 element.get('phone'),
                 element.get('Urole'),
                 element.get('email'),
                 element.get('lastname')));
-            print('element =  ' + element.get('firstname'));
+            // print('element =  ' + element.get('firstname'));
             element.get("Urole") == "Багш"
                 ? ListModel.add(
                     yearButton(
@@ -53,8 +53,7 @@ class _ThirdPageState extends State<ThirdPage> {
                           context,
                           MaterialPageRoute(
                             // ignore: prefer_const_constructors
-                            builder: (context) =>
-                                ThirdQuiz(currentUser!.uid.toString()),
+                            builder: (context) => ThirdQuiz(element.id),
                           ),
                         );
                       },

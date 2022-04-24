@@ -9,6 +9,7 @@ import 'package:my_app/model/answer_model.dart';
 import 'package:postgres/postgres.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:group_button/group_button.dart';
 
 import '../model/category_model.dart';
 
@@ -29,7 +30,14 @@ class _AddQuestionState extends State<AddQuestion> {
   String answer3 = "";
   String answer4 = "";
   String answer5 = "";
-  bool _isChecked = false;
+
+  int mapIndex = 1;
+  bool _isChecked1 = false;
+  bool _isChecked2 = false;
+  bool _isChecked3 = false;
+  bool _isChecked4 = false;
+  bool _isChecked5 = false;
+
   String _currText = '';
 
   String? selectedValue;
@@ -48,7 +56,7 @@ class _AddQuestionState extends State<AddQuestion> {
   }
 
   Future<void> saveData() async {
-    var connection = PostgreSQLConnection("10.10.203.29", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -83,6 +91,7 @@ class _AddQuestionState extends State<AddQuestion> {
     if (answer4 != "") answerLen++;
     if (answer5 != "") answerLen++;
     print("answerLen ==" + answerLen.toString());
+
     for (int i = 1; i <= answerLen; i++) {
       var answer = i.toString() == '1'
           ? answer1
@@ -94,24 +103,53 @@ class _AddQuestionState extends State<AddQuestion> {
                       ? answer4
                       : answer5;
 
+      var isCorrect = i.toString() == '1'
+          ? _isChecked1
+              ? '1'
+              : '0'
+          : i.toString() == '2'
+              ? _isChecked2
+                  ? '1'
+                  : '0'
+              : i.toString() == '3'
+                  ? _isChecked3
+                      ? '1'
+                      : '0'
+                  : i.toString() == '4'
+                      ? _isChecked4
+                          ? '1'
+                          : '0'
+                      : _isChecked5
+                          ? '1'
+                          : '0';
+
       print("answer====" + answer);
+      print("isCorrect====" + isCorrect);
       String queryAnswer =
           "insert into Answers(answer, question_id, isCorrect) values ('" +
               answer +
               "', '" +
               qId.toString() +
-              "', '0')";
+              "', '" +
+              isCorrect +
+              "')";
       List<Map<String, Map<String, dynamic>>> resultsAnswer =
           await connection.mappedResultsQuery(queryAnswer);
-    }
-  }
+    } //for dawtalt
 
+    setState(() {
+      answersResult = [];
+      answers = [];
+      question = "";
+    });
+  } //function haalt
+
+  List<Widget> checkBoxList = [];
   var index = 0;
   void onTap() {
     if (index < 5) {
-      print(index);
       index = index + 1;
-      answers.add({});
+      answers.add({"index": index, "param": {}});
       setState(() {
         answersResult = answers;
       });
@@ -262,7 +300,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 290,
+                                  width: 190,
                                   child: TextFormField(
                                     cursorColor: Colors.black87,
                                     obscureText: false,
@@ -287,7 +325,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                     ),
                                     onChanged: (value) {
                                       setState(() {
-                                        print("index==" + index.toString());
+                                        // print("index==" + index.toString());
                                         index == 1
                                             ? answer1 = value
                                             : index == 2
@@ -303,11 +341,87 @@ class _AddQuestionState extends State<AddQuestion> {
                                   ),
                                 ),
                                 Checkbox(
-                                  value: _isChecked,
+                                  value: e['index'] == 1
+                                      ? _isChecked1
+                                      : e['index'] == 2
+                                          ? _isChecked2
+                                          : e['index'] == 3
+                                              ? _isChecked3
+                                              : e['index'] == 4
+                                                  ? _isChecked4
+                                                  : _isChecked5,
                                   onChanged: (val) {
+                                    if (e['index'] == 1) {
+                                      _isChecked1 = val!;
+                                      _isChecked2 = false;
+                                      _isChecked3 = false;
+                                      _isChecked4 = false;
+                                      _isChecked5 = false;
+                                    }
+                                    if (e['index'] == 2) {
+                                      _isChecked1 = false;
+                                      _isChecked2 = val!;
+                                      _isChecked3 = false;
+                                      _isChecked4 = false;
+                                      _isChecked5 = false;
+                                    }
+                                    if (e['index'] == 3) {
+                                      _isChecked1 = false;
+                                      _isChecked2 = false;
+                                      _isChecked3 = val!;
+                                      _isChecked4 = false;
+                                      _isChecked5 = false;
+                                    }
+                                    if (e['index'] == 4) {
+                                      _isChecked1 = false;
+                                      _isChecked2 = false;
+                                      _isChecked3 = false;
+                                      _isChecked4 = val!;
+                                      _isChecked5 = false;
+                                    }
+                                    if (e['index'] == 5) {
+                                      _isChecked1 = false;
+                                      _isChecked2 = false;
+                                      _isChecked3 = false;
+                                      _isChecked4 = false;
+                                      _isChecked5 = val!;
+                                    }
+
                                     setState(() {
-                                      if (val == true) {
-                                        _currText = '1';
+                                      if (_isChecked1) {
+                                        _isChecked1 = true;
+                                        _isChecked2 = false;
+                                        _isChecked3 = false;
+                                        _isChecked4 = false;
+                                        _isChecked5 = false;
+                                      }
+                                      if (_isChecked2) {
+                                        _isChecked2 = true;
+                                        _isChecked1 = false;
+                                        _isChecked3 = false;
+                                        _isChecked4 = false;
+                                        _isChecked5 = false;
+                                      }
+                                      if (_isChecked3) {
+                                        _isChecked3 = true;
+                                        _isChecked1 = false;
+                                        _isChecked2 = false;
+                                        _isChecked4 = false;
+                                        _isChecked5 = false;
+                                      }
+                                      if (_isChecked4) {
+                                        _isChecked4 = true;
+                                        _isChecked1 = false;
+                                        _isChecked2 = false;
+                                        _isChecked3 = false;
+                                        _isChecked5 = false;
+                                      }
+                                      if (_isChecked5) {
+                                        _isChecked5 = true;
+                                        _isChecked1 = false;
+                                        _isChecked2 = false;
+                                        _isChecked3 = false;
+                                        _isChecked4 = false;
                                       }
                                     });
                                   },
@@ -317,61 +431,6 @@ class _AddQuestionState extends State<AddQuestion> {
                           ),
                         ],
                       ),
-                      // Container(
-                      //   width: 200,
-                      //   child: Row(
-                      //     children: [
-                      //       SizedBox(height: 10),
-                      //       TextFormField(
-                      //         cursorColor: Colors.black87,
-                      //         obscureText: false,
-                      //         autocorrect: true,
-                      //         decoration: InputDecoration(
-                      //           prefixIcon: Icon(Icons.question_answer_sharp,
-                      //               color: Colors.black54),
-                      //           labelText: 'Хариулт нэмэх',
-                      //           labelStyle:
-                      //               const TextStyle(color: Colors.black54),
-                      //           filled: true,
-                      //           floatingLabelBehavior:
-                      //               FloatingLabelBehavior.never,
-                      //           fillColor: Colors.blueGrey.shade50,
-                      //           border: OutlineInputBorder(
-                      //               borderRadius: BorderRadius.circular(10),
-                      //               borderSide: const BorderSide(
-                      //                   width: 0, style: BorderStyle.none)),
-                      //         ),
-                      //         onChanged: (value) {
-                      //           setState(() {
-                      //             print("index==" + index.toString());
-                      //             index == 1
-                      //                 ? answer1 = value
-                      //                 : index == 2
-                      //                     ? answer2 = value
-                      //                     : index == 3
-                      //                         ? answer3 = value
-                      //                         : index == 4
-                      //                             ? answer4 = value
-                      //                             : answer5 = value;
-                      //           });
-                      //         },
-                      //         keyboardType: TextInputType.emailAddress,
-                      //       ),
-                      //       CheckboxListTile(
-                      //         title: Text(answer1),
-                      //         value: _isChecked,
-                      //         onChanged: (val) {
-                      //           setState(() {
-                      //             _isChecked = val!;
-                      //             if (val == true) {
-                      //               _currText = answer1;
-                      //             }
-                      //           });
-                      //         },
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
                     )
                   ],
                 ),
