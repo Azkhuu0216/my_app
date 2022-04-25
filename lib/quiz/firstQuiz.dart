@@ -99,7 +99,8 @@ class _QuizState extends State<Quiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          e.values.first.entries.elementAt(4).value == "intermediate"
+          e.values.first.entries.elementAt(4).value == "intermediate" &&
+                  e.values.first.entries.elementAt(3).value != "1000"
               ? _questionListResult.add(
                   (Question(
                       e.values.first.entries.first.value.toString(),
@@ -125,14 +126,20 @@ class _QuizState extends State<Quiz> {
         await connection.mappedResultsQuery(queryAnswer);
 
     resultsAnswer.forEach((e) {
-      _anwerListResult.add(AnswerModel(
-          e.values.first.entries.first.value.toString(),
-          e.values.first.entries.elementAt(1).value,
-          e.values.first.entries.elementAt(2).value.toString(),
-          e.values.first.entries.elementAt(3).value));
+      print('qID--' + e.values.first.entries.elementAt(2).value.toString());
+      _anwerListResult.add(
+        AnswerModel(
+            e.values.first.entries.first.value.toString(),
+            e.values.first.entries.elementAt(1).value,
+            e.values.first.entries.elementAt(2).value.toString(),
+            e.values.first.entries.elementAt(3).value),
+      );
+
+      print("Answer Element ----" + e.toString());
     });
 
     _questionListResult.forEach((item) => {
+          print('Item----' + item.toString()),
           answers = [],
           _anwerListResult.forEach((subItem) => {
                 if (item.question_id == subItem.question_id)
@@ -148,8 +155,8 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
-    print('questionLength============' + _questionList.length.toString());
-    print('index =========' + _questionIndex.toString());
+    // print('questionLength============' + _questionList.length.toString());
+    // print('index =========' + _questionIndex.toString());
     final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,

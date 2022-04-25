@@ -132,7 +132,8 @@ class _ThirdQuizState extends State<ThirdQuiz> {
           e.values.first.entries.first.value.toString(),
           e.values.first.entries.elementAt(1).value,
           e.values.first.entries.elementAt(2).value.toString(),
-          e.values.first.entries.elementAt(3).value));
+          e.values.first.entries.elementAt(3).value,
+          ));
     });
 
     _questionListResult.forEach((item) => {

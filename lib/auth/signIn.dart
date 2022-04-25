@@ -230,7 +230,7 @@ class _SignInState extends State<SignIn> {
                                         controller: nameController,
                                         cursorColor: Colors.black87,
                                         obscureText: false,
-                                        autocorrect: true,
+                                        autocorrect: false,
                                         // keyboardType: TextInputType.,
                                         decoration: InputDecoration(
                                           prefixIcon: Icon(Icons.email,

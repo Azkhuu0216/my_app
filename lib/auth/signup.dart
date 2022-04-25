@@ -165,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor: Colors.black87,
                                   obscureText: false,
-                                  autocorrect: true,
+                                  autocorrect: false,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
                                         Icons.supervised_user_circle,
@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor: Colors.black87,
                                   obscureText: false,
-                                  autocorrect: true,
+                                  autocorrect: false,
                                   // keyboardType: TextInputType.,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(
@@ -241,7 +241,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor: Colors.black87,
                                   obscureText: false,
-                                  autocorrect: true,
+                                  autocorrect: false,
                                   // keyboardType: TextInputType.,
                                   decoration: InputDecoration(
                                     prefixIcon: Icon(Icons.email,
@@ -280,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor: Colors.black87,
                                   obscureText: false,
-                                  autocorrect: true,
+                                  autocorrect: false,
                                   // keyboardType: TextInputType.,
                                   decoration: InputDecoration(
                                     prefixIcon:
@@ -358,7 +358,7 @@ class _SignUpState extends State<SignUp> {
                                 child: TextFormField(
                                   cursorColor: Colors.black87,
                                   obscureText: true,
-                                  autocorrect: true,
+                                  autocorrect: false,
                                   // keyboardType: TextInputType.,
                                   decoration: InputDecoration(
                                     prefixIcon:

@@ -157,7 +157,7 @@ class _AboutState extends State<About> {
                                       initialValue: "${data['lastname']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
-                                      autocorrect: true,
+                                      autocorrect: false,
                                       // keyboardType: TextInputType.,
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(
@@ -199,7 +199,7 @@ class _AboutState extends State<About> {
                                       initialValue: "${data['firstname']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
-                                      autocorrect: true,
+                                      autocorrect: false,
                                       // keyboardType: TextInputType.,
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(
@@ -241,7 +241,7 @@ class _AboutState extends State<About> {
                                       initialValue: "${data['phone']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
-                                      autocorrect: true,
+                                      autocorrect: false,
                                       // keyboardType: TextInputType.,
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(Icons.call,
@@ -282,7 +282,7 @@ class _AboutState extends State<About> {
                                       initialValue: "${data['email']}",
                                       cursorColor: Colors.black87,
                                       obscureText: false,
-                                      autocorrect: true,
+                                      autocorrect: false,
                                       // keyboardType: TextInputType.,
                                       decoration: InputDecoration(
                                         prefixIcon: Icon(Icons.email,

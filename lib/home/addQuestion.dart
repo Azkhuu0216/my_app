@@ -67,10 +67,11 @@ class _AddQuestionState extends State<AddQuestion> {
       print('error....');
       print(e.toString());
     }
+
     String query =
         "insert into questions(question, question_image, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
             question +
-            "', 'null',  '1000', 'intermediate', '2', 1, '1', '" +
+            "', 'null',  '1000', 'intermediate', '2', 1, 'Хариулт байхгүй', '" +
             selectedValue.toString() +
             "', 1, '" +
             currentUser!.uid +
@@ -83,6 +84,12 @@ class _AddQuestionState extends State<AddQuestion> {
     var qId = 0;
     results.forEach((e) => qId = e.values.first.entries.first.value);
     print("id ==" + qId.toString());
+    showTopSnackBar(
+      context,
+      CustomSnackBar.success(
+        message: "Амжилттай нэмлээ!!!",
+      ),
+    );
 
     var answerLen = 0;
     if (answer1 != "") answerLen++;
@@ -123,8 +130,30 @@ class _AddQuestionState extends State<AddQuestion> {
                           ? '1'
                           : '0';
 
+      var explain = '';
+      explain = i.toString() == '1'
+          ? _isChecked1
+              ? answer1
+              : ''
+          : i.toString() == '2'
+              ? _isChecked2
+                  ? answer2
+                  : ''
+              : i.toString() == '3'
+                  ? _isChecked3
+                      ? answer3
+                      : ''
+                  : i.toString() == '4'
+                      ? _isChecked4
+                          ? answer4
+                          : ''
+                      : _isChecked5
+                          ? answer5
+                          : '';
+
       print("answer====" + answer);
       print("isCorrect====" + isCorrect);
+
       String queryAnswer =
           "insert into Answers(answer, question_id, isCorrect) values ('" +
               answer +
@@ -135,13 +164,15 @@ class _AddQuestionState extends State<AddQuestion> {
               "')";
       List<Map<String, Map<String, dynamic>>> resultsAnswer =
           await connection.mappedResultsQuery(queryAnswer);
-    } //for dawtalt
 
-    setState(() {
-      answersResult = [];
-      answers = [];
-      question = "";
-    });
+      setState(() {
+        answersResult = [];
+        answers = [];
+        question = "";
+      });
+    }
+
+    //for dawtalt
   } //function haalt
 
   List<Widget> checkBoxList = [];
@@ -257,8 +288,7 @@ class _AddQuestionState extends State<AddQuestion> {
                       child: TextFormField(
                         maxLines: 2,
                         cursorColor: Colors.black87,
-                        obscureText: false,
-                        autocorrect: true,
+                        autocorrect: false,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.question_mark_sharp,
                               color: Colors.black54),
@@ -273,7 +303,6 @@ class _AddQuestionState extends State<AddQuestion> {
                                   width: 0, style: BorderStyle.none)),
                         ),
                         onChanged: (value) {
-                          print("asuult===" + value.toString());
                           setState(() {
                             question = value;
                           });
@@ -300,11 +329,11 @@ class _AddQuestionState extends State<AddQuestion> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 190,
+                                  width: 290,
                                   child: TextFormField(
                                     cursorColor: Colors.black87,
                                     obscureText: false,
-                                    autocorrect: true,
+                                    autocorrect: false,
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                           Icons.question_answer_sharp,
@@ -438,16 +467,38 @@ class _AddQuestionState extends State<AddQuestion> {
               Expanded(
                 flex: 0,
                 child: Container(
+                  height: 80,
+                  padding: EdgeInsets.only(bottom: 30),
                   child:
                       Button(50, 2000, "Нэмэх", Colors.teal, Colors.white, () {
-                    print("cat---" + selectedValue.toString());
-                    print("cat0---" + question.toString());
-                    print("cat1---" + answer1.toString());
-                    print("cat2---" + answer2.toString());
-                    print("cat3---" + answer3.toString());
-                    print("cat4---" + answer4.toString());
-                    print("cat5---" + answer5.toString());
-                    saveData();
+                    // print("cat---" + selectedValue.toString());
+                    // print("cat0---" + question.toString());
+                    // print("cat1---" + answer1.toString());
+                    // print("cat2---" + answer2.toString());
+                    // print("cat3---" + answer3.toString());
+                    // print("cat4---" + answer4.toString());
+                    // print("cat5---" + answer5.toString());
+                    if (selectedValue == null) {
+                      showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Категороо сонгоно уу...",
+                        ),
+                      );
+                    } else if (!_isChecked1 &&
+                        !_isChecked2 &&
+                        !_isChecked3 &&
+                        !_isChecked4 &&
+                        !_isChecked5) {
+                      showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Та зөв хариултаа сонгоно уу...",
+                        ),
+                      );
+                    } else {
+                      saveData();
+                    }
                   }, Icons.add),
                 ),
               ),

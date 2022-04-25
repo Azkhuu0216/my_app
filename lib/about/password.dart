@@ -105,7 +105,7 @@ class _PasswordState extends State<Password> {
                                       child: TextFormField(
                                         cursorColor: Colors.black87,
                                         obscureText: false,
-                                        autocorrect: true,
+                                        autocorrect: false,
                                         // keyboardType: TextInputType.,
                                         decoration: InputDecoration(
                                           prefixIcon: Icon(Icons.lock,
@@ -146,7 +146,7 @@ class _PasswordState extends State<Password> {
                                       child: TextFormField(
                                         cursorColor: Colors.black87,
                                         obscureText: false,
-                                        autocorrect: true,
+                                        autocorrect: false,
                                         // keyboardType: TextInputType.,
                                         decoration: InputDecoration(
                                           prefixIcon: Icon(Icons.lock,
@@ -187,7 +187,7 @@ class _PasswordState extends State<Password> {
                                       child: TextFormField(
                                         cursorColor: Colors.black87,
                                         obscureText: false,
-                                        autocorrect: true,
+                                        autocorrect: false,
                                         // keyboardType: TextInputType.,
                                         decoration: InputDecoration(
                                           prefixIcon: Icon(Icons.lock,
