@@ -70,155 +70,127 @@ class _PasswordState extends State<Password> {
                   flex: 12,
                   child: Column(
                     children: [
-                      FutureBuilder<DocumentSnapshot>(
-                          future: users.doc(currentUser!.email).get(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text("Something went wrong");
-                            }
-                            if (snapshot.hasData && !snapshot.data!.exists) {
-                              return Text("Document does not exist");
-                            }
-
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              Map<String, dynamic> data =
-                                  snapshot.data!.data() as Map<String, dynamic>;
-                              return Expanded(
-                                flex: 6,
-                                child: Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: <Widget>[
-                                    Container(
-                                      height: 60,
-                                      // margin: EdgeInsets.only(top: 20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white70,
-                                        borderRadius: BorderRadius.circular(24),
-                                        border: Border.all(
-                                            color: Colors.white,
-                                            width: 3.0,
-                                            style: BorderStyle.solid),
-                                      ),
-
-                                      child: TextFormField(
-                                        cursorColor: Colors.black87,
-                                        obscureText: false,
-                                        autocorrect: false,
-                                        // keyboardType: TextInputType.,
-                                        decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.lock,
-                                              color: Colors.black54),
-                                          labelText: "Одоогийн нууц үг",
-                                          labelStyle: const TextStyle(
-                                              color: Colors.black54),
-                                          filled: true,
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                          fillColor: Colors.blueGrey.shade50,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  style: BorderStyle.none)),
-                                        ),
-                                        onChanged: (value) {
-                                          nowPassword = value;
-                                        },
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 60,
-                                      // margin: EdgeInsets.only(top: 20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white70,
-                                        borderRadius: BorderRadius.circular(24),
-                                        border: Border.all(
-                                            color: Colors.white,
-                                            width: 3.0,
-                                            style: BorderStyle.solid),
-                                      ),
-
-                                      child: TextFormField(
-                                        cursorColor: Colors.black87,
-                                        obscureText: false,
-                                        autocorrect: false,
-                                        // keyboardType: TextInputType.,
-                                        decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.lock,
-                                              color: Colors.black54),
-                                          labelText: "Шинэ нууц үг",
-                                          labelStyle: const TextStyle(
-                                              color: Colors.black54),
-                                          filled: true,
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                          fillColor: Colors.blueGrey.shade50,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  style: BorderStyle.none)),
-                                        ),
-                                        onChanged: (value) {
-                                          newPassword = value;
-                                        },
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 60,
-                                      // margin: EdgeInsets.only(top: 20),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white70,
-                                        borderRadius: BorderRadius.circular(24),
-                                        border: Border.all(
-                                            color: Colors.white,
-                                            width: 3.0,
-                                            style: BorderStyle.solid),
-                                      ),
-
-                                      child: TextFormField(
-                                        cursorColor: Colors.black87,
-                                        obscureText: false,
-                                        autocorrect: false,
-                                        // keyboardType: TextInputType.,
-                                        decoration: InputDecoration(
-                                          prefixIcon: Icon(Icons.lock,
-                                              color: Colors.black54),
-                                          labelText: "Шинэ нууц үг давтах",
-                                          labelStyle: const TextStyle(
-                                              color: Colors.black54),
-                                          filled: true,
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                          fillColor: Colors.blueGrey.shade50,
-                                          border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              borderSide: const BorderSide(
-                                                  width: 0,
-                                                  style: BorderStyle.none)),
-                                        ),
-                                        onChanged: (value) {
-                                          reNewPassword = value;
-                                        },
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                      ),
-                                    ),
-                                  ],
+                      Expanded(
+                          flex: 6,
+                          child: Column(
+                            // ignore: prefer_const_literals_to_create_immutables
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
                                 ),
-                              );
-                            }
-                            return Text('loading');
-                          }),
+
+                                child: TextFormField(
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: false,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: "Одоогийн нууц үг",
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    nowPassword = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: false,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: "Шинэ нууц үг",
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    newPassword = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
+                              Container(
+                                height: 60,
+                                // margin: EdgeInsets.only(top: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                      color: Colors.white,
+                                      width: 3.0,
+                                      style: BorderStyle.solid),
+                                ),
+
+                                child: TextFormField(
+                                  cursorColor: Colors.black87,
+                                  obscureText: false,
+                                  autocorrect: false,
+                                  // keyboardType: TextInputType.,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
+                                        Icon(Icons.lock, color: Colors.black54),
+                                    labelText: "Шинэ нууц үг давтах",
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black54),
+                                    filled: true,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    fillColor: Colors.blueGrey.shade50,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                            width: 0, style: BorderStyle.none)),
+                                  ),
+                                  onChanged: (value) {
+                                    reNewPassword = value;
+                                  },
+                                  keyboardType: TextInputType.emailAddress,
+                                ),
+                              ),
+                            ],
+                          )),
                       Expanded(
                         flex: 1,
                         child: Column(

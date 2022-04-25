@@ -30,15 +30,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  TextEditingController nameController =
-      TextEditingController(text: "azhvv12a@gmail.com");
-  TextEditingController passController =
-      TextEditingController(text: "Azaa0216!");
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
   bool isLoggedIn = false;
   String name = '';
-  String _email = "azhvv12a@gmail.com";
-  String _pwd = "Azaa0216!";
+  String _email = "";
+  String _pwd = "";
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
 

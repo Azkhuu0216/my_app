@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
   var currentUser = FirebaseAuth.instance.currentUser;
   var items = [
     'Багш',
-    'Оюутан',
+    'Сурагч',
   ];
 
   @override

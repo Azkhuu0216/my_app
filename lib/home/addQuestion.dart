@@ -496,6 +496,13 @@ class _AddQuestionState extends State<AddQuestion> {
                           message: "Та зөв хариултаа сонгоно уу...",
                         ),
                       );
+                    } else if (question == '') {
+                      showTopSnackBar(
+                        context,
+                        CustomSnackBar.error(
+                          message: "Та асуултаа бичнэ үү...",
+                        ),
+                      );
                     } else {
                       saveData();
                     }
