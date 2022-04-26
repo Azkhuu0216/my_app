@@ -1,10 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_final_fields, duplicate_ignore, avoid_print
 import 'package:flutter/material.dart';
-import 'package:my_app/home/addQuestion.dart';
 import 'package:my_app/common/answer.dart';
 import 'package:my_app/common/reuseable_widget.dart';
 import 'package:my_app/model/answer_model.dart';
-import 'package:my_app/model/exam_model.dart';
 import 'package:my_app/model/question_model.dart';
 import 'package:my_app/provider/mainProvider.dart';
 import 'package:my_app/common/question.dart';
@@ -44,12 +42,15 @@ class Quiz extends StatefulWidget {
   // ignore: non_constant_identifier_names
 }
 
+// ignore: duplicate_ignore
 class _QuizState extends State<Quiz> {
   var _questionIndex = 0;
+  // ignore: prefer_final_fields
   List<Question> _questionListResult = [];
   List<Question> _questionList = [];
   List<AnswerModel> _anwerListResult = [];
   List<AnswerModel> answers = [];
+
   var _point = 0;
   var check = 0;
   var AllPoint = 0;
@@ -61,12 +62,14 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  @override
   void initState() {
     Postgre();
     super.initState();
   }
 
   // List<Question> _listQuestion = [];
+  // ignore: non_constant_identifier_names
   Future<void> Postgre() async {
     var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
@@ -74,8 +77,10 @@ class _QuizState extends State<Quiz> {
         password: "azaa");
     try {
       await connection.open();
-      print("connect");
+      // ignore: avoid_print
+      // print("connect");
     } catch (e) {
+      // ignore: avoid_print
       print('error....');
       print(e.toString());
     }
@@ -87,6 +92,7 @@ class _QuizState extends State<Quiz> {
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
 
+    // ignore: avoid_function_literals_in_foreach_calls
     results.forEach((e) => {
           if (index == results.length)
             {
@@ -98,6 +104,7 @@ class _QuizState extends State<Quiz> {
               qIdList +=
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
+          // print(qIdList),
           index++,
           e.values.first.entries.elementAt(3).value == "intermediate" &&
                   e.values.first.entries.elementAt(2).value != "1000"
@@ -117,15 +124,16 @@ class _QuizState extends State<Quiz> {
                 )
               : null,
         });
-    print(results);
+    // print("results" + results.toString());
 
     String queryAnswer =
         "SELECT  * FROM Answers where question_id in " + qIdList;
     List<Map<String, Map<String, dynamic>>> resultsAnswer =
         await connection.mappedResultsQuery(queryAnswer);
+    // print("resultAnswer===" + resultsAnswer.toString());
 
     resultsAnswer.forEach((e) {
-      print('qID--' + e.values.first.entries.elementAt(2).value.toString());
+      // print('qID--' + e.values.first.entries.elementAt(2).value.toString());
       _anwerListResult.add(
         AnswerModel(
             e.values.first.entries.first.value.toString(),
@@ -133,14 +141,13 @@ class _QuizState extends State<Quiz> {
             e.values.first.entries.elementAt(2).value.toString(),
             e.values.first.entries.elementAt(3).value),
       );
-
-      print("Answer Element ----" + e.toString());
     });
-
+    // ignore: avoid_function_literals_in_foreach_calls
     _questionListResult.forEach((item) => {
-          print('Item----' + item.toString()),
+          // print('Item----' + item.question_id.toString()),
           answers = [],
           _anwerListResult.forEach((subItem) => {
+                // print('subItem----' + subItem.question_id.toString()),
                 if (item.question_id == subItem.question_id)
                   {answers.add(subItem)},
               }),
@@ -155,15 +162,13 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
     // print('questionLength============' + _questionList.length.toString());
-    // print('index =========' + _questionIndex.toString());
     final size = MediaQuery.of(context).size;
-
-    const Key centerKey = ValueKey<String>('bottom-sliver-list');
 
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          // ignore: prefer_const_constructors
           title: Text("Асуулт"),
           backgroundColor: Colors.teal,
         ),

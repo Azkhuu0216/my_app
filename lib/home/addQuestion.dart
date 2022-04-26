@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,11 +68,45 @@ class _AddQuestionState extends State<AddQuestion> {
       print('error....');
       print(e.toString());
     }
+    var answerLen = 0;
+    var explain = '';
+
+    if (answer1 != "") answerLen++;
+    if (answer2 != "") answerLen++;
+    if (answer3 != "") answerLen++;
+    if (answer4 != "") answerLen++;
+    if (answer5 != "") answerLen++;
+
+    for (var i = 0; i < answerLen; i++) {
+      explain = i.toString() == '1'
+          ? _isChecked1
+              ? answer1
+              : ''
+          : i.toString() == '2'
+              ? _isChecked2
+                  ? answer2
+                  : ''
+              : i.toString() == '3'
+                  ? _isChecked3
+                      ? answer3
+                      : ''
+                  : i.toString() == '4'
+                      ? _isChecked4
+                          ? answer4
+                          : ''
+                      : _isChecked5
+                          ? answer5
+                          : '';
+    }
+    print("answerLen ==" + answerLen.toString());
+    print("explain===" + explain);
 
     String query =
-        "insert into questions(question, question_image, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
+        "insert into questions(question, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
             question +
-            "', 'null',  '1000', 'intermediate', '2', 1, 'Хариулт байхгүй', '" +
+            "',  '1000', 'intermediate', '2', 1, '" +
+            explain +
+            "', '" +
             selectedValue.toString() +
             "', 1, '" +
             currentUser!.uid +
@@ -83,21 +118,13 @@ class _AddQuestionState extends State<AddQuestion> {
     }
     var qId = 0;
     results.forEach((e) => qId = e.values.first.entries.first.value);
-    print("id ==" + qId.toString());
+    // print("id ==" + qId.toString());
     showTopSnackBar(
       context,
       CustomSnackBar.success(
         message: "Амжилттай нэмлээ!!!",
       ),
     );
-
-    var answerLen = 0;
-    if (answer1 != "") answerLen++;
-    if (answer2 != "") answerLen++;
-    if (answer3 != "") answerLen++;
-    if (answer4 != "") answerLen++;
-    if (answer5 != "") answerLen++;
-    print("answerLen ==" + answerLen.toString());
 
     for (int i = 1; i <= answerLen; i++) {
       var answer = i.toString() == '1'
@@ -130,27 +157,6 @@ class _AddQuestionState extends State<AddQuestion> {
                           ? '1'
                           : '0';
 
-      var explain = '';
-      explain = i.toString() == '1'
-          ? _isChecked1
-              ? answer1
-              : ''
-          : i.toString() == '2'
-              ? _isChecked2
-                  ? answer2
-                  : ''
-              : i.toString() == '3'
-                  ? _isChecked3
-                      ? answer3
-                      : ''
-                  : i.toString() == '4'
-                      ? _isChecked4
-                          ? answer4
-                          : ''
-                      : _isChecked5
-                          ? answer5
-                          : '';
-
       print("answer====" + answer);
       print("isCorrect====" + isCorrect);
 
@@ -175,7 +181,6 @@ class _AddQuestionState extends State<AddQuestion> {
     //for dawtalt
   } //function haalt
 
-  List<Widget> checkBoxList = [];
   var index = 0;
   void onTap() {
     if (index < 5) {

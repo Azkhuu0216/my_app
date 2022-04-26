@@ -100,9 +100,6 @@ class _ThirdQuizState extends State<ThirdQuiz> {
             },
           index++,
 
-          print("1" + e.values.first.entries.elementAt(1).value),
-          print("5" + e.values.first.entries.elementAt(5).value),
-
           // e.values.first.entries.elementAt(4).value == "intermediate"
           _questionListResult.add(
             (Question(
