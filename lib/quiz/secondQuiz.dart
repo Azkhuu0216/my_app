@@ -104,7 +104,7 @@ class _SecondQuizState extends State<SecondQuiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          e.values.first.entries.elementAt(4).value == "intermediate"
+          e.values.first.entries.elementAt(3).value == "intermediate"
               ? _questionListResult.add(
                   (Question(
                       e.values.first.entries.first.value.toString(),
@@ -114,10 +114,9 @@ class _SecondQuizState extends State<SecondQuiz> {
                       e.values.first.entries.elementAt(4).value,
                       e.values.first.entries.elementAt(5).value,
                       e.values.first.entries.elementAt(6).value,
-                      e.values.first.entries.elementAt(7).value,
+                      e.values.first.entries.elementAt(7).value.toString(),
                       e.values.first.entries.elementAt(8).value.toString(),
                       e.values.first.entries.elementAt(9).value.toString(),
-                      e.values.first.entries.elementAt(10).value.toString(),
                       [])),
                 )
               : null,
@@ -166,72 +165,80 @@ class _SecondQuizState extends State<SecondQuiz> {
           backgroundColor: Colors.teal,
         ),
         body: _questionIndex < _questionList.length
-            ? (Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 40,
-                  ),
-                  QuestionScreen(
-                      _questionList[_questionIndex].question.toString()),
-                  ...(_questionList[_questionIndex].answers
-                          as List<AnswerModel>)
-                      .map((answer) {
-                    return Answer(
-                      answer.answer,
-                      answer.answer_id,
-                      answer.isCorrect,
-                      answer.isCorrect == '1' && _mainProvider.getIsClick()
-                          ? Colors.green
-                          : _mainProvider.getIsClick() &&
-                                  answer.isCorrect == '0' &&
-                                  _mainProvider.getSelectAnswerId() ==
-                                      answer.answer_id
-                              ? Colors.red
-                              : Colors.blue.shade50,
-                    );
-                  }).toList(),
-                  if (_mainProvider.getIsClick())
-                    _mainProvider.getCheck() == 1
-                        ? Column(
-                            children: [
-                              SizedBox(height: 40),
-                              Container(
-                                color: Colors.yellow.shade50,
-                                height: 80,
-                                width: 350,
-                                alignment: Alignment.center,
-                                child: Column(
+            ? CustomScrollView(slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                    return (Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 40,
+                        ),
+                        QuestionScreen(
+                            _questionList[_questionIndex].question.toString()),
+                        ...(_questionList[_questionIndex].answers
+                                as List<AnswerModel>)
+                            .map((answer) {
+                          return Answer(
+                            answer.answer,
+                            answer.answer_id,
+                            answer.isCorrect,
+                            answer.isCorrect == '1' &&
+                                    _mainProvider.getIsClick()
+                                ? Colors.green
+                                : _mainProvider.getIsClick() &&
+                                        answer.isCorrect == '0' &&
+                                        _mainProvider.getSelectAnswerId() ==
+                                            answer.answer_id
+                                    ? Colors.red
+                                    : Colors.blue.shade50,
+                          );
+                        }).toList(),
+                        if (_mainProvider.getIsClick())
+                          _mainProvider.getCheck() == 1
+                              ? Column(
                                   children: [
-                                    SizedBox(height: 20),
-                                    Text(_questionList[_questionIndex]
-                                        .correct_answers
-                                        .toString()),
+                                    SizedBox(height: 40),
+                                    Container(
+                                      color: Colors.yellow.shade50,
+                                      height: 80,
+                                      width: 350,
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 20),
+                                          Text(_questionList[_questionIndex]
+                                              .correct_answers
+                                              .toString()),
+                                        ],
+                                      ),
+                                    ),
                                   ],
-                                ),
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              SizedBox(height: 40),
-                              Container(
-                                color: Colors.yellow.shade50,
-                                height: 80,
-                                width: 350,
-                                alignment: Alignment.center,
-                                child: Column(
+                                )
+                              : Column(
                                   children: [
-                                    SizedBox(height: 20),
-                                    Text(_questionList[_questionIndex]
-                                        .correct_answers
-                                        .toString()),
+                                    SizedBox(height: 40),
+                                    Container(
+                                      color: Colors.yellow.shade50,
+                                      height: 80,
+                                      width: 350,
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 20),
+                                          Text(_questionList[_questionIndex]
+                                              .correct_answers
+                                              .toString()),
+                                        ],
+                                      ),
+                                    ),
                                   ],
-                                ),
-                              ),
-                            ],
-                          )
-                ],
-              ))
+                                )
+                      ],
+                    ));
+                  }, childCount: 1),
+                ),
+              ])
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

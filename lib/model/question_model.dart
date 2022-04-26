@@ -6,7 +6,6 @@ import 'answer_model.dart';
 class Question {
   final String question_id;
   final String question;
-  final List question_image;
   final String qyear;
   final String qlevel;
   final String score;
@@ -19,7 +18,6 @@ class Question {
   Question(
       this.question_id,
       this.question,
-      this.question_image,
       this.qyear,
       this.qlevel,
       this.score,

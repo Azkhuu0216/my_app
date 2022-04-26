@@ -99,8 +99,8 @@ class _QuizState extends State<Quiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          e.values.first.entries.elementAt(4).value == "intermediate" &&
-                  e.values.first.entries.elementAt(3).value != "1000"
+          e.values.first.entries.elementAt(3).value == "intermediate" &&
+                  e.values.first.entries.elementAt(2).value != "1000"
               ? _questionListResult.add(
                   (Question(
                       e.values.first.entries.first.value.toString(),
@@ -110,10 +110,9 @@ class _QuizState extends State<Quiz> {
                       e.values.first.entries.elementAt(4).value,
                       e.values.first.entries.elementAt(5).value,
                       e.values.first.entries.elementAt(6).value,
-                      e.values.first.entries.elementAt(7).value,
+                      e.values.first.entries.elementAt(7).value.toString(),
                       e.values.first.entries.elementAt(8).value.toString(),
                       e.values.first.entries.elementAt(9).value.toString(),
-                      e.values.first.entries.elementAt(10).value.toString(),
                       [])),
                 )
               : null,
@@ -158,6 +157,9 @@ class _QuizState extends State<Quiz> {
     // print('questionLength============' + _questionList.length.toString());
     // print('index =========' + _questionIndex.toString());
     final size = MediaQuery.of(context).size;
+
+    const Key centerKey = ValueKey<String>('bottom-sliver-list');
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -166,71 +168,83 @@ class _QuizState extends State<Quiz> {
           backgroundColor: Colors.teal,
         ),
         body: _questionIndex < _questionList.length
-            ? (Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 40,
+            ? CustomScrollView(slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      index = 0;
+                      return (Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 40,
+                          ),
+                          QuestionScreen(_questionList[_questionIndex]
+                              .question
+                              .toString()),
+                          ...(_questionList[_questionIndex].answers
+                                  as List<AnswerModel>)
+                              .map((answer) {
+                            return Answer(
+                                answer.answer,
+                                answer.answer_id,
+                                answer.isCorrect,
+                                answer.isCorrect == '1' &&
+                                        _mainProvider.getIsClick()
+                                    ? Colors.green
+                                    : _mainProvider.getIsClick() &&
+                                            answer.isCorrect == '0' &&
+                                            _mainProvider.getSelectAnswerId() ==
+                                                answer.answer_id
+                                        ? Colors.red
+                                        : Colors.blue.shade50);
+                          }).toList(),
+                          if (_mainProvider.getIsClick())
+                            _mainProvider.getCheck() == 1
+                                ? Column(
+                                    children: [
+                                      SizedBox(height: 40),
+                                      Container(
+                                        color: Colors.yellow.shade50,
+                                        height: 80,
+                                        width: 350,
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 20),
+                                            Text(_questionList[_questionIndex]
+                                                .correct_answers
+                                                .toString()),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      SizedBox(height: 40),
+                                      Container(
+                                        color: Colors.yellow.shade50,
+                                        height: 80,
+                                        width: 350,
+                                        alignment: Alignment.center,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(height: 20),
+                                            Text(_questionList[_questionIndex]
+                                                .correct_answers
+                                                .toString()),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                        ],
+                      ));
+                    },
+                    childCount: 1,
                   ),
-                  QuestionScreen(
-                      _questionList[_questionIndex].question.toString()),
-                  ...(_questionList[_questionIndex].answers
-                          as List<AnswerModel>)
-                      .map((answer) {
-                    return Answer(
-                        answer.answer,
-                        answer.answer_id,
-                        answer.isCorrect,
-                        answer.isCorrect == '1' && _mainProvider.getIsClick()
-                            ? Colors.green
-                            : _mainProvider.getIsClick() &&
-                                    answer.isCorrect == '0' &&
-                                    _mainProvider.getSelectAnswerId() ==
-                                        answer.answer_id
-                                ? Colors.red
-                                : Colors.blue.shade50);
-                  }).toList(),
-                  if (_mainProvider.getIsClick())
-                    _mainProvider.getCheck() == 1
-                        ? Column(
-                            children: [
-                              SizedBox(height: 40),
-                              Container(
-                                color: Colors.yellow.shade50,
-                                height: 80,
-                                width: 350,
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Text(_questionList[_questionIndex]
-                                        .correct_answers
-                                        .toString()),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                        : Column(
-                            children: [
-                              SizedBox(height: 40),
-                              Container(
-                                color: Colors.yellow.shade50,
-                                height: 80,
-                                width: 350,
-                                alignment: Alignment.center,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 20),
-                                    Text(_questionList[_questionIndex]
-                                        .correct_answers
-                                        .toString()),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )
-                ],
-              ))
+                ),
+              ])
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
