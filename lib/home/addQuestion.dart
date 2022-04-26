@@ -77,7 +77,8 @@ class _AddQuestionState extends State<AddQuestion> {
     if (answer4 != "") answerLen++;
     if (answer5 != "") answerLen++;
 
-    for (var i = 0; i < answerLen; i++) {
+    for (int i = 1; i <= answerLen; i++) {
+      print("i ---------" + i.toString());
       explain = i.toString() == '1'
           ? _isChecked1
               ? answer1
