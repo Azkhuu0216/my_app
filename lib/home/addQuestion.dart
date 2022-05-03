@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -25,7 +26,7 @@ class AddQuestion extends StatefulWidget {
 class _AddQuestionState extends State<AddQuestion> {
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
-
+  String answerId = "";
   String question = "";
   String answer1 = "";
   String answer2 = "";
@@ -33,7 +34,9 @@ class _AddQuestionState extends State<AddQuestion> {
   String answer4 = "";
   String answer5 = "";
   String explain = '';
-
+  var answerLen = 0;
+  var answer = '';
+  var isCorrect = '';
   int mapIndex = 1;
   bool _isChecked1 = false;
   bool _isChecked2 = false;
@@ -58,107 +61,6 @@ class _AddQuestionState extends State<AddQuestion> {
     super.initState();
   }
 
-  Future<void> saveData() async {
-    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
-        // ignore: non_constant_identifier_names
-        username: "postgres",
-        password: "azaa");
-    try {
-      await connection.open();
-      print("connect");
-    } catch (e) {
-      print('error....');
-      print(e.toString());
-    }
-
-    String query =
-        "insert into questions(question, qyear, qlevel, score, answer_type, correct_answer, cat_id, exam_id, user_id ) values ( '" +
-            question +
-            "',  '1000', 'intermediate', '2', 1, '" +
-            explain +
-            "', '" +
-            selectedValue.toString() +
-            "', 1, '" +
-            currentUser!.uid +
-            "') RETURNING question_id";
-    List<Map<String, Map<String, dynamic>>> results =
-        await connection.mappedResultsQuery(query);
-    if (results.length < 1) {
-      return;
-    }
-    var qId = 0;
-    results.forEach((e) => qId = e.values.first.entries.first.value);
-    // print("id ==" + qId.toString());
-    showTopSnackBar(
-      context,
-      CustomSnackBar.success(
-        message: "Амжилттай илгээлээ!!!",
-      ),
-    );
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-
-    var answerLen = 0;
-    if (answer1 != "") answerLen++;
-    if (answer2 != "") answerLen++;
-    if (answer3 != "") answerLen++;
-    if (answer4 != "") answerLen++;
-    if (answer5 != "") answerLen++;
-
-    for (int i = 1; i <= answerLen; i++) {
-      var answer = i.toString() == '1'
-          ? answer1
-          : i.toString() == '2'
-              ? answer2
-              : i.toString() == '3'
-                  ? answer3
-                  : i.toString() == '4'
-                      ? answer4
-                      : answer5;
-
-      var isCorrect = i.toString() == '1'
-          ? _isChecked1
-              ? '1'
-              : '0'
-          : i.toString() == '2'
-              ? _isChecked2
-                  ? '1'
-                  : '0'
-              : i.toString() == '3'
-                  ? _isChecked3
-                      ? '1'
-                      : '0'
-                  : i.toString() == '4'
-                      ? _isChecked4
-                          ? '1'
-                          : '0'
-                      : _isChecked5
-                          ? '1'
-                          : '0';
-
-      print("answer====" + answer);
-      print("isCorrect====" + isCorrect);
-
-      String queryAnswer =
-          "insert into Answers(answer, question_id, isCorrect) values ('" +
-              answer +
-              "', '" +
-              qId.toString() +
-              "', '" +
-              isCorrect +
-              "')";
-      List<Map<String, Map<String, dynamic>>> resultsAnswer =
-          await connection.mappedResultsQuery(queryAnswer);
-
-      setState(() {
-        answersResult = [];
-        answers = [];
-        question = "";
-      });
-    }
-
-    //for dawtalt
-  } //function haalt
-
   var val = 0;
   void onTap() {
     if (val < 5) {
@@ -179,6 +81,80 @@ class _AddQuestionState extends State<AddQuestion> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference questions =
+        FirebaseFirestore.instance.collection('questions');
+    CollectionReference answerses =
+        FirebaseFirestore.instance.collection('answers');
+
+    Future<Future> addQuestion() async {
+      if (answer1 != "") answerLen++;
+      if (answer2 != "") answerLen++;
+      if (answer3 != "") answerLen++;
+      if (answer4 != "") answerLen++;
+      if (answer5 != "") answerLen++;
+      // Call the user's CollectionReference to add a new user
+      return questions
+          .add({
+            'question': question,
+            'qyear': '1000',
+            'qlevel': 'intermediate',
+            'score': '2',
+            'answer_type': '1',
+            'correct_answer': explain,
+            'isApproved': 'false',
+            'cat_id': selectedValue,
+            'exam_id': '1',
+            'user_id': currentUser!.uid
+          })
+          .then(
+            (value) => {
+              for (int i = 1; i <= answerLen; i++)
+                {
+                  answer = i.toString() == '1'
+                      ? answer1
+                      : i.toString() == '2'
+                          ? answer2
+                          : i.toString() == '3'
+                              ? answer3
+                              : i.toString() == '4'
+                                  ? answer4
+                                  : answer5,
+                  isCorrect = i.toString() == '1'
+                      ? _isChecked1
+                          ? '1'
+                          : '0'
+                      : i.toString() == '2'
+                          ? _isChecked2
+                              ? '1'
+                              : '0'
+                          : i.toString() == '3'
+                              ? _isChecked3
+                                  ? '1'
+                                  : '0'
+                              : i.toString() == '4'
+                                  ? _isChecked4
+                                      ? '1'
+                                      : '0'
+                                  : _isChecked5
+                                      ? '1'
+                                      : '0',
+                  answerses.add({
+                    'answer': answer,
+                    'question_id': value.id,
+                    'isCorrect': isCorrect
+                  })
+                },
+              setState(() {
+                answersResult = [];
+                answers = [];
+                question = "";
+              }),
+            },
+          )
+          // ignore: invalid_return_type_for_catch_error, avoid_print
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Асуулт нэмэх"),
@@ -525,7 +501,9 @@ class _AddQuestionState extends State<AddQuestion> {
                               ),
                             );
                           } else {
-                            saveData();
+                            // saveData();
+                            addQuestion();
+                            // addAnswers();
                           }
                         }, Icons.add),
                       ),

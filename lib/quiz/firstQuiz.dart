@@ -1,4 +1,5 @@
 // ignore_for_file: file_names, prefer_final_fields, duplicate_ignore, avoid_print
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/answer.dart';
 import 'package:my_app/common/reuseable_widget.dart';
@@ -49,8 +50,8 @@ class _QuizState extends State<Quiz> {
   List<Question> _questionListResult = [];
   List<Question> _questionList = [];
   List<AnswerModel> _anwerListResult = [];
-  List<AnswerModel> answers = [];
 
+  List<AnswerModel> answers = [];
   var _point = 0;
   var check = 0;
   var AllPoint = 0;
@@ -64,14 +65,16 @@ class _QuizState extends State<Quiz> {
 
   @override
   void initState() {
-    Postgre();
+    // Postgre();
+    getData();
     super.initState();
   }
 
   // List<Question> _listQuestion = [];
   // ignore: non_constant_identifier_names
+
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -92,6 +95,8 @@ class _QuizState extends State<Quiz> {
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
 
+    print("POstgre results ---------" + results.toString());
+
     // ignore: avoid_function_literals_in_foreach_calls
     results.forEach((e) => {
           if (index == results.length)
@@ -104,7 +109,8 @@ class _QuizState extends State<Quiz> {
               qIdList +=
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
-          // print(qIdList),
+          print("qIdList-------" + qIdList),
+          print("index-----" + index.toString()),
           index++,
           e.values.first.entries.elementAt(3).value == "intermediate" &&
                   e.values.first.entries.elementAt(2).value != "1000" &&
@@ -144,6 +150,7 @@ class _QuizState extends State<Quiz> {
             e.values.first.entries.elementAt(3).value),
       );
     });
+    print("QuestionListResult ===========+ " + _questionListResult.toString());
     // ignore: avoid_function_literals_in_foreach_calls
     _questionListResult.forEach((item) => {
           // print('Item----' + item.question_id.toString()),
@@ -158,6 +165,100 @@ class _QuizState extends State<Quiz> {
     setState(() {
       _questionList = _questionListResult;
     });
+  }
+
+  CollectionReference _answers =
+      FirebaseFirestore.instance.collection('answers');
+
+  Future<void> getData() async {
+    List qIdList = [];
+    int index = 1;
+    FirebaseFirestore.instance.collection("questions").get().then(
+      (value) {
+        // print('FirsStore result ------' + value.docs.length.toString());
+        // print('FirsStore Docs ------' + value.docs.toString());
+
+        value.docs.forEach((element) {
+          if (index == value.docs.length) {
+            // qIdList += "'" + element.id.toString() + "']";
+            qIdList.add("'" + element.id.toString() + "'");
+          } else {
+            // qIdList += "'" + element.id.toString() + "',";
+            qIdList.add("'" + element.id.toString() + "'");
+          }
+          print("index-----" + index.toString());
+          index++;
+          // print('qIdList --333----' + qIdList.toString());
+          // print('FirsStore result ------' + value.docs.length.toString());
+
+          print(element.id);
+          print(element.get('question'));
+          print(element.get('qyear'));
+          print(element.get('qlevel'));
+          print(element.get('score'));
+          print(element.get('answer_type'));
+          print(element.get('correct_answer'));
+          print(element.get('isApproved'));
+          print(element.get('cat_id'));
+          print(element.get('exam_id'));
+          print(element.get('user_id'));
+          element.get('exam_id') == widget.examId &&
+                  element.get('isApproved') == 'true' &&
+                  element.get('qyear') != '1000'
+              ? _questionListResult.add(
+                  Question(
+                    element.id,
+                    element.get('question'),
+                    element.get('qyear'),
+                    element.get('qlevel'),
+                    element.get('score'),
+                    element.get('answer_type'),
+                    element.get('correct_answer'),
+                    element.get('isApproved'),
+                    element.get('cat_id'),
+                    element.get('exam_id'),
+                    element.get('user_id'),
+                    [],
+                  ),
+                )
+              : null;
+        });
+
+        final cities = _answers.where("question_id", arrayContains: qIdList);
+        // print("aaaaaaaaaaaaaaaa" + cities.toString());
+
+        FirebaseFirestore.instance.collection("answers").get().then(
+              (value) => {
+                // print("Answer------" + value.docs.length.toString()),
+                value.docs.forEach(
+                  (element) {
+                    element.get("question_id") == cities;
+                    _anwerListResult.add(
+                      AnswerModel(element.id, element.get('answer'),
+                          element.get('question_id'), element.get('isCorrect')),
+                    );
+                  },
+                ),
+                print("_QuestionListResult.===========" +
+                    _questionListResult.toString()),
+                _questionListResult.forEach((item) => {
+                      // print('Item----' + item.question_id.toString()),
+                      answers = [],
+                      _anwerListResult.forEach((subItem) => {
+                            // print(
+                            //     'subItem----' + subItem.question_id.toString()),
+                            if (item.question_id == subItem.question_id)
+                              {answers.add(subItem)},
+                          }),
+                      item.answers.addAll(answers),
+                    }),
+                setState(() {
+                  _questionList = _questionListResult;
+                }),
+              },
+            );
+      },
+    );
   }
 
   @override
@@ -219,7 +320,7 @@ class _QuizState extends State<Quiz> {
                                           children: [
                                             SizedBox(height: 20),
                                             Text(_questionList[_questionIndex]
-                                                .correct_answers
+                                                .correct_answer
                                                 .toString()),
                                           ],
                                         ),
@@ -238,7 +339,7 @@ class _QuizState extends State<Quiz> {
                                           children: [
                                             SizedBox(height: 20),
                                             Text(_questionList[_questionIndex]
-                                                .correct_answers
+                                                .correct_answer
                                                 .toString()),
                                           ],
                                         ),

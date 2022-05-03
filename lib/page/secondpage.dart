@@ -27,7 +27,7 @@ class _SecondPageState extends State<SecondPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");

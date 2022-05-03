@@ -62,6 +62,8 @@ class _ThirdPageState extends State<ThirdPage> {
                 : null;
           },
         );
+        print("Userresult" + UserResult.toString());
+
         setState(() {
           UserData = UserResult;
           ColumnList = ListModel;

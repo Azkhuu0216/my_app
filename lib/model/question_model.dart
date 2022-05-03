@@ -9,8 +9,8 @@ class Question {
   final String qyear;
   final String qlevel;
   final String score;
-  final int answer_type;
-  final String correct_answers;
+  final String answer_type;
+  final String correct_answer;
   final String isApproved;
   final String cat_id;
   final String exam_id;
@@ -23,7 +23,7 @@ class Question {
       this.qlevel,
       this.score,
       this.answer_type,
-      this.correct_answers,
+      this.correct_answer,
       this.isApproved,
       this.cat_id,
       this.exam_id,
