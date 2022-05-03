@@ -112,11 +112,11 @@ Container TestButton(BuildContext context, String text, Function onTap) {
       Provider.of<MainProvider>(context, listen: false);
 
   return Container(
-    width: 55,
-    height: 60,
-    margin: const EdgeInsets.only(left: 10, top: 20),
+    // width: 40,
+    // height: 50,
+    margin: const EdgeInsets.all(5),
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(50),
+      borderRadius: BorderRadius.circular(5),
     ),
     child: ElevatedButton(
       onPressed: () {
@@ -129,7 +129,7 @@ Container TestButton(BuildContext context, String text, Function onTap) {
       child: Text(
         text,
         style: const TextStyle(
-            color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 16),
+            color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) {

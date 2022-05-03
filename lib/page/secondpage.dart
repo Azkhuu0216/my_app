@@ -27,7 +27,7 @@ class _SecondPageState extends State<SecondPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -42,10 +42,13 @@ class _SecondPageState extends State<SecondPage> {
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery("SELECT  * FROM categories ");
     results.forEach((element) {
-      _listCategoryResult.add(Category(
+      _listCategoryResult.add(
+        Category(
           element.values.first.entries.first.value.toString(),
           element.values.first.entries.elementAt(1).value,
-          element.values.first.entries.elementAt(2).value.toString()));
+          element.values.first.entries.elementAt(2).value,
+        ),
+      );
       // print(element.values.first.entries.first.value);
       // print(element.values.first.entries.elementAt(1).value);
       _gridListResult.add(yearButton(

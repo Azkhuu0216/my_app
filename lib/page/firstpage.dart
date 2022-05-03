@@ -28,7 +28,7 @@ class _FirstPageState extends State<FirstPage> {
   //   DraggableGridItem(child: Text('b'), isDraggable: false),
   // ];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -42,7 +42,7 @@ class _FirstPageState extends State<FirstPage> {
 
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery("SELECT  * FROM exams ");
-    print(results);
+    // print(results);
 
     results.forEach((element) {
       _listExamResult.add(Exam(
@@ -73,8 +73,8 @@ class _FirstPageState extends State<FirstPage> {
     return Scaffold(
       body: GridView.count(
         crossAxisCount: 4,
-        crossAxisSpacing: 0.0,
-        mainAxisSpacing: 20,
+        crossAxisSpacing: 0,
+        mainAxisSpacing: 0,
         children: _gridList,
       ),
     );

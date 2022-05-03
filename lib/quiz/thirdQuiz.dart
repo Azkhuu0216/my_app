@@ -65,7 +65,7 @@ class _ThirdQuizState extends State<ThirdQuiz> {
 
   List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -85,8 +85,6 @@ class _ThirdQuizState extends State<ThirdQuiz> {
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery(query);
 
-    print("REsult question" + results.length.toString());
-
     results.forEach((e) => {
           if (index == results.length)
             {
@@ -99,24 +97,26 @@ class _ThirdQuizState extends State<ThirdQuiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-
-          // e.values.first.entries.elementAt(4).value == "intermediate"
-          _questionListResult.add(
-            (Question(
-                e.values.first.entries.first.value.toString(),
-                e.values.first.entries.elementAt(1).value,
-                e.values.first.entries.elementAt(2).value,
-                e.values.first.entries.elementAt(3).value,
-                e.values.first.entries.elementAt(4).value,
-                e.values.first.entries.elementAt(5).value,
-                e.values.first.entries.elementAt(6).value.toString(),
-                e.values.first.entries.elementAt(7).value.toString(),
-                e.values.first.entries.elementAt(8).value.toString(),
-                e.values.first.entries.elementAt(9).value.toString(), [])),
-          )
-          // : null,
+          print(e.values.first.entries.elementAt(7).value),
+          e.values.first.entries.elementAt(7).value == 'true'
+              ? _questionListResult.add(
+                  (Question(
+                      e.values.first.entries.first.value.toString(),
+                      e.values.first.entries.elementAt(1).value,
+                      e.values.first.entries.elementAt(2).value,
+                      e.values.first.entries.elementAt(3).value,
+                      e.values.first.entries.elementAt(4).value,
+                      e.values.first.entries.elementAt(5).value,
+                      e.values.first.entries.elementAt(6).value,
+                      e.values.first.entries.elementAt(7).value.toString(),
+                      e.values.first.entries.elementAt(8).value.toString(),
+                      e.values.first.entries.elementAt(9).value.toString(),
+                      e.values.first.entries.elementAt(10).value.toString(),
+                      [])),
+                )
+              : null,
         });
-    print(results);
+    print("results" + results.toString());
 
     String queryAnswer =
         "SELECT  * FROM Answers where question_id in " + qIdList;

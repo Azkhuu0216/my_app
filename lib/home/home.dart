@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
             appBar: AppBar(
               elevation: 0,
               title: const Text(
-                "Хими ЭЕШ",
+                "Бататгах сорил",
               ),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black87,
@@ -75,9 +75,9 @@ class _HomeState extends State<Home> {
                     height: 20,
                   ),
                   const Expanded(
-                    flex: 2,
+                    flex: 4,
                     child: CircleAvatar(
-                      radius: 90,
+                      radius: 100,
                       backgroundImage: AssetImage("assets/images/logo.png"),
                     ),
                   ),
@@ -162,7 +162,7 @@ class _HomeState extends State<Home> {
                                 icon: Icons.supervised_user_circle_rounded,
                                 onClicked: () => _selectItem(context, 0)),
                             menuItem(
-                                text: 'Хими ЭЕШ',
+                                text: 'Бататгах сорил',
                                 icon: Icons.create_sharp,
                                 onClicked: () => _selectItem(context, 1)),
                             menuItem(

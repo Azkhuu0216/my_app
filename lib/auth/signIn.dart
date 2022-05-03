@@ -356,13 +356,13 @@ class _SignInState extends State<SignIn> {
         ),
         children: const [
           TextSpan(
-            text: 'Химийн',
+            text: 'Бататгах',
             style: TextStyle(
               fontWeight: FontWeight.w800,
             ),
           ),
           TextSpan(
-            text: 'ЭЕШ',
+            text: 'Сорил',
             style: TextStyle(
               color: Color(0xFFFE9879),
               fontWeight: FontWeight.w800,

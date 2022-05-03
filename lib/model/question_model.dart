@@ -11,6 +11,7 @@ class Question {
   final String score;
   final int answer_type;
   final String correct_answers;
+  final String isApproved;
   final String cat_id;
   final String exam_id;
   final String user_id;
@@ -23,6 +24,7 @@ class Question {
       this.score,
       this.answer_type,
       this.correct_answers,
+      this.isApproved,
       this.cat_id,
       this.exam_id,
       this.user_id,

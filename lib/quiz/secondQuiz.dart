@@ -73,7 +73,7 @@ class _SecondQuizState extends State<SecondQuiz> {
 
   // List<Question> _listQuestion = [];
   Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -104,7 +104,8 @@ class _SecondQuizState extends State<SecondQuiz> {
                   "'" + e.values.first.entries.first.value.toString() + "',",
             },
           index++,
-          e.values.first.entries.elementAt(3).value == "intermediate"
+          e.values.first.entries.elementAt(3).value == "intermediate" &&
+                  e.values.first.entries.elementAt(7).value == 'true'
               ? _questionListResult.add(
                   (Question(
                       e.values.first.entries.first.value.toString(),
@@ -117,11 +118,12 @@ class _SecondQuizState extends State<SecondQuiz> {
                       e.values.first.entries.elementAt(7).value.toString(),
                       e.values.first.entries.elementAt(8).value.toString(),
                       e.values.first.entries.elementAt(9).value.toString(),
+                      e.values.first.entries.elementAt(10).value.toString(),
                       [])),
                 )
               : null,
         });
-    print(results);
+    // print(results);
 
     String queryAnswer =
         "SELECT  * FROM Answers where question_id in " + qIdList;

@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_app/auth/signIn.dart';
@@ -56,29 +57,29 @@ class _SplashScreenState extends State<SplashScreen> {
         style: GoogleFonts.inter(
           fontSize: fontSize,
           color: const Color(0xFF21899C),
-          letterSpacing: 3,
+          letterSpacing: 2,
           height: 1.03,
         ),
         children: const [
           TextSpan(
-            text: 'ХИМИ ',
+            text: 'БАТАТГАХ ',
             style: TextStyle(
               fontWeight: FontWeight.w800,
             ),
           ),
           TextSpan(
-            text: ' ЭЛСЭЛТИЙН\nЕРӨНХИЙ ',
+            text: ' СОРИЛ',
             style: TextStyle(
               color: Color(0xFFFE9879),
               fontWeight: FontWeight.w800,
             ),
           ),
-          TextSpan(
-            text: 'ШАЛГАЛТ',
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-            ),
-          ),
+          // TextSpan(
+          //   text: 'АППЛИКЕЙШН',
+          //   style: TextStyle(
+          //     fontWeight: FontWeight.w800,
+          //   ),
+          // ),
         ],
       ),
       textAlign: TextAlign.center,

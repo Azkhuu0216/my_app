@@ -45,10 +45,10 @@ class _AddQuestionState extends State<AddQuestion> {
 
   String? selectedValue;
   List<Category> items = [
-    Category("1", 'Органик хими', ''),
-    Category("2", 'Органик бус хими', ''),
-    Category("3", 'Ерөнхий хими', ''),
-    Category("4", 'Физик хими', '')
+    Category("1", 'Математик', ''),
+    Category("2", 'Хими', ''),
+    Category("3", 'Англи хэл', ''),
+    Category("4", 'Монгол хэл', '')
   ];
 
   List<dynamic> answers = [];
@@ -59,7 +59,7 @@ class _AddQuestionState extends State<AddQuestion> {
   }
 
   Future<void> saveData() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
+    var connection = PostgreSQLConnection("10.3.200.239", 5433, "Chemistry",
         // ignore: non_constant_identifier_names
         username: "postgres",
         password: "azaa");
@@ -92,7 +92,7 @@ class _AddQuestionState extends State<AddQuestion> {
     showTopSnackBar(
       context,
       CustomSnackBar.success(
-        message: "Амжилттай нэмлээ!!!",
+        message: "Амжилттай илгээлээ!!!",
       ),
     );
     Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
@@ -210,7 +210,7 @@ class _AddQuestionState extends State<AddQuestion> {
                               ),
                               Expanded(
                                 child: Text(
-                                  'Категори',
+                                  'Хичээлийн нэр',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

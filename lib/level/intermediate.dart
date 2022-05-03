@@ -17,10 +17,10 @@ class Intermediate extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: "Он",
+                text: "ЭЕШ он",
               ),
               Tab(
-                text: "Сэдэв",
+                text: "Хичээл",
               ),
               Tab(
                 text: "Багш",

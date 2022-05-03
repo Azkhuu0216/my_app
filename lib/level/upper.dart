@@ -17,10 +17,10 @@ class Upper extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: "Холимог",
+                text: "ЭЕШ он",
               ),
               Tab(
-                text: "Онууд",
+                text: "Хичээл",
               ),
               Tab(
                 text: "Багш",
