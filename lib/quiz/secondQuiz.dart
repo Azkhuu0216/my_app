@@ -76,10 +76,10 @@ class _SecondQuizState extends State<SecondQuiz> {
           print(element.get('answer_type'));
           print(element.get('correct_answer'));
           print(element.get('isApproved'));
-          print(element.get('cat_id'));
-          print(element.get('exam_id'));
+          print(element.get('lesson_id'));
+          print(element.get('test_id'));
           print(element.get('user_id'));
-          element.get('cat_id') == widget.lessonId &&
+          element.get('lesson_id') == widget.lessonId &&
                   element.get('isApproved') == 'true'
               ? _questionListResult.add(
                   Question(
@@ -91,8 +91,8 @@ class _SecondQuizState extends State<SecondQuiz> {
                     element.get('answer_type'),
                     element.get('correct_answer'),
                     element.get('isApproved'),
-                    element.get('cat_id'),
-                    element.get('exam_id'),
+                    element.get('lesson_id'),
+                    element.get('test_id'),
                     element.get('user_id'),
                     [],
                   ),
@@ -188,8 +188,10 @@ class _SecondQuizState extends State<SecondQuiz> {
                                     children: [
                                       SizedBox(height: 40),
                                       Container(
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         color: Colors.yellow.shade50,
-                                        height: 80,
+                                        height: 120,
                                         width: 350,
                                         alignment: Alignment.center,
                                         child: Column(
@@ -207,8 +209,10 @@ class _SecondQuizState extends State<SecondQuiz> {
                                     children: [
                                       SizedBox(height: 40),
                                       Container(
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         color: Colors.yellow.shade50,
-                                        height: 80,
+                                        height: 120,
                                         width: 350,
                                         alignment: Alignment.center,
                                         child: Column(

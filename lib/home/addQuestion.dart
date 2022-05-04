@@ -14,7 +14,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:group_button/group_button.dart';
 
-import '../model/category_model.dart';
+import '../model/lesson_model.dart';
 
 class AddQuestion extends StatefulWidget {
   const AddQuestion({Key? key}) : super(key: key);
@@ -47,11 +47,11 @@ class _AddQuestionState extends State<AddQuestion> {
   String _currText = '';
 
   String? selectedValue;
-  List<Category> items = [
-    Category("1", 'Математик', ''),
-    Category("2", 'Хими', ''),
-    Category("3", 'Англи хэл', ''),
-    Category("4", 'Монгол хэл', '')
+  List<Lesson> items = [
+    Lesson("1", 'Математик'),
+    Lesson("2", 'Монгол хэл'),
+    Lesson("3", 'Англи хэл'),
+    Lesson("4", 'Хими')
   ];
 
   List<dynamic> answers = [];
@@ -96,14 +96,14 @@ class _AddQuestionState extends State<AddQuestion> {
       return questions
           .add({
             'question': question,
-            'qyear': '1000',
+            'qyear': '2006',
             'qlevel': 'intermediate',
             'score': '2',
             'answer_type': '1',
             'correct_answer': explain,
-            'isApproved': 'false',
-            'cat_id': selectedValue,
-            'exam_id': '1',
+            'isApproved': 'true',
+            'lesson_id': selectedValue,
+            'test_id': '31',
             'user_id': currentUser!.uid
           })
           .then(
@@ -148,6 +148,12 @@ class _AddQuestionState extends State<AddQuestion> {
                 answersResult = [];
                 answers = [];
                 question = "";
+                showTopSnackBar(
+                  context,
+                  CustomSnackBar.success(
+                    message: "Хүсэлт амжилттай илгээлээ!!!",
+                  ),
+                );
               }),
             },
           )
@@ -199,9 +205,9 @@ class _AddQuestionState extends State<AddQuestion> {
                           ),
                           items: items
                               .map((item) => DropdownMenuItem<Object>(
-                                    value: item.category_id,
+                                    value: item.lesson_id,
                                     child: Text(
-                                      item.category_name,
+                                      item.lessonName,
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,

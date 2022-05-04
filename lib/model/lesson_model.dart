@@ -1,9 +1,8 @@
-class Category {
-  final String category_id;
-  final String category_name;
-  final String description;
+class Lesson {
+  final String lesson_id;
+  final String lessonName;
 
-  Category(this.category_id, this.category_name, this.description);
+  Lesson(this.lesson_id, this.lessonName);
 
   // Category.fromJson(Map<String, dynamic> json)
   //     : category_id = json['category_id'],

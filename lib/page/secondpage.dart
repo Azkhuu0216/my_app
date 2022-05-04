@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/quiz/firstQuiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
-import 'package:my_app/model/category_model.dart';
+import 'package:my_app/model/lesson_model.dart';
 import 'package:my_app/quiz/secondQuiz.dart';
 import 'package:postgres/postgres.dart';
 
@@ -14,60 +15,50 @@ class SecondPage extends StatefulWidget {
 
 class _SecondPageState extends State<SecondPage> {
   void initState() {
-    Postgre();
+    getData();
     super.initState();
   }
 
-  List<Category> _listCategoryResult = [];
-  List<Category> _listCategoryData = [];
+  List<Lesson> _listLessonResult = [];
+  List<Lesson> _listLessonData = [];
   List<Widget> _gridListResult = [];
   List<Widget> _gridList = [];
-  // List<DraggableGridItem> _listOfDraggableGridItem = [
-  //   DraggableGridItem(child: Text('a'), isDraggable: false),
-  //   DraggableGridItem(child: Text('b'), isDraggable: false),
-  // ];
-  Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
-        // ignore: non_constant_identifier_names
-        username: "postgres",
-        password: "azaa");
-    try {
-      await connection.open();
-      print("connect");
-    } catch (e) {
-      print('error....');
-      print(e.toString());
-    }
 
-    List<Map<String, Map<String, dynamic>>> results =
-        await connection.mappedResultsQuery("SELECT  * FROM categories ");
-    results.forEach((element) {
-      _listCategoryResult.add(
-        Category(
-          element.values.first.entries.first.value.toString(),
-          element.values.first.entries.elementAt(1).value,
-          element.values.first.entries.elementAt(2).value,
-        ),
-      );
-      // print(element.values.first.entries.first.value);
-      // print(element.values.first.entries.elementAt(1).value);
-      _gridListResult.add(yearButton(
-          context, element.values.first.entries.elementAt(1).value, () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            // ignore: prefer_const_constructors
-            builder: (context) =>
-                SecondQuiz(element.values.first.entries.first.value.toString()),
-          ),
+  CollectionReference users = FirebaseFirestore.instance.collection('lessons');
+
+  Future<void> getData() async {
+    FirebaseFirestore.instance.collection("lessons").get().then(
+      (value) {
+        value.docs.forEach(
+          (element) {
+            _listLessonResult.add(Lesson(
+              element.id,
+              element.get('lessonName'),
+            ));
+            // print('element =  ' + element.get('firstname'));
+            _gridListResult.add(
+              yearButton(
+                context,
+                element.get('lessonName'),
+                () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      // ignore: prefer_const_constructors
+                      builder: (context) => SecondQuiz(element.id),
+                    ),
+                  );
+                },
+              ),
+            );
+            setState(() {
+              _listLessonData = _listLessonResult;
+              _gridList = _gridListResult;
+            });
+          },
         );
-      }));
-    });
-
-    setState(() {
-      _listCategoryData = _listCategoryResult;
-      _gridList = _gridListResult;
-    });
+      },
+    );
   }
 
   @override

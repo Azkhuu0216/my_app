@@ -12,8 +12,8 @@ class Question {
   final String answer_type;
   final String correct_answer;
   final String isApproved;
-  final String cat_id;
-  final String exam_id;
+  final String lesson_id;
+  final String test_id;
   final String user_id;
   final List<AnswerModel> answers;
   Question(
@@ -25,8 +25,8 @@ class Question {
       this.answer_type,
       this.correct_answer,
       this.isApproved,
-      this.cat_id,
-      this.exam_id,
+      this.lesson_id,
+      this.test_id,
       this.user_id,
       this.answers);
 }

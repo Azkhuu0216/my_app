@@ -35,11 +35,11 @@ var questions = [
 ];
 
 class Quiz extends StatefulWidget {
-  final String examId;
+  final String testId;
 
   @override
   State<Quiz> createState() => _QuizState();
-  Quiz(this.examId);
+  Quiz(this.testId);
   // ignore: non_constant_identifier_names
 }
 
@@ -65,106 +65,8 @@ class _QuizState extends State<Quiz> {
 
   @override
   void initState() {
-    // Postgre();
     getData();
     super.initState();
-  }
-
-  // List<Question> _listQuestion = [];
-  // ignore: non_constant_identifier_names
-
-  Future<void> Postgre() async {
-    var connection = PostgreSQLConnection("192.168.43.235", 5433, "Chemistry",
-        // ignore: non_constant_identifier_names
-        username: "postgres",
-        password: "azaa");
-    try {
-      await connection.open();
-      // ignore: avoid_print
-      // print("connect");
-    } catch (e) {
-      // ignore: avoid_print
-      print('error....');
-      print(e.toString());
-    }
-    String qIdList = "(";
-    int index = 1;
-
-    String query =
-        "SELECT  * FROM Questions where exam_id = '" + widget.examId + "'";
-    List<Map<String, Map<String, dynamic>>> results =
-        await connection.mappedResultsQuery(query);
-
-    print("POstgre results ---------" + results.toString());
-
-    // ignore: avoid_function_literals_in_foreach_calls
-    results.forEach((e) => {
-          if (index == results.length)
-            {
-              qIdList +=
-                  "'" + e.values.first.entries.first.value.toString() + "')",
-            }
-          else
-            {
-              qIdList +=
-                  "'" + e.values.first.entries.first.value.toString() + "',",
-            },
-          print("qIdList-------" + qIdList),
-          print("index-----" + index.toString()),
-          index++,
-          e.values.first.entries.elementAt(3).value == "intermediate" &&
-                  e.values.first.entries.elementAt(2).value != "1000" &&
-                  e.values.first.entries.elementAt(7).value == 'true'
-              ? _questionListResult.add(
-                  (Question(
-                      e.values.first.entries.first.value.toString(),
-                      e.values.first.entries.elementAt(1).value,
-                      e.values.first.entries.elementAt(2).value,
-                      e.values.first.entries.elementAt(3).value,
-                      e.values.first.entries.elementAt(4).value,
-                      e.values.first.entries.elementAt(5).value,
-                      e.values.first.entries.elementAt(6).value,
-                      e.values.first.entries.elementAt(7).value.toString(),
-                      e.values.first.entries.elementAt(8).value.toString(),
-                      e.values.first.entries.elementAt(9).value.toString(),
-                      e.values.first.entries.elementAt(10).value.toString(),
-                      [])),
-                )
-              : null,
-        });
-    // print("results" + results.toString());
-
-    String queryAnswer =
-        "SELECT  * FROM Answers where question_id in " + qIdList;
-    List<Map<String, Map<String, dynamic>>> resultsAnswer =
-        await connection.mappedResultsQuery(queryAnswer);
-    // print("resultAnswer===" + resultsAnswer.toString());
-
-    resultsAnswer.forEach((e) {
-      // print('qID--' + e.values.first.entries.elementAt(2).value.toString());
-      _anwerListResult.add(
-        AnswerModel(
-            e.values.first.entries.first.value.toString(),
-            e.values.first.entries.elementAt(1).value,
-            e.values.first.entries.elementAt(2).value.toString(),
-            e.values.first.entries.elementAt(3).value),
-      );
-    });
-    print("QuestionListResult ===========+ " + _questionListResult.toString());
-    // ignore: avoid_function_literals_in_foreach_calls
-    _questionListResult.forEach((item) => {
-          // print('Item----' + item.question_id.toString()),
-          answers = [],
-          _anwerListResult.forEach((subItem) => {
-                // print('subItem----' + subItem.question_id.toString()),
-                if (item.question_id == subItem.question_id)
-                  {answers.add(subItem)},
-              }),
-          item.answers.addAll(answers),
-        });
-    setState(() {
-      _questionList = _questionListResult;
-    });
   }
 
   CollectionReference _answers =
@@ -186,7 +88,7 @@ class _QuizState extends State<Quiz> {
             // qIdList += "'" + element.id.toString() + "',";
             qIdList.add("'" + element.id.toString() + "'");
           }
-          print("index-----" + index.toString());
+          // print("index-----" + index.toString());
           index++;
           // print('qIdList --333----' + qIdList.toString());
           // print('FirsStore result ------' + value.docs.length.toString());
@@ -199,10 +101,10 @@ class _QuizState extends State<Quiz> {
           print(element.get('answer_type'));
           print(element.get('correct_answer'));
           print(element.get('isApproved'));
-          print(element.get('cat_id'));
-          print(element.get('exam_id'));
+          print(element.get('lesson_id'));
+          print(element.get('test_id'));
           print(element.get('user_id'));
-          element.get('exam_id') == widget.examId &&
+          element.get('test_id') == widget.testId &&
                   element.get('isApproved') == 'true' &&
                   element.get('qyear') != '1000'
               ? _questionListResult.add(
@@ -215,8 +117,8 @@ class _QuizState extends State<Quiz> {
                     element.get('answer_type'),
                     element.get('correct_answer'),
                     element.get('isApproved'),
-                    element.get('cat_id'),
-                    element.get('exam_id'),
+                    element.get('lesson_id'),
+                    element.get('test_id'),
                     element.get('user_id'),
                     [],
                   ),
@@ -224,7 +126,7 @@ class _QuizState extends State<Quiz> {
               : null;
         });
 
-        final cities = _answers.where("question_id", arrayContains: qIdList);
+        // final cities = _answers.where("question_id", arrayContains: qIdList);
         // print("aaaaaaaaaaaaaaaa" + cities.toString());
 
         FirebaseFirestore.instance.collection("answers").get().then(
@@ -232,15 +134,15 @@ class _QuizState extends State<Quiz> {
                 // print("Answer------" + value.docs.length.toString()),
                 value.docs.forEach(
                   (element) {
-                    element.get("question_id") == cities;
+                    // element.get("question_id") == cities;s
                     _anwerListResult.add(
                       AnswerModel(element.id, element.get('answer'),
                           element.get('question_id'), element.get('isCorrect')),
                     );
                   },
                 ),
-                print("_QuestionListResult.===========" +
-                    _questionListResult.toString()),
+                // print("_QuestionListResult.===========" +
+                //     _questionListResult.toString()),
                 _questionListResult.forEach((item) => {
                       // print('Item----' + item.question_id.toString()),
                       answers = [],
@@ -263,6 +165,8 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    print("testID-------" + widget.testId);
+
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
     // print('questionLength============' + _questionList.length.toString());
     final size = MediaQuery.of(context).size;
@@ -312,8 +216,10 @@ class _QuizState extends State<Quiz> {
                                     children: [
                                       SizedBox(height: 40),
                                       Container(
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
                                         color: Colors.yellow.shade50,
-                                        height: 80,
+                                        height: 120,
                                         width: 350,
                                         alignment: Alignment.center,
                                         child: Column(
@@ -332,7 +238,9 @@ class _QuizState extends State<Quiz> {
                                       SizedBox(height: 40),
                                       Container(
                                         color: Colors.yellow.shade50,
-                                        height: 80,
+                                        padding: EdgeInsets.only(
+                                            left: 10, right: 10),
+                                        height: 120,
                                         width: 350,
                                         alignment: Alignment.center,
                                         child: Column(

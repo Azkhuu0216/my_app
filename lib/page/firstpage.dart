@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:my_app/quiz/firstQuiz.dart';
 import 'package:my_app/common/reuseable_widget.dart';
-import 'package:my_app/model/exam_model.dart';
+import 'package:my_app/model/test_model.dart';
 import 'package:my_app/model/question_model.dart';
 import 'package:my_app/provider/mainProvider.dart';
 import 'package:postgres/postgres.dart';
@@ -21,8 +21,8 @@ class _FirstPageState extends State<FirstPage> {
     super.initState();
   }
 
-  List<Exam> _listExamResult = [];
-  List<Exam> _listExamData = [];
+  List<Test> _listTestResult = [];
+  List<Test> _listTestData = [];
   List<Widget> _gridListResult = [];
   List<Widget> _gridList = [];
   // List<DraggableGridItem> _listOfDraggableGridItem = [
@@ -43,11 +43,11 @@ class _FirstPageState extends State<FirstPage> {
   //   }
 
   //   List<Map<String, Map<String, dynamic>>> results =
-  //       await connection.mappedResultsQuery("SELECT  * FROM exams ");
+  //       await connection.mappedResultsQuery("SELECT  * FROM Tests ");
   //   // print(results);
 
   //   results.forEach((element) {
-  //     _listExamResult.add(Exam(
+  //     _listTestResult.add(Test(
   //         element.values.first.entries.first.value.toString(),
   //         element.values.first.entries.elementAt(1).value,
   //         element.values.first.entries.elementAt(2).value));
@@ -65,27 +65,27 @@ class _FirstPageState extends State<FirstPage> {
   //   });
 
   //   setState(() {
-  //     _listExamData = _listExamResult;
+  //     _listTestData = _listTestResult;
   //     _gridList = _gridListResult;
   //   });
   // }
 
-  CollectionReference users = FirebaseFirestore.instance.collection('exams');
+  CollectionReference users = FirebaseFirestore.instance.collection('tests');
 
   Future<void> getData() async {
-    FirebaseFirestore.instance.collection("exams").get().then(
+    FirebaseFirestore.instance.collection("tests").get().then(
       (value) {
         value.docs.forEach(
           (element) {
-            _listExamResult.add(Exam(
+            _listTestResult.add(Test(
               element.id,
-              element.get('exam_name'),
+              element.get('testname'),
             ));
             // print('element =  ' + element.get('firstname'));
             _gridListResult.add(
               TestButton(
                 context,
-                element.get('exam_name'),
+                element.get('testname'),
                 () {
                   Navigator.push(
                     context,
@@ -98,7 +98,7 @@ class _FirstPageState extends State<FirstPage> {
               ),
             );
             setState(() {
-              _listExamData = _listExamResult;
+              _listTestData = _listTestResult;
               _gridList = _gridListResult;
             });
           },
