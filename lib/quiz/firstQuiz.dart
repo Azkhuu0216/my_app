@@ -77,9 +77,6 @@ class _QuizState extends State<Quiz> {
     int index = 1;
     FirebaseFirestore.instance.collection("questions").get().then(
       (value) {
-        // print('FirsStore result ------' + value.docs.length.toString());
-        // print('FirsStore Docs ------' + value.docs.toString());
-
         value.docs.forEach((element) {
           if (index == value.docs.length) {
             // qIdList += "'" + element.id.toString() + "']";
@@ -90,20 +87,6 @@ class _QuizState extends State<Quiz> {
           }
           // print("index-----" + index.toString());
           index++;
-          // print('qIdList --333----' + qIdList.toString());
-          // print('FirsStore result ------' + value.docs.length.toString());
-
-          print(element.id);
-          print(element.get('question'));
-          print(element.get('qyear'));
-          print(element.get('qlevel'));
-          print(element.get('score'));
-          print(element.get('answer_type'));
-          print(element.get('correct_answer'));
-          print(element.get('isApproved'));
-          print(element.get('lesson_id'));
-          print(element.get('test_id'));
-          print(element.get('user_id'));
           element.get('test_id') == widget.testId &&
                   element.get('isApproved') == 'true' &&
                   element.get('qyear') != '1000'

@@ -96,14 +96,14 @@ class _AddQuestionState extends State<AddQuestion> {
       return questions
           .add({
             'question': question,
-            'qyear': '2006',
+            'qyear': '2007',
             'qlevel': 'intermediate',
             'score': '2',
             'answer_type': '1',
             'correct_answer': explain,
             'isApproved': 'true',
             'lesson_id': selectedValue,
-            'test_id': '31',
+            'test_id': '22',
             'user_id': currentUser!.uid
           })
           .then(
@@ -485,7 +485,7 @@ class _AddQuestionState extends State<AddQuestion> {
                             showTopSnackBar(
                               context,
                               CustomSnackBar.error(
-                                message: "Категороо сонгоно уу...",
+                                message: "Хичээлийн нэрээ сонгоно уу...",
                               ),
                             );
                           } else if (!_isChecked1 &&
