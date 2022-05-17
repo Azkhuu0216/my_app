@@ -33,6 +33,7 @@ class _SignUpState extends State<SignUp> {
     'Багш',
     'Сурагч',
   ];
+  var loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +61,9 @@ class _SignUpState extends State<SignUp> {
             message: "Та и-мэйлээ оруулна уу!",
           ),
         );
+        setState(() {
+          loading = false;
+        });
       } else if (_pwd == "") {
         showTopSnackBar(
           context,
@@ -67,6 +71,9 @@ class _SignUpState extends State<SignUp> {
             message: "Та нууц үгээ оруулна уу!",
           ),
         );
+        setState(() {
+          loading = false;
+        });
       } else if (_pwd != _repwd) {
         showTopSnackBar(
           context,
@@ -74,6 +81,9 @@ class _SignUpState extends State<SignUp> {
             message: "Нууц үг таарахгүй байна!",
           ),
         );
+        setState(() {
+          loading = false;
+        });
       } else {
         try {
           final user = await _auth.createUserWithEmailAndPassword(
@@ -98,6 +108,9 @@ class _SignUpState extends State<SignUp> {
               message: "Таны и-мэйл болон нууц үгээ шалгаад дахин оролдоно уу!",
             ),
           );
+          setState(() {
+            loading = false;
+          });
           print(e);
         }
       }
@@ -466,8 +479,41 @@ class _SignUpState extends State<SignUp> {
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
                               // ignore: prefer_const_constructors
-                              Button(50, double.infinity, "Бүртгүүлэх",
-                                  Colors.teal, Colors.white, _signUp, null),
+                              // Button(50, double.infinity, "Бүртгүүлэх",
+                              //     Colors.teal, Colors.white, _signUp, null),
+
+                              SizedBox(
+                                height: 50,
+                                width: 350,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.teal,
+                                    onPrimary: Colors.white, // foreground
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      loading = true;
+                                      _signUp();
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      loading
+                                          ? CircularProgressIndicator(
+                                              semanticsLabel:
+                                                  'Linear progress indicator',
+                                            )
+                                          : SizedBox(),
+                                      Text(
+                                        "Бүртгүүлэх",
+                                        style: const TextStyle(fontSize: 18),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
 
                               // signInSingUpButton(context, false, () {
                               //   Navigator.push(

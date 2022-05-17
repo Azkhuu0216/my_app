@@ -33,6 +33,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
+  bool loading = false;
   bool isLoggedIn = false;
   String name = '';
   String _email = "";
@@ -72,6 +73,9 @@ class _SignInState extends State<SignIn> {
           message: "Та и-мэйлээ оруулна уу!",
         ),
       );
+      setState(() {
+        loading = false;
+      });
     } else if (_pwd == "") {
       showTopSnackBar(
         context,
@@ -79,6 +83,9 @@ class _SignInState extends State<SignIn> {
           message: "Та нууц үгээ оруулна уу!",
         ),
       );
+      setState(() {
+        loading = false;
+      });
     } else {
       try {
         final user = await _auth.signInWithEmailAndPassword(
@@ -101,9 +108,13 @@ class _SignInState extends State<SignIn> {
           setState(() {
             name = nameController.text;
             isLoggedIn = true;
+            loading = false;
           });
         } else {
           print("User is not found!");
+          setState(() {
+            loading = false;
+          });
         }
       } catch (e) {
         showTopSnackBar(
@@ -112,6 +123,9 @@ class _SignInState extends State<SignIn> {
             message: "Таны и-мэйл эсвэл нууц үг буруу байна!",
           ),
         );
+        setState(() {
+          loading = false;
+        });
         print(e);
       }
     }
@@ -137,6 +151,9 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     // print(nameController.text);
+
+    print("loading" + loading.toString());
+
     final size = MediaQuery.of(context).size;
     return !isLoggedIn
         ? Scaffold(
@@ -304,8 +321,53 @@ class _SignInState extends State<SignIn> {
                                     const SizedBox(
                                       height: 36,
                                     ),
-                                    Button(50, 350, "Нэвтрэх", Colors.teal,
-                                        Colors.white, sign, Icons.login),
+                                    // loading
+                                    //       ?
+                                    // Button(
+                                    //   50,
+                                    //   350,
+                                    //   Colors.teal,
+                                    //   Colors.white,
+                                    //   sign,
+                                    //     Icons.login,
+                                    //   "Нэвтрэх",
+                                    // ),
+
+                                    SizedBox(
+                                      height: 50,
+                                      width: 350,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.teal,
+                                          onPrimary: Colors.white, // foreground
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            loading = true;
+                                            sign();
+                                          });
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            loading
+                                                ? CircularProgressIndicator(
+                                                    strokeWidth: 2.0,
+                                                    semanticsLabel:
+                                                        'Linear progress indicator',
+                                                  )
+                                                : Icon(Icons.login),
+                                            Text(
+                                              "Нэвтрэх",
+                                              style:
+                                                  const TextStyle(fontSize: 18),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
 
                                     const SizedBox(
                                       height: 16,

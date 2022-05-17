@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
 
-class Button extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class Button extends StatefulWidget {
   final String title;
   final Color color;
   final Color color1;
@@ -14,46 +17,60 @@ class Button extends StatelessWidget {
       this.onPress, this.icon);
 
   @override
+  State<Button> createState() => _ButtonState();
+}
+
+class _ButtonState extends State<Button> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (icon == null) {
+    if (widget.icon == null) {
       return SizedBox(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: widget.width,
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: color, // background
-              onPrimary: color1, // foreground
-            ),
-            onPressed: onPress,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon),
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            )),
+          style: ElevatedButton.styleFrom(
+            primary: widget.color, // background
+            onPrimary: widget.color1, // foreground
+          ),
+          onPressed: () {
+            widget.onPress();
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(widget.icon),
+              Text(
+                widget.title,
+                style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       );
     } else {
       return SizedBox(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: widget.width,
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: color, // background
-              onPrimary: color1, // foreground
+              primary: widget.color, // background
+              onPrimary: widget.color1, // foreground
             ),
-            onPressed: onPress,
+            onPressed: widget.onPress,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon),
+                Icon(widget.icon),
                 const SizedBox(width: 20),
                 Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
