@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, avoid_function_literals_in_foreach_calls, avoid_unnecessary_containers, unused_import, annotate_overrides, unused_field, avoid_print
+
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,7 +64,7 @@ class _ThirdPageState extends State<ThirdPage> {
                 : null;
           },
         );
-        print("Userresult" + UserResult.toString());
+        // print("Userresult" + UserResult.toString());
 
         setState(() {
           UserData = UserResult;

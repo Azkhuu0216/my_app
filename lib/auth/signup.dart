@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, avoid_print, unnecessary_null_comparison, avoid_unnecessary_containers
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -52,7 +54,6 @@ class _SignUpState extends State<SignUp> {
 
     void _signUp() async {
       if (_email == "") {
-        //TODO:Real singin code will be here
         showTopSnackBar(
           context,
           CustomSnackBar.error(

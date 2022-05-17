@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors, unnecessary_null_comparison, avoid_print
 
 import 'dart:async';
 
@@ -65,7 +65,6 @@ class _SignInState extends State<SignIn> {
   }
 
   void sign() async {
-    //TODO:Real Loging code will be here
     if (_email == "") {
       showTopSnackBar(
         context,

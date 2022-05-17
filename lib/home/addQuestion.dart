@@ -96,14 +96,14 @@ class _AddQuestionState extends State<AddQuestion> {
       return questions
           .add({
             'question': question,
-            'qyear': '2007',
+            'qyear': '2009',
             'qlevel': 'intermediate',
             'score': '2',
             'answer_type': '1',
             'correct_answer': explain,
             'isApproved': 'true',
             'lesson_id': selectedValue,
-            'test_id': '22',
+            'test_id': '24',
             'user_id': currentUser!.uid
           })
           .then(

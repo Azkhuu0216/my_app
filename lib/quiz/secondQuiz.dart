@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_final_fields, duplicate_ignore, avoid_print
+// ignore_for_file: file_names, prefer_final_fields, duplicate_ignore, avoid_print, prefer_const_constructors, avoid_function_literals_in_foreach_calls, unused_field, non_constant_identifier_names, unnecessary_cast, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/answer.dart';
@@ -15,13 +15,10 @@ class SecondQuiz extends StatefulWidget {
   @override
   State<SecondQuiz> createState() => _SecondQuizState();
   SecondQuiz(this.lessonId);
-  // ignore: non_constant_identifier_names
 }
 
-// ignore: duplicate_ignore
 class _SecondQuizState extends State<SecondQuiz> {
   var _questionIndex = 0;
-  // ignore: prefer_final_fields
   List<Question> _questionListResult = [];
   List<Question> _questionList = [];
   List<AnswerModel> _anwerListResult = [];
@@ -44,41 +41,12 @@ class _SecondQuizState extends State<SecondQuiz> {
     super.initState();
   }
 
-  CollectionReference _answers =
-      FirebaseFirestore.instance.collection('answers');
-
   Future<void> getData() async {
-    List qIdList = [];
-    int index = 1;
     FirebaseFirestore.instance.collection("questions").get().then(
       (value) {
         // print('FirsStore result ------' + value.docs.length.toString());
         // print('FirsStore Docs ------' + value.docs.toString());
-
         value.docs.forEach((element) {
-          if (index == value.docs.length) {
-            // qIdList += "'" + element.id.toString() + "']";
-            qIdList.add("'" + element.id.toString() + "'");
-          } else {
-            // qIdList += "'" + element.id.toString() + "',";
-            qIdList.add("'" + element.id.toString() + "'");
-          }
-          print("index-----" + index.toString());
-          index++;
-          // print('qIdList --333----' + qIdList.toString());
-          // print('FirsStore result ------' + value.docs.length.toString());
-
-          print(element.id);
-          print(element.get('question'));
-          print(element.get('qyear'));
-          print(element.get('qlevel'));
-          print(element.get('score'));
-          print(element.get('answer_type'));
-          print(element.get('correct_answer'));
-          print(element.get('isApproved'));
-          print(element.get('lesson_id'));
-          print(element.get('test_id'));
-          print(element.get('user_id'));
           element.get('lesson_id') == widget.lessonId &&
                   element.get('isApproved') == 'true'
               ? _questionListResult.add(
@@ -100,33 +68,23 @@ class _SecondQuizState extends State<SecondQuiz> {
               : null;
         });
 
-        final cities = _answers.where("question_id", arrayContains: qIdList);
-        // print("aaaaaaaaaaaaaaaa" + cities.toString());
-
         FirebaseFirestore.instance.collection("answers").get().then(
               (value) => {
-                // print("Answer------" + value.docs.length.toString()),
                 value.docs.forEach(
                   (element) {
-                    element.get("question_id") == cities;
                     _anwerListResult.add(
                       AnswerModel(element.id, element.get('answer'),
                           element.get('question_id'), element.get('isCorrect')),
                     );
                   },
                 ),
-                print("_QuestionListResult.===========" +
-                    _questionListResult.toString()),
-                _questionListResult.forEach((item) => {
-                      // print('Item----' + item.question_id.toString()),
+                _questionListResult.forEach((e) => {
                       answers = [],
-                      _anwerListResult.forEach((subItem) => {
-                            // print(
-                            //     'subItem----' + subItem.question_id.toString()),
-                            if (item.question_id == subItem.question_id)
-                              {answers.add(subItem)},
+                      _anwerListResult.forEach((el) => {
+                            if (e.question_id == el.question_id)
+                              {answers.add(el)},
                           }),
-                      item.answers.addAll(answers),
+                      e.answers.addAll(answers),
                     }),
                 setState(() {
                   _questionList = _questionListResult;
@@ -167,65 +125,41 @@ class _SecondQuizState extends State<SecondQuiz> {
                               .toString()),
                           ...(_questionList[_questionIndex].answers
                                   as List<AnswerModel>)
-                              .map((answer) {
+                              .map((e) {
                             return Answer(
-                                answer.answer,
-                                answer.answer_id,
-                                answer.isCorrect,
-                                answer.isCorrect == '1' &&
-                                        _mainProvider.getIsClick()
+                                e.answer,
+                                e.answer_id,
+                                e.isCorrect,
+                                e.isCorrect == '1' && _mainProvider.getIsClick()
                                     ? Colors.green
                                     : _mainProvider.getIsClick() &&
-                                            answer.isCorrect == '0' &&
+                                            e.isCorrect == '0' &&
                                             _mainProvider.getSelectAnswerId() ==
-                                                answer.answer_id
+                                                e.answer_id
                                         ? Colors.red
                                         : Colors.blue.shade50);
                           }).toList(),
                           if (_mainProvider.getIsClick())
-                            _mainProvider.getCheck() == 1
-                                ? Column(
+                            Column(
+                              children: [
+                                SizedBox(height: 40),
+                                Container(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  color: Colors.yellow.shade50,
+                                  height: 120,
+                                  width: 350,
+                                  alignment: Alignment.center,
+                                  child: Column(
                                     children: [
-                                      SizedBox(height: 40),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        color: Colors.yellow.shade50,
-                                        height: 120,
-                                        width: 350,
-                                        alignment: Alignment.center,
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 20),
-                                            Text(_questionList[_questionIndex]
-                                                .correct_answer
-                                                .toString()),
-                                          ],
-                                        ),
-                                      ),
+                                      SizedBox(height: 20),
+                                      Text(_questionList[_questionIndex]
+                                          .correct_answer
+                                          .toString()),
                                     ],
-                                  )
-                                : Column(
-                                    children: [
-                                      SizedBox(height: 40),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10),
-                                        color: Colors.yellow.shade50,
-                                        height: 120,
-                                        width: 350,
-                                        alignment: Alignment.center,
-                                        child: Column(
-                                          children: [
-                                            SizedBox(height: 20),
-                                            Text(_questionList[_questionIndex]
-                                                .correct_answer
-                                                .toString()),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  ),
+                                ),
+                              ],
+                            )
                         ],
                       ));
                     },

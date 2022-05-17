@@ -33,6 +33,9 @@ class _AnswerState extends State<Answer> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.answerId);
+    // print(widget.isCorrect);
+    // print(widget.answerText);
     MainProvider _mainProvider =
         Provider.of<MainProvider>(context, listen: true);
     return Container(

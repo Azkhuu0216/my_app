@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, annotate_overrides, unused_field, avoid_function_literals_in_foreach_calls, unused_import
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/quiz/firstQuiz.dart';
