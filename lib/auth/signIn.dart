@@ -152,8 +152,6 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     // print(nameController.text);
 
-    print("loading" + loading.toString());
-
     final size = MediaQuery.of(context).size;
     return !isLoggedIn
         ? Scaffold(

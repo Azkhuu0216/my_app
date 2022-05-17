@@ -96,14 +96,14 @@ class _AddQuestionState extends State<AddQuestion> {
       return questions
           .add({
             'question': question,
-            'qyear': '2009',
+            'qyear': '2008',
             'qlevel': 'intermediate',
             'score': '2',
             'answer_type': '1',
             'correct_answer': explain,
             'isApproved': 'true',
             'lesson_id': selectedValue,
-            'test_id': '24',
+            'test_id': '10',
             'user_id': currentUser!.uid
           })
           .then(
@@ -154,6 +154,8 @@ class _AddQuestionState extends State<AddQuestion> {
                     message: "Хүсэлт амжилттай илгээлээ!!!",
                   ),
                 );
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
               }),
             },
           )

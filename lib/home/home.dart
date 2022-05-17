@@ -1,10 +1,15 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:my_app/about/mytests.dart';
 import 'package:my_app/home/addQuestion.dart';
 import 'package:my_app/level/intermediate.dart';
 import 'package:my_app/about/password.dart';
 import 'package:my_app/auth/signIn.dart';
 import 'package:my_app/level/upper.dart';
+import 'package:my_app/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -22,9 +27,14 @@ class _HomeState extends State<Home> {
   bool isLoggedIn = true;
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
+  String lastname = "";
+  String firstname = "";
+  List<UserModel> UserResult = [];
+  List<UserModel> UserData = [];
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
     // print(_auth.currentUser);
     void _signOut() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -126,12 +136,13 @@ class _HomeState extends State<Home> {
                 color: Colors.teal,
                 child: Column(
                   children: <Widget>[
-                    // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
                     AppBar(
                       elevation: 0,
                       title: const Text("Миний тухай"),
                       backgroundColor: Colors.teal,
                     ),
+                    // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
+
                     Expanded(
                       flex: 10,
                       child: Container(
@@ -149,13 +160,58 @@ class _HomeState extends State<Home> {
                             const SizedBox(
                               height: 30,
                             ),
-                            const Text(
-                              "Azkhuu Amgalanbaatar",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 16,
-                                  color: Colors.white),
-                            ),
+                            FutureBuilder<DocumentSnapshot>(
+                                future: users.doc(currentUser!.uid).get(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text("Something went wrong");
+                                  }
+                                  if (snapshot.hasData &&
+                                      !snapshot.data!.exists) {
+                                    return Text("Document does not exist");
+                                  }
+
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    Map<String, dynamic> data = snapshot.data!
+                                        .data() as Map<String, dynamic>;
+                                    // print("data-----" +
+                                    //     data['lastname'].toString());
+                                    lastname = data['lastname'];
+                                    firstname = data['firstname'];
+                                    // Text(
+                                    //   data['lastname'],
+                                    //   style: TextStyle(
+                                    //       fontWeight: FontWeight.w800,
+                                    //       fontSize: 16,
+                                    //       color: Colors.white),
+                                    // );
+                                  }
+                                  return Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          firstname,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                              color: Colors.white),
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          lastname,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
                             const SizedBox(height: 45),
                             menuItem(
                                 text: 'Хувийн мэдээлэл',
@@ -170,9 +226,9 @@ class _HomeState extends State<Home> {
                                 icon: Icons.password,
                                 onClicked: () => _selectItem(context, 2)),
                             menuItem(
-                              text: 'Миний тестүүд',
-                              icon: Icons.quiz,
-                            ),
+                                text: 'Миний тестүүд',
+                                icon: Icons.quiz,
+                                onClicked: () => _selectItem(context, 3)),
                           ],
                         ),
                       ),
@@ -225,6 +281,12 @@ void _selectItem(BuildContext context, int index) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Password()),
+      );
+      break;
+    case 3:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Mytests()),
       );
   }
 }

@@ -311,7 +311,7 @@ class _AboutState extends State<About> {
                               ),
                             );
                           }
-                          return Text('loading');
+                          return SizedBox();
                         }),
                     Expanded(
                       flex: 1,

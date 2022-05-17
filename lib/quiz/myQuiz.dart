@@ -11,15 +11,16 @@ import 'package:my_app/provider/mainProvider.dart';
 import 'package:my_app/common/question.dart';
 import 'package:provider/provider.dart';
 
-class ThirdQuiz extends StatefulWidget {
+class MyQuiz extends StatefulWidget {
   final String userId;
+  final String lessonId;
 
   @override
-  State<ThirdQuiz> createState() => _ThirdQuizState();
-  ThirdQuiz(this.userId);
+  State<MyQuiz> createState() => MyQuizState();
+  MyQuiz(this.userId, this.lessonId);
 }
 
-class _ThirdQuizState extends State<ThirdQuiz> {
+class MyQuizState extends State<MyQuiz> {
   var _questionIndex = 0;
   List<Question> _questionListResult = [];
   List<Question> _questionList = [];
@@ -57,6 +58,7 @@ class _ThirdQuizState extends State<ThirdQuiz> {
 
         value.docs.forEach((element) {
           element.get('user_id') == widget.userId &&
+                  element.get('lesson_id') == widget.lessonId &&
                   element.get('isApproved') == 'true'
               ? _questionListResult.add(
                   Question(
@@ -115,7 +117,8 @@ class _ThirdQuizState extends State<ThirdQuiz> {
   Widget build(BuildContext context) {
     MainProvider _mainProvider = Provider.of<MainProvider>(context);
     final size = MediaQuery.of(context).size;
-
+    print(widget.userId);
+    print(widget.lessonId);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
