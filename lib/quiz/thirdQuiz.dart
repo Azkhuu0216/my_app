@@ -1,4 +1,6 @@
 // ignore_for_file: file_names, prefer_final_fields, duplicate_ignore, avoid_print, avoid_function_literals_in_foreach_calls, unnecessary_cast, prefer_const_constructors, non_constant_identifier_names, unused_local_variable, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, unused_field
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/common/answer.dart';
@@ -27,6 +29,7 @@ class _ThirdQuizState extends State<ThirdQuiz> {
   var _point = 0;
   var check = 0;
   var AllPoint = 0;
+  var loading = true;
 
   void questionAnswer() {
     setState(() {
@@ -37,6 +40,11 @@ class _ThirdQuizState extends State<ThirdQuiz> {
 
   @override
   void initState() {
+    Timer(
+        const Duration(seconds: 1),
+        () => setState(() {
+              loading = false;
+            }));
     getData();
     super.initState();
   }
@@ -116,133 +124,142 @@ class _ThirdQuizState extends State<ThirdQuiz> {
           title: Text("Асуулт"),
           backgroundColor: Colors.teal,
         ),
-        body: _questionIndex < _questionList.length
-            ? CustomScrollView(slivers: <Widget>[
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-                      index = 0;
-                      return (Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 40,
-                          ),
-                          QuestionScreen(_questionList[_questionIndex]
-                              .question
-                              .toString()),
-                          ...(_questionList[_questionIndex].answers
-                                  as List<AnswerModel>)
-                              .map((e) {
-                            return Answer(
-                                e.answer,
-                                e.answer_id,
-                                e.isCorrect,
-                                e.isCorrect == '1' && _mainProvider.getIsClick()
-                                    ? Colors.green
-                                    : _mainProvider.getIsClick() &&
-                                            e.isCorrect == '0' &&
-                                            _mainProvider.getSelectAnswerId() ==
-                                                e.answer_id
-                                        ? Colors.red
-                                        : Colors.blue.shade50);
-                          }).toList(),
-                          if (_mainProvider.getIsClick())
-                            Column(
-                              children: [
-                                SizedBox(height: 40),
-                                Container(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  color: Colors.yellow.shade50,
-                                  height: 120,
-                                  width: 350,
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(height: 20),
-                                      Text(_questionList[_questionIndex]
-                                          .correct_answer
-                                          .toString()),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )
-                        ],
-                      ));
-                    },
-                    childCount: 1,
-                  ),
+        body: loading
+            ? Center(
+                child: CircularProgressIndicator(
+                  semanticsLabel: 'Linear progress indicator',
                 ),
-              ])
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          flex: 0,
-                          child: Text(
-                            "Баяр хүргэе!",
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontSize: 40,
-                              fontFamily: "TimesNewRoman",
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 0,
-                          child: Text(
-                            "Таны авсан оноо",
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontSize: 40,
-                              fontFamily: "TimesNewRoman",
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 0,
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  _mainProvider.getPoint().toString(),
-                                  style: TextStyle(
-                                    color: Colors.teal,
-                                    fontSize: 40,
-                                    fontFamily: "TimesNewRoman",
-                                  ),
-                                ),
-                                Text(
-                                  '/',
-                                  style: TextStyle(
-                                    color: Colors.teal,
-                                    fontSize: 40,
-                                    fontFamily: "TimesNewRoman",
-                                  ),
-                                ),
-                                Text(
-                                  AllPoint.toString(),
-                                  style: TextStyle(
-                                    color: Colors.teal,
-                                    fontSize: 40,
-                                    fontFamily: "TimesNewRoman",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+              )
+            : _questionIndex < _questionList.length
+                ? CustomScrollView(slivers: <Widget>[
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          index = 0;
+                          return (Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 40,
+                              ),
+                              QuestionScreen(_questionList[_questionIndex]
+                                  .question
+                                  .toString()),
+                              ...(_questionList[_questionIndex].answers
+                                      as List<AnswerModel>)
+                                  .map((e) {
+                                return Answer(
+                                    e.answer,
+                                    e.answer_id,
+                                    e.isCorrect,
+                                    e.isCorrect == '1' &&
+                                            _mainProvider.getIsClick()
+                                        ? Colors.green
+                                        : _mainProvider.getIsClick() &&
+                                                e.isCorrect == '0' &&
+                                                _mainProvider
+                                                        .getSelectAnswerId() ==
+                                                    e.answer_id
+                                            ? Colors.red
+                                            : Colors.blue.shade50);
+                              }).toList(),
+                              if (_mainProvider.getIsClick())
+                                Column(
+                                  children: [
+                                    SizedBox(height: 40),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      color: Colors.yellow.shade50,
+                                      height: 120,
+                                      width: 350,
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(height: 20),
+                                          Text(_questionList[_questionIndex]
+                                              .correct_answer
+                                              .toString()),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )
+                            ],
+                          ));
+                        },
+                        childCount: 1,
+                      ),
                     ),
+                  ])
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 0,
+                              child: Text(
+                                "Баяр хүргэе!",
+                                style: TextStyle(
+                                  color: Colors.teal,
+                                  fontSize: 40,
+                                  fontFamily: "TimesNewRoman",
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 0,
+                              child: Text(
+                                "Таны авсан оноо",
+                                style: TextStyle(
+                                  color: Colors.teal,
+                                  fontSize: 40,
+                                  fontFamily: "TimesNewRoman",
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 0,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      _mainProvider.getPoint().toString(),
+                                      style: TextStyle(
+                                        color: Colors.teal,
+                                        fontSize: 40,
+                                        fontFamily: "TimesNewRoman",
+                                      ),
+                                    ),
+                                    Text(
+                                      '/',
+                                      style: TextStyle(
+                                        color: Colors.teal,
+                                        fontSize: 40,
+                                        fontFamily: "TimesNewRoman",
+                                      ),
+                                    ),
+                                    Text(
+                                      AllPoint.toString(),
+                                      style: TextStyle(
+                                        color: Colors.teal,
+                                        fontSize: 40,
+                                        fontFamily: "TimesNewRoman",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
         floatingActionButton: _questionIndex < _questionList.length
             ? AddButton(context, Icons.navigate_next, questionAnswer)
             : null,

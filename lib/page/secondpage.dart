@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_final_fields, annotate_overrides, unused_field, avoid_function_literals_in_foreach_calls, unused_import
+// ignore_for_file: prefer_final_fields, annotate_overrides, unused_field, avoid_function_literals_in_foreach_calls, unused_import, prefer_const_constructors
+
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,13 @@ class SecondPage extends StatefulWidget {
 }
 
 class _SecondPageState extends State<SecondPage> {
+  var loading = true;
   void initState() {
+    Timer(
+        const Duration(seconds: 1),
+        () => setState(() {
+              loading = false;
+            }));
     getData();
     super.initState();
   }
@@ -66,8 +74,14 @@ class _SecondPageState extends State<SecondPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: _gridList,
-    ));
+        body: loading
+            ? Center(
+                child: CircularProgressIndicator(
+                  semanticsLabel: 'Linear progress indicator',
+                ),
+              )
+            : Column(
+                children: _gridList,
+              ));
   }
 }

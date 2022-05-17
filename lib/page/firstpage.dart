@@ -1,4 +1,6 @@
-// ignore_for_file: unused_import, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_field, annotate_overrides, use_key_in_widget_constructors
+// ignore_for_file: unused_import, prefer_final_fields, avoid_function_literals_in_foreach_calls, unused_field, annotate_overrides, use_key_in_widget_constructors, prefer_const_constructors
+
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
@@ -17,8 +19,15 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+  var loading = true;
+
   void initState() {
     // Postgre();
+    Timer(
+        const Duration(seconds: 1),
+        () => setState(() {
+              loading = false;
+            }));
     getData();
     super.initState();
   }
@@ -68,12 +77,18 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.count(
-        crossAxisCount: 4,
-        crossAxisSpacing: 0,
-        mainAxisSpacing: 0,
-        children: _gridList,
-      ),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(
+                semanticsLabel: 'Linear progress indicator',
+              ),
+            )
+          : GridView.count(
+              crossAxisCount: 4,
+              crossAxisSpacing: 0,
+              mainAxisSpacing: 0,
+              children: _gridList,
+            ),
     );
   }
 }

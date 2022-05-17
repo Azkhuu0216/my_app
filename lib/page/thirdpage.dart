@@ -1,5 +1,6 @@
-// ignore_for_file: non_constant_identifier_names, avoid_function_literals_in_foreach_calls, avoid_unnecessary_containers, unused_import, annotate_overrides, unused_field, avoid_print
+// ignore_for_file: non_constant_identifier_names, avoid_function_literals_in_foreach_calls, avoid_unnecessary_containers, unused_import, annotate_overrides, unused_field, avoid_print, prefer_const_constructors
 
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,9 +20,16 @@ class ThirdPage extends StatefulWidget {
 }
 
 class _ThirdPageState extends State<ThirdPage> {
+  var loading = true;
+
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
   void initState() {
+    Timer(
+        const Duration(seconds: 1),
+        () => setState(() {
+              loading = false;
+            }));
     getData();
     super.initState();
   }
@@ -77,18 +85,24 @@ class _ThirdPageState extends State<ThirdPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 6,
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(
+                semanticsLabel: 'Linear progress indicator',
+              ),
+            )
+          : Container(
               child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: ColumnList),
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: ColumnList),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
