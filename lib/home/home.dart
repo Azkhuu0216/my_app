@@ -72,17 +72,17 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 20,
+                    height: 60,
                   ),
                   const Expanded(
-                    flex: 4,
+                    flex: 5,
                     child: CircleAvatar(
-                      radius: 100,
+                      radius: 120,
                       backgroundImage: AssetImage("assets/images/logo.png"),
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 100,
                   ),
                   Expanded(
                     flex: 3,
