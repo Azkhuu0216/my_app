@@ -43,7 +43,7 @@ class _ThirdPageState extends State<ThirdPage> {
                 element.get('email'),
                 element.get('lastname')));
             // print('element =  ' + element.get('firstname'));
-            element.get("Urole") == "Багш"
+            element.get("Urole") == "Насанд хүрсэн"
                 ? ListModel.add(
                     yearButton(
                       context,
@@ -120,7 +120,7 @@ class _ThirdPageState extends State<ThirdPage> {
             //           data.entries.elementAt(4).value,
             //         ),
             //       );
-            //       data.entries.elementAt(2).value == "Багш"
+            //       data.entries.elementAt(2).value == "Насанд хүрсэн"
             //           ? _gridListResult.add(
             //               yearButton(
             //                 context,

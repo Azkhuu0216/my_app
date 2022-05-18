@@ -53,7 +53,7 @@ Container signInSingUpButton(
           if (states.contains(MaterialState.pressed)) {
             return Colors.black26;
           } else {
-            return Colors.teal;
+            return Colors.indigo;
           }
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -85,7 +85,7 @@ Container AddButton(BuildContext context, IconData icon, VoidCallback onTap) {
           if (states.contains(MaterialState.pressed)) {
             return Colors.black26;
           } else {
-            return Colors.teal;
+            return Colors.indigo;
           }
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -178,7 +178,7 @@ Container yearButton(BuildContext context, String text, Function onTap) {
           if (states.contains(MaterialState.pressed)) {
             return Colors.black26;
           } else {
-            return Colors.teal;
+            return Colors.indigo;
           }
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -213,7 +213,7 @@ Container teacherButton(BuildContext context, bool isLogin, Function onTap) {
           if (states.contains(MaterialState.pressed)) {
             return Colors.black26;
           } else {
-            return Colors.teal;
+            return Colors.indigo;
           }
         }),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(

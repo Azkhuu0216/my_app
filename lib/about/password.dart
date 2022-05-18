@@ -195,7 +195,7 @@ class _PasswordState extends State<Password> {
                         flex: 1,
                         child: Column(
                           children: [
-                            Button(50, 300, "Хадгалах", Colors.teal,
+                            Button(50, 300, "Хадгалах", Colors.indigo,
                                 Colors.white, UpdateUser, null),
                           ],
                         ),

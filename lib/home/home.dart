@@ -60,7 +60,7 @@ class _HomeState extends State<Home> {
             appBar: AppBar(
               elevation: 0,
               title: const Text(
-                "Бататгах сорил",
+                "QuizApp",
               ),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black87,
@@ -89,13 +89,13 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         // ignore: avoid_unnecessary_containers
-                        Button(50, 300, "Анхан", Colors.teal, Colors.white,
+                        Button(50, 300, "Анхан", Colors.indigo, Colors.white,
                             _intermediate, null),
                         const SizedBox(
                           height: 20,
                         ),
                         // ignore: avoid_unnecessary_containers
-                        Button(50, 300, "Ахисан", Colors.teal, Colors.white,
+                        Button(50, 300, "Ахисан", Colors.indigo, Colors.white,
                             _upper, null),
                       ],
                     ),
@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
                           50,
                           300,
                           "Асуулт нэмэх",
-                          Colors.teal,
+                          Colors.indigo,
                           Colors.white,
                           _addQuestion,
                           Icons.quiz,
@@ -121,16 +121,16 @@ class _HomeState extends State<Home> {
               ),
             ),
             drawer: Drawer(
-              backgroundColor: Colors.teal,
+              backgroundColor: Colors.indigo,
               child: Material(
-                color: Colors.teal,
+                color: Colors.indigo,
                 child: Column(
                   children: <Widget>[
                     // ignore: avoid_unnecessary_containers, sized_box_for_whitespace
                     AppBar(
                       elevation: 0,
                       title: const Text("Миний тухай"),
-                      backgroundColor: Colors.teal,
+                      backgroundColor: Colors.indigo,
                     ),
                     Expanded(
                       flex: 10,
@@ -144,13 +144,13 @@ class _HomeState extends State<Home> {
                             const CircleAvatar(
                               radius: 80,
                               backgroundImage:
-                                  AssetImage("assets/images/profile.jpeg"),
+                                  AssetImage("assets/images/logo.png"),
                             ),
                             const SizedBox(
                               height: 30,
                             ),
                             const Text(
-                              "Azkhuu Amgalanbaatar",
+                              "Dauryenbyek Ziyakhan",
                               style: TextStyle(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 16,
@@ -162,7 +162,7 @@ class _HomeState extends State<Home> {
                                 icon: Icons.supervised_user_circle_rounded,
                                 onClicked: () => _selectItem(context, 0)),
                             menuItem(
-                                text: 'Бататгах сорил',
+                                text: 'Quiz App',
                                 icon: Icons.create_sharp,
                                 onClicked: () => _selectItem(context, 1)),
                             menuItem(
@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
                       child: Column(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Button(50, 250, "Гарах", Colors.white, Colors.teal,
+                          Button(50, 250, "Гарах", Colors.white, Colors.indigo,
                               _signOut, null)
                         ],
                       ),

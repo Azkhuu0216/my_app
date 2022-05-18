@@ -193,6 +193,7 @@ class _SignInState extends State<SignIn> {
                                   children: [
                                     const CircleAvatar(
                                       radius: 70,
+                                     // backgroundColor: "white",
                                       backgroundImage:
                                           AssetImage("assets/images/logo.png"),
                                     ),
@@ -305,7 +306,7 @@ class _SignInState extends State<SignIn> {
                                     const SizedBox(
                                       height: 36,
                                     ),
-                                    Button(50, 350, "Нэвтрэх", Colors.teal,
+                                    Button(50, 350, "Нэвтрэх", Colors.indigo,
                                         Colors.white, sign, Icons.login),
 
                                     const SizedBox(
@@ -351,20 +352,20 @@ class _SignInState extends State<SignIn> {
       TextSpan(
         style: GoogleFonts.inter(
           fontSize: 23.12,
-          color: const Color(0xFF4DA1B0),
+          color: Colors.indigo,
           letterSpacing: 1.999999953855673,
         ),
         children: const [
           TextSpan(
-            text: 'Бататгах',
+            text: 'Quiz',
             style: TextStyle(
               fontWeight: FontWeight.w800,
             ),
           ),
           TextSpan(
-            text: 'Сорил',
+            text: 'App',
             style: TextStyle(
-              color: Color(0xFFFE9879),
+              color: Colors.pink,
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -382,7 +383,7 @@ class _SignInState extends State<SignIn> {
           alignment: Alignment.center,
           child: const Icon(
             Icons.check_box,
-            color: Colors.teal,
+            color: Colors.indigo,
           ),
         ),
         const SizedBox(
@@ -392,7 +393,7 @@ class _SignInState extends State<SignIn> {
           'Намайг сана',
           style: GoogleFonts.inter(
             fontSize: 14.0,
-            color: Colors.teal,
+            color: Colors.indigo,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -405,21 +406,21 @@ class _SignInState extends State<SignIn> {
       children: <Widget>[
         const Expanded(
             child: Divider(
-          color: Color(0xFF4DA1B0),
+          color:Colors.pink,
         )),
         Expanded(
           child: Text(
             'Or Continue with',
             style: GoogleFonts.inter(
               fontSize: 12.0,
-              color: const Color(0xFF4DA1B0),
+              color: Colors.pink,
             ),
             textAlign: TextAlign.center,
           ),
         ),
         const Expanded(
             child: Divider(
-          color: Color(0xFF4DA1B0),
+          color:Colors.pink,
         )),
       ],
     );
@@ -444,7 +445,7 @@ class _SignInState extends State<SignIn> {
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
                 width: 1.0,
-                color: const Color(0xFF4DA1B0),
+                color: Colors.indigo,
               ),
             ),
             child: Row(
@@ -464,7 +465,7 @@ class _SignInState extends State<SignIn> {
                   'Google',
                   style: GoogleFonts.inter(
                     fontSize: 14.0,
-                    color: const Color(0xFF4DA1B0),
+                    color: Colors.indigo,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -494,7 +495,7 @@ class _SignInState extends State<SignIn> {
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(
                 width: 1.0,
-                color: const Color(0xFF4DA1B0),
+                color: Colors.indigo,
               ),
             ),
             child: Row(
@@ -516,7 +517,7 @@ class _SignInState extends State<SignIn> {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.inter(
                     fontSize: 14.0,
-                    color: const Color(0xFF4DA1B0),
+                    color: Colors.indigo,
                   ),
                 ),
               ],
@@ -532,7 +533,7 @@ class _SignInState extends State<SignIn> {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       const Text(
         "Та бүртгэлтэй юу?",
-        style: TextStyle(color: Colors.teal),
+        style: TextStyle(color: Colors.indigo),
       ),
       const SizedBox(
         width: 10,

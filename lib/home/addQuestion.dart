@@ -48,10 +48,10 @@ class _AddQuestionState extends State<AddQuestion> {
 
   String? selectedValue;
   List<Lesson> items = [
-    Lesson("1", 'Математик'),
-    Lesson("2", 'Монгол хэл'),
+    Lesson("1", 'Танин Мэдэхүй'),
+    Lesson("2", 'Ан амьтан'),
     Lesson("3", 'Англи хэл'),
-    Lesson("4", 'Хими')
+    Lesson("4", 'Мэдээлэл технологи')
   ];
 
   List<dynamic> answers = [];
@@ -164,7 +164,7 @@ class _AddQuestionState extends State<AddQuestion> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Асуулт нэмэх"),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -185,18 +185,18 @@ class _AddQuestionState extends State<AddQuestion> {
                               Icon(
                                 Icons.list,
                                 size: 20,
-                                color: Colors.teal,
+                                color: Colors.indigo,
                               ),
                               SizedBox(
                                 width: 4,
                               ),
                               Expanded(
                                 child: Text(
-                                  'Хичээлийн нэр',
+                                  'Сэдэв',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.teal,
+                                    color: Colors.indigo,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -211,7 +211,7 @@ class _AddQuestionState extends State<AddQuestion> {
                                       style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.teal,
+                                        color: Colors.indigo,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -473,7 +473,7 @@ class _AddQuestionState extends State<AddQuestion> {
                         height: 80,
                         padding: EdgeInsets.only(bottom: 30),
                         child: Button(
-                            50, 2000, "Нэмэх", Colors.teal, Colors.white, () {
+                            50, 2000, "Нэмэх", Colors.indigo, Colors.white, () {
                           print("cat---" + selectedValue.toString());
                           print("cat0---" + question.toString());
                           print("cat1---" + answer1.toString());
@@ -485,7 +485,7 @@ class _AddQuestionState extends State<AddQuestion> {
                             showTopSnackBar(
                               context,
                               CustomSnackBar.error(
-                                message: "Хичээлийн нэрээ сонгоно уу...",
+                                message: "Сэдэвээ  сонгоно уу...",
                               ),
                             );
                           } else if (!_isChecked1 &&

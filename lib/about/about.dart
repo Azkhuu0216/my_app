@@ -131,7 +131,7 @@ class _AboutState extends State<About> {
                                   const CircleAvatar(
                                     radius: 90,
                                     backgroundImage: AssetImage(
-                                        "assets/images/profile.jpeg"),
+                                        "assets/images/logo.png"),
                                   ),
                                   const SizedBox(
                                     height: 20,
@@ -317,7 +317,7 @@ class _AboutState extends State<About> {
                       flex: 1,
                       child: Column(
                         children: [
-                          Button(50, 300, "Хадгалах", Colors.teal, Colors.white,
+                          Button(50, 300, "Хадгалах", Colors.indigo, Colors.white,
                               UpdateUser, null),
                         ],
                       ),

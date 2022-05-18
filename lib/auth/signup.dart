@@ -28,8 +28,8 @@ class _SignUpState extends State<SignUp> {
   final _auth = FirebaseAuth.instance;
   var currentUser = FirebaseAuth.instance.currentUser;
   var items = [
-    'Багш',
-    'Сурагч',
+    'Насанд хүрсэн',
+    'Хүүхэд',
   ];
 
   @override
@@ -391,7 +391,7 @@ class _SignUpState extends State<SignUp> {
                                       Icon(
                                         Icons.list,
                                         size: 20,
-                                        color: Colors.teal,
+                                        color: Colors.indigo,
                                       ),
                                       SizedBox(
                                         width: 4,
@@ -402,7 +402,7 @@ class _SignUpState extends State<SignUp> {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.teal,
+                                            color: Colors.indigo,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                         ),
@@ -417,7 +417,7 @@ class _SignUpState extends State<SignUp> {
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.teal,
+                                                color: Colors.indigo,
                                               ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -466,7 +466,7 @@ class _SignUpState extends State<SignUp> {
                             children: [
                               // ignore: prefer_const_constructors
                               Button(50, double.infinity, "Бүртгүүлэх",
-                                  Colors.teal, Colors.white, _signUp, null),
+                                  Colors.indigo, Colors.white, _signUp, null),
 
                               // signInSingUpButton(context, false, () {
                               //   Navigator.push(

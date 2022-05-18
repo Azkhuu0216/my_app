@@ -17,18 +17,18 @@ class Upper extends StatelessWidget {
           bottom: const TabBar(
             tabs: [
               Tab(
-                text: "ЭЕШ он",
+                text: "Сэдэвүүд",
               ),
               Tab(
                 text: "Хичээл",
               ),
               Tab(
-                text: "Багш",
+                text: "Насанд хүрсэн",
               ),
             ],
           ),
           title: const Text('Ахисан түвшний тест'),
-          backgroundColor: Colors.teal,
+          backgroundColor: Colors.indigo,
         ),
         body: TabBarView(
           children: <Widget>[

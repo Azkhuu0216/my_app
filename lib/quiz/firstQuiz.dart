@@ -160,7 +160,7 @@ class _QuizState extends State<Quiz> {
         appBar: AppBar(
           // ignore: prefer_const_constructors
           title: Text("Асуулт"),
-          backgroundColor: Colors.teal,
+          backgroundColor: Colors.indigo,
         ),
         body: _questionIndex < _questionList.length
             ? CustomScrollView(slivers: <Widget>[
@@ -256,7 +256,7 @@ class _QuizState extends State<Quiz> {
                           child: Text(
                             "Баяр хүргэе!",
                             style: TextStyle(
-                              color: Colors.teal,
+                              color: Colors.indigo,
                               fontSize: 40,
                               fontFamily: "TimesNewRoman",
                             ),
@@ -267,7 +267,7 @@ class _QuizState extends State<Quiz> {
                           child: Text(
                             "Таны авсан оноо",
                             style: TextStyle(
-                              color: Colors.teal,
+                              color: Colors.indigo,
                               fontSize: 40,
                               fontFamily: "TimesNewRoman",
                             ),
@@ -283,7 +283,7 @@ class _QuizState extends State<Quiz> {
                                 Text(
                                   _mainProvider.getPoint().toString(),
                                   style: TextStyle(
-                                    color: Colors.teal,
+                                    color: Colors.indigo,
                                     fontSize: 40,
                                     fontFamily: "TimesNewRoman",
                                   ),
@@ -291,7 +291,7 @@ class _QuizState extends State<Quiz> {
                                 Text(
                                   '/',
                                   style: TextStyle(
-                                    color: Colors.teal,
+                                    color: Colors.indigo,
                                     fontSize: 40,
                                     fontFamily: "TimesNewRoman",
                                   ),
@@ -299,7 +299,7 @@ class _QuizState extends State<Quiz> {
                                 Text(
                                   AllPoint.toString(),
                                   style: TextStyle(
-                                    color: Colors.teal,
+                                    color: Colors.indigo,
                                     fontSize: 40,
                                     fontFamily: "TimesNewRoman",
                                   ),

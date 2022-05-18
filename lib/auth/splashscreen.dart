@@ -62,13 +62,13 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         children: const [
           TextSpan(
-            text: 'БАТАТГАХ ',
+            text: 'QUIZ ',
             style: TextStyle(
               fontWeight: FontWeight.w800,
             ),
           ),
           TextSpan(
-            text: ' СОРИЛ',
+            text: ' APP',
             style: TextStyle(
               color: Color(0xFFFE9879),
               fontWeight: FontWeight.w800,
