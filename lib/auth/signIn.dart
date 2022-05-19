@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, prefer_const_constructors, unnecessary_null_comparison, avoid_print
+// ignore_for_file: file_names, prefer_const_constructors, unnecessary_null_comparison, avoid_print, unused_import
 
 import 'dart:async';
 
@@ -356,6 +356,7 @@ class _SignInState extends State<SignIn> {
                                                         'Linear progress indicator',
                                                   )
                                                 : Icon(Icons.login),
+                                            SizedBox(width: 10),
                                             Text(
                                               "Нэвтрэх",
                                               style:

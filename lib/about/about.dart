@@ -8,7 +8,6 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../common/button.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class About extends StatefulWidget {
   @override

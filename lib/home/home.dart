@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_app/about/mytests.dart';
 import 'package:my_app/home/addQuestion.dart';
 import 'package:my_app/level/intermediate.dart';
@@ -57,10 +56,6 @@ class _HomeState extends State<Home> {
     void _upper() {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const Upper()));
-    }
-
-    void Loading() {
-      EasyLoading.show(status: 'loading...');
     }
 
     final size = MediaQuery.of(context).size;

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unused_import, unused_field, annotate_overrides, prefer_final_fields
+
 import 'dart:convert';
 import 'dart:math';
 
